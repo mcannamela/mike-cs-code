@@ -1,0 +1,9 @@
+added the zero cross product bc for magnetic vector potential
+--This line, and those below, will be ignored--
+
+A    BCs/zeroCross
+A    BCs/zeroCross/zeroCrossFvPatchVectorField.H
+A    BCs/zeroCross/Make
+A    BCs/zeroCross/Make/files
+A    BCs/zeroCross/Make/options
+A    BCs/zeroCross/zeroCrossFvPatchVectorField.C

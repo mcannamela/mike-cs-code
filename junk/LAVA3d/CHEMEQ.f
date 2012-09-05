@@ -1,0 +1,204 @@
+*DECK CHEMEQ
+      SUBROUTINE CHEMEQ
+C==============================================================CHEMEQ
+C     THIS SUBROUTINE CALCULATES THE CHANGE IN SPECIES DENSITIES AND
+C     INTERNAL ENERGY DUE TO EQUILIBRIUM CHEMICAL REACTIONS, FOR A
+C     GENERAL REACTION SET.  DESCRIBED IN J. COMP. PHYS. 59, P.484
+C     (1985).  ALSO INCLUDED ARE THE EFFECTS OF TEMPERATURE VARIATIONS,
+C     WHICH ARE DESCRIBED IN J. COMP. PHYS. 71, P. 224 (1987).
+C----------
+C     CALLED BY LAVA
+C----------
+C     CHEMEQ CALLS THE FOLLOWING SUBROUTINES: LSGEFA, LSGESL
+C            WHICH ARE DESCRIBED BELOW WHERE THE CALL IS MADE.
+C==============================================================CHEMEQ
+      INCLUDE 'COML.h'
+C----------
+      DOUBLE PRECISION TIC,ROERS,ROCV,TA,TALOG,EQC,
+     1     DLNKDT,PRMAX,PRMIN,REF,RP,PP,
+     2     TEST,ROM,AMB,ROMAB,PWR,EXPS,GSPS,RHS,
+     3     DIAG,PROG,SUM,BAM,FACTOR,SPDRSV,SPDNEG,ROERSV,AVG
+      INTEGER NZONES,NSUM,NCELLS,IRE,N,NEWT,NDIAG,ICONV,NE,KK,KREF,M,
+     1     IWORK,ICUT,NSAL,NCHEM,ICMAX,ISKIP,NREA,IREA,MA,INFO
+      EXTERNAL LSGEFA,LSGESL
+C--------------------------------------------------------------CHEMEQ
+      DIMENSION EQC(LNRE),PROG(LNRE),BAM(LNRE,LNRE),RHS(LNRE),
+     1     SPDRSV(NSP),SPDNEG(NSP),IWORK(LNRE),ISKIP(LNRE)
+      EQUIVALENCE (RHS,PROG)
+C----------
+      DATA NCHEM,NDIAG,NSAL /50,7,7/
+C==============================================================CHEMEQ
+      NZONES=0
+      NSUM=0
+      NCELLS=0
+C--------------------------------------------------------------CHEMEQ
+C     TRIPLE NESTED DO LOOP IS NECESSAARY TO AVOID BOUNDARY CELLS
+C--------------------------------------------------------------CHEMEQ
+      DO 200 K=K1,K2
+      ICK=(K-1)*NXYT
+      DO 200 J=J1,J2
+      ICJ=ICK+(J-1)*NXT
+      DO 200 I=I1,I2
+      IC=ICJ+I
+C----------------------------------------- BLOCKAGE LOGIC -----CHEMEQ
+      IF(RC(IC).LE.SMALL) GO TO 200
+      TIC=TEMP(IC)
+C--------------------------------------------------------------CHEMEQ
+C     INITIAL ENERGY MUST CORRESPOND TO INITIAL TEMPERATURE (OLD-TIME)
+C     ROERS=ROER(IC)
+C--------------------------------------------------------------CHEMEQ
+      ROERS=ROEN(IC)*RC(IC)
+      ROCV=P(IC)/(TIC*(GAMMA(IC)-ONE))
+c-----
+c     tic=tic+(roer(ic)-roen(ic)*rc(ic))*rrc(ic)/rocv
+      NZONES=NZONES+1
+      TA=THOUTH*TIC
+      TALOG=LOG(TA)
+       NREA=0
+      DO 10 IRE=1,NRE
+        IF(TIC.GT.TCUTEL(IRE) .AND. TIC.LT.TCUTEH(IRE)) THEN
+          ISKIP(IRE)=0
+          NREA=NREA+1
+          EQC(IRE)=EXP(AS(IRE)*TALOG+BS(IRE)/TA
+     &                 +CS(IRE)+TA*(DS(IRE)+ES(IRE)*TA))
+        ELSE
+          ISKIP(IRE)=1
+        END IF
+   10 CONTINUE
+      N=0
+C-------------------------------------- THE ITERATION LOOP ----CHEMEQ
+      NEWT=0
+   20 N=N+1
+      IF(N.GT.NDIAG) NEWT=1
+   30 ICONV=0
+      IREA=0
+      DO 100 IRE=1,NRE
+       IF(ISKIP(IRE).EQ.0) THEN
+        IREA=IREA+1
+      DLNKDT=THOUTH*(AS(IRE)/TA-BS(IRE)/TA**2+DS(IRE)+TWO*ES(IRE)*TA)
+        PRMAX=LARGE
+        PRMIN=-LARGE
+        REF=LARGE
+        RP=ONE
+        PP=ONE
+        NE=NLM(IRE)
+        DO 40 KK=1,NE
+         ISP=CN(KK,IRE)
+         TEST=SMALL*MW(ISP)*RC(IC)
+         IF(N.EQ.1 .AND. SPDR(IC,ISP).LE.TEST) SPDR(IC,ISP)=TEST
+         ROM=SPDR(IC,ISP)*RRC(IC)*RMW(ISP)
+         AMB=-FBNAN(ISP,IRE)
+         ROMAB=ROM/AMB
+         TEST=ROMAB/AMB
+         IF(TEST.LT.REF) KREF=ISP
+         REF=MIN(REF,TEST)
+         IF(AMB.GT. HUNDTH) PRMAX=MIN(PRMAX,ROMAB)
+         IF(AMB.LT.-HUNDTH) PRMIN=MAX(PRMIN,ROMAB)
+         IF(AN(ISP,IRE).GT.0) RP=RP*ROM**AN(ISP,IRE)
+         IF(BN(ISP,IRE).GT.0) PP=PP*ROM**BN(ISP,IRE)
+   40   CONTINUE
+C--------------------------------------------------------------CHEMEQ
+        PWR=ONE/FBNAN(KREF,IRE)
+        EXPS=EXP(DLNKDT*(ROER(IC)-ROERS)*RRC(IC)*PWR/ROCV)
+        GSPS=(EQC(IRE)*RP/PP)**PWR
+        RHS(IREA)=FBNAN(KREF,IRE)*(EXPS*GSPS-ONE)
+        IF(ABS(RHS(IREA)).GT.EPSCHM*ABS(FBNAN(KREF,IRE))) ICONV=1
+        IF(NEWT.EQ.1) GO TO 70
+        DIAG=ZERO
+        DO 50 KK=1,NE
+         ISP=CN(KK,IRE)
+   50    DIAG=DIAG+(FBNAN(ISP,IRE)**2)*MW(ISP)*RC(IC)/SPDR(IC,ISP)
+        DIAG=DIAG-GSPS*EXPS*DLNKDT*QEQ(IRE)/ROCV
+        PROG(IREA)=OMGCHM*RHS(IREA)/DIAG
+        PROG(IREA)=MIN(PROG(IREA),PNTNIN*PRMAX)
+        PROG(IREA)=MAX(PROG(IREA),PNTNIN*PRMIN)
+C--------------------------------------------------------------CHEMEQ
+CDIR$ IVDEP
+        DO 60 KK=1,NE
+         ISP=CN(KK,IRE)
+   60 SPDR(IC,ISP)=SPDR(IC,ISP)+MW(ISP)*FBNAN(ISP,IRE)*PROG(IREA)*RC(IC)
+       ROER(IC)=ROER(IC)+QEQ(IRE)*PROG(IREA)*RC(IC)
+       GO TO 100
+   70  CONTINUE
+       MA=0
+       DO 90 M=1,NRE
+       IF(ISKIP(M).EQ.0) THEN
+        MA=MA+1
+        SUM=ZERO
+        DO 80 KK=1,NE
+         ISP=CN(KK,IRE)
+   80 SUM=SUM+FBNAN(ISP,IRE)*FBNAN(ISP,M)*MW(ISP)*RC(IC)/SPDR(IC,ISP)
+        SUM=SUM-DLNKDT*GSPS*EXPS*QEQ(M)/ROCV
+        BAM(IREA,MA)=SUM
+       END IF
+   90  CONTINUE
+      END IF
+  100 CONTINUE
+      IF(NEWT.EQ.0) GO TO 180
+C--------------------------------------------------------------CHEMEQ
+C     SUBROUTINE LSGESL SOLVES THE LINEAR SYSTEM A*X=B, USING THE
+C     FACTORS COMPUTED BY LSGEFA. HERE, A IS THE NRE*NRE SQUARE
+C     MATRIX BAM(L,M), X IS THE NRE-DIMENSIONAL VECTOR PROG(L),
+C     AND B IS THE NRE-DIMENSIONAL VECTOR RHS(L). THIS ROUTINE
+C     RETURNS X IN THE SAME STORAGE AS USED FOR B.
+C------------------------------------------- LINPACK CALL -----CHEMEQ
+      CALL LSGEFA (BAM,LNRE,NREA,IWORK,INFO)
+      IF(INFO.NE.0) THEN
+        WRITE(NFOUT,*) NCYC,IC,'-- INFO=',INFO
+        GO TO 200
+      END IF
+      CALL LSGESL (BAM,LNRE,NREA,IWORK,RHS,0)
+      DO 105 IRE=1,NRE
+      PROG(IRE)=OMGCM2*PROG(IRE)
+  105 CONTINUE
+      FACTOR=ONE
+      DO 110 ISP=1,NSP
+      SPDNEG(ISP)=ONE
+  110 SPDRSV(ISP)=SPDR(IC,ISP)
+      ROERSV=ROER(IC)
+      ICUT=0
+  120 CONTINUE
+      IREA=0
+      DO 140 IRE=1,NRE
+       IF(ISKIP(IRE).EQ.0) THEN
+        IREA=IREA+1 
+        PROG(IREA)=PROG(IREA)*FACTOR
+        NE=NLM(IRE)
+CDIR$ IVDEP
+        DO 130 KK=1,NE
+         ISP=CN(KK,IRE)
+      SPDR(IC,ISP)=SPDR(IC,ISP)+MW(ISP)*FBNAN(ISP,IRE)*PROG(IREA)*RC(IC)
+         SPDNEG(ISP)=ONE
+         IF(SPDR(IC,ISP).LE.ZERO) SPDNEG(ISP)=-ONE
+  130   CONTINUE
+       ROER(IC)=ROER(IC)+QEQ(IRE)*PROG(IREA)*RC(IC)
+       END IF
+  140 CONTINUE
+      DO 150 ISP=1,NSP
+      IF(SPDNEG(ISP).LT.ZERO) GO TO 160
+  150 CONTINUE
+      GO TO 180
+  160 FACTOR=PNTHRE
+      DO 170 ISP=1,NSP
+  170 SPDR(IC,ISP)=SPDRSV(ISP)
+      ROER(IC)=ROERSV
+      ICUT=ICUT+1
+      IF(ICUT.LT.NSAL) GO TO 120
+      NEWT=0
+      GO TO 30
+C--------------------------------------------------------------CHEMEQ
+  180 IF(ICONV.EQ.0) GO TO 190
+      IF(N.LT.NCHEM) GO TO 20
+      ICMAX=IC
+      NCELLS=NCELLS+1
+  190 NSUM=NSUM+N
+  200 CONTINUE
+      IF(NZONES.EQ.0 .OR. NCELLS.EQ.0) RETURN
+      AVG=DBLE(NSUM)/DBLE(NZONES)
+      WRITE(NFOUT,900) NCELLS,ICMAX,NCYC,NZONES,AVG
+C==============================================================CHEMEQ
+      RETURN
+C
+  900 FORMAT(' WARNING - ',I3,' CELL(S) NOT CONVERGED IN CHEMEQ; LAST IC
+     & =',I5,', CYCLE',I5/I5,' ACTIVE CELLS, AVG ITS=',F6.2)
+      END

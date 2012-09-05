@@ -1,0 +1,3 @@
+flippingGaussianFixedGradientFvPatchScalarField.C
+LIB = $(FOAM_USER_LIBBIN)/libFlippingGaussGradientBC
+

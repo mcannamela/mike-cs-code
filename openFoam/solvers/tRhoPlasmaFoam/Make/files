@@ -1,0 +1,3 @@
+tRhoPlasmaFoam.C
+
+EXE = $(FOAM_APPBIN)/tRhoPlasmaFoam

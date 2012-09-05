@@ -1,0 +1,301 @@
+***************************************************************************
+* Functionally Gradient Material (FGM) Implmentation, Dec. 1996           *
+* Ar-H jet in Air, NiCrAlY and ZrO2, pseudo 3-D                           *
+***************************************************************************
+C------------------------------ OPTIONAL PARAMETERS
+ INCOMP=    0
+   LDT =    1
+ ISWIRL=    0
+  ICYL =    1
+ NODIFF=    0
+  LWALL=   -1
+  NLTE =    0
+ ICONDP=    0             # =1 for conduction in particles, WAN
+ IEVAP =    0             # =1 for evaporation of powder materials, WAN
+ IPOST =    0             # =1 for postproc of dump file, WAN
+ IFLUCT=    0            # =1 for voltage fluctuation, WAN
+C-------------------------------- TIME STEP CONTROL
+  NMAX= 900000
+  NCYC=  0
+  JUMP=    100
+ DTJUMP=   1.0E-04
+   DT  =   5.0E-12
+  DTMAX=   1.0E-7
+  TMAX =   5.0E-3
+ TIMPTL=   3.0E-3
+ SAFEDT=    0.6                # factor for convec., sound speed limit, WAN
+ SAFDTD=    0.80               # factor for diffusion limit, WAN
+ DTGROW=    1.02               # factor for timestep increasing, WAN
+C-------------------------------- GRID CONTROL BY Y.P. WAN
+     NX= 56
+     NY= 65
+     NZ= 1
+ X(1)  = 0.0E0
+ Y(1)  = 0.0E0
+ Z(1)  = 0.0E0
+ XL    = 6.0E0
+ YL    = 15.0E0
+ ZL    = 1.0E0
+IGRIDX = 1
+IGRIDY = 1
+IGRIDZ = 0
+ICIN   = 11                # NUMBER OF GRID FOR THE INNER TORCH
+ICOUT  = 30                # NUMBER OF GRID FOR THE OUTER TORCH
+C------------------------------ ACCELERATION METHOD
+ MACCEL=    0
+  PGS =     1.0
+  DAMP=     0.0
+  THETA=    0.2
+  RELAX=    4.0e-3
+  PQDIF=    4.0e-2
+C-------------------------- INTERPOLATED DONOR-CELL
+  ADC =     1.0
+  BDC =     0.0
+C--------------------------------- TURBULENCE MODEL
+  ITURB=    2
+  KECOR=    0
+C============= TORCH OPERATING CONDITIONS, BY Y.P. WAN, 10-19-97
+  CURCY=    550.0             # currency (A)
+  VOLTG=    67.0              # voltage (V)
+  EFFCY=    0.6               # efficiency of the gun
+  FLRT1=    42.0              # flow rate of primary gas (slm)
+  FLRT2=    6.0              # flow rate of secondary gas (slm)
+  PWVEL=    4.0               # power for the velocity radial distri.
+  PWTEP=   10.0               # power for the temperature radial distri.
+  SWIRN=    0.0               # swirl number for jet flow
+C============= AMBIENT CONDITIONS, BY Y.P. WAN, 10-19-97
+  PAMB =  10.1E5              # ambient pressure at (g/cm.s2)
+ TEMAMB=  300.0               # ambient temperature (K)
+     GX=  0.0E0               # gravity in x-direction
+     GY=  0.0E0               # gravity in y-direction
+     GZ=  0.0E0               # gravity in z-direction
+C========================================== SPECIES
+  IELC =   13
+      Ar  G   MW1 39.948     HTF1    0.0     QOM1    0.0
+     Ar+  G   MW2 39.947451  HTF2  362.96    QOM2    1.0
+      H2  G   MW3  2.0158    HTF3    0.0     QOM3    0.0
+      H   G   MW4  1.0079    HTF4   51.634   QOM4    0.0
+      H+  G   MW5  1.007351  HTF5  365.221   QOM5    1.0
+      N2  G   MW6 28.0134    HTF6    0.0     QOM6    0.0
+     N2+  G   MW7 28.012851  HTF7  359.298   QOM7    1.0
+      N   G   MW8 14.0067    HTF8  112.529   QOM8    0.0
+      N+  G   MW9 14.006151  HTF9  447.694   QOM9    1.0
+      O2  G  MW10 31.9988   HTF10    0.0    QOM10    0.0
+      O   G  MW11 15.9994   HTF11   58.984  QOM11    0.0
+      O+  G  MW12 15.998851 HTF12  373.024  QOM12    1.0
+      e-  G  MW13  0.000549 HTF13    0.0    QOM13   -1.0
+      HO  G  MW14 17.0073   HTF14    9.175  QOM14    0.0
+     H2O  G  MW15 18.0152   HTF15  -57.103  QOM15    0.0
+C=========================== SLOW KINETIC REACTIONS
+  NRK =     3
+C------------------------------- H2 + M <--> 2H + M
+ FEK1     0.0    FRK1     0.0   TFLAG1    0.0
+ CF1   2.2300E12 EF1   4.6600E+4 ZF1      0.5
+ AKS1  0.990207  BKS1  -51.7916  CKS1 0.993074   DKS1 -0.343428  EKS1  0.0111668
+ TCUTL1=   1250.000 TCUTH1=  20000.000
+ AM1     0    0    1    0    0    0    0    0    0    0    0    0    0    0    0
+ BM1     0    0    0    2    0    0    0    0    0    0    0    0    0    0    0
+ CE1    1.000   1.000   1.000   1.000   1.000   1.000   1.000   1.000
+        1.000   1.000   1.000   1.000  14.750   1.000   1.000
+ AE1    0.000   0.000   1.000   0.000   0.000   0.000   0.000   0.000
+        0.000   0.000   0.000   0.000   0.000   0.000   0.000
+ BE1    0.000   0.000   0.000   2.000   0.000   0.000   0.000   0.000
+        0.000   0.000   0.000   0.000   0.000   0.000   0.000
+C------------------------------- N2 + M <--> 2N + M
+ FEK2     0.0    FRK2     0.0   TFLAG2    0.0
+ CF2   3.7000E21 EF2   1.1320E+5 ZF2     -1.6
+ AKS2  0.794709  BKS2  -113.208  CKS2   3.16837  DKS2 -0.443814  EKS2  0.0269699
+ TCUTL2=   1250.000 TCUTH2=  20000.000
+ AM2     0    0    0    0    0    1    0    0    0    0    0    0    0    0    0
+ BM2     0    0    0    0    0    0    0    2    0    0    0    0    0    0    0
+ CE2    1.000   1.000   1.000   1.000   1.000   1.000   1.000   4.486
+        4.486   1.000   1.000   1.000 2243.00   1.000   1.000
+ AE2    0.000   0.000   0.000   0.000   0.000   1.000   0.000   0.000
+        0.000   0.000   0.000   0.000   0.000
+ BE2    0.000   0.000   0.000   0.000   0.000   0.000   0.000   2.000
+        0.000   0.000   0.000   0.000   0.000
+C------------------------------- O2 + M <--> 2O + M
+ FEK3     0.0    FRK3     0.0   TFLAG3    0.0
+ CF3   1.8500E11 EF3   4.8100E+4 ZF3      0.5
+ AS4   0.43131   BS4   -59.6554  CS4    3.50335  DS4  -0.340016  ES4   0.0158715
+ TCUTL3=   1250.000 TCUTH3=  20000.000
+ AM3     0    0    0    0    0    0    0    0    0    1    0    0    0    0    0
+ BM3     0    0    0    0    0    0    0    0    0    0    2    0    0    0    0
+ CE3    1.000   1.000   1.000   1.000   1.000   1.000   1.000   1.000
+        1.000   1.000   1.000   1.000  45.189   1.000   1.000
+ AE3    0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000
+        0.000   1.000   0.000   0.000   0.000   0.000   0.000
+ BE3    0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000
+        0.000   0.000   2.000   0.000   0.000   0.000   0.000
+C=========== FAST KINETIC AND EQUILIBRIUM REACTIONS
+  NRE =    10
+C----------------------- Ar + e- <--> Ar+ + e- + e-
+ FEE1     0.0    FRE1     0.0   TFLAG1    0.0
+?CFE1  1.8000E+0 EFE1  0.0000E+0 ZFE1     1.0
+ AS1   1.5       BS1   -183.1    CS1   -6.487    DS1   0.0       ES1   0.0
+ TCUTL1=   3000.000 TCUTH1=  30000.000
+ AN1     1    0    0    0    0    0    0    0    0    0    0    0    1    0    0
+ BN1     0    1    0    0    0    0    0    0    0    0    0    0    2    0    0
+C------------------------- H + e- <--> H+ + e- + e-
+ FEE2     0.0    FRE2     0.0   TFLAG2    0.0
+ CFE2  1.5100E31 EFE2  1.5800E+5 ZFE2    -3.0
+ AS2   1.5       BS2   -157.7    CS2   -8.975    DS2   0.0       ES2   0.0
+ TCUTL2=   3000.000 TCUTH2=  30000.000
+ AN2     0    0    0    1    0    0    0    0    0    0    0    0    1    0    0
+ BN2     0    0    0    0    1    0    0    0    0    0    0    0    2    0    0
+C------------------------- N + e- <--> N+ + e- + e-
+ FEE3     0.0    FRE3     0.0   TFLAG3    0.0
+ CFE3  2.5000E34 EFE3  1.6860E+5 ZFE3    -3.82
+ AS3   1.25      BS3   -168.7    CS3   -7.135    DS3   0.0       ES3   0.0
+ TCUTEL3=  3000.000 TCUTEH3= 20000.000
+ AN3     0    0    0    0    0    0    0    1    0    0    0    0    1    0    0
+ BN3     0    0    0    0    0    0    0    0    1    0    0    0    2    0    0
+C------------------------- O + e- <--> O+ + e- + e-
+ FEE4     0.0    FRE4     0.0   TFLAG4    0.0
+ CFE4  1.3400E31 EFE4  1.5800E+5 ZFE4    -3.0
+ AS4   1.75      BS4   -157.9    CS4   -9.597    DS4   0.0       ES4   0.0
+ TCUTEL4=  3000.000 TCUTEH3= 20000.000
+ AN4     0    0    0    0    0    0    0    0    0    0    1    0    1    0    0
+ BN4     0    0    0    0    0    0    0    0    0    0    0    1    2    0    0
+C----------------------------- N2 + N+ <--> N2+ + N
+ FEE5     0.0    FRE5     0.0   TFLAG5    0.0
+ CFE5  9.8500E12 EFE5  1.2100E+4 ZFE5    -0.18
+?AS5   1.75      BS5   -157.9    CS5   -9.597    DS5   0.0       ES5   0.0
+ TCUTEL5=  3000.000 TCUTEH4= 20000.000
+ AN5     0    0    0    0    0    1    0    0    1    0    0    0    0    0    0
+ BN5     0    0    0    0    0    0    1    1    0    0    0    0    0    0    0
+C------------------------------ N + N <--> N2+ + e-
+ FEE6     0.0    FRE6     0.0   TFLAG6    0.0
+ CFE6  1.7900E11 EFE6  6.7500E+4 ZFE6    -0.77
+?AS6   1.75      BS6   -157.9    CS6   -9.597    DS6   0.0       ES6   0.0
+ TCUTEL6=  3000.000 TCUTEH6= 20000.000
+ AN6     0    0    0    0    0    0    0    2    0    0    0    0    0    0    0
+ BN6     0    0    0    0    0    0    1    0    0    0    0    0    1    0    0
+C------------------------------- H + O2 <--> OH + O
+ FEE7     0.0    FRE7     0.0   TFLAG7    0.0
+ CFE7  2.0000E14 EFE7  8.4553E+3 ZFE7     0.0
+ AS7  -0.6059180 BS7  -8.8435000 CS7   3.2203030 DS7   0.0834510 ES7  -0.0047909
+ TCUTEL7=  1200.000 TCUTEH7= 10000.000
+ AN7     0    0    0    1    0    0    0    0    0    1    0    0    0    0    0
+ BN7     0    0    0    0    0    0    0    0    0    0    1    0    0    1    0
+C------------------------------- H2 + O <--> OH + H
+ FEE8     0.0    FRE8     0.0   TFLAG8    0.0
+ CFE8  1.8000E10 EFE8  4.4417E+3 ZFE8     1.0
+ AS8  -0.0470210 BS8  -0.9797000 CS8   0.7100270 DS8   0.0800390 ES8  -0.0094956
+ TCUTEL8=  1200.000 TCUTEH8= 10000.000
+ AN8     0    0    1    0    0    0    0    0    0    0    1    0    0    0    0
+ BN8     0    0    0    1    0    0    0    0    0    0    0    0    0    1    0
+C--------------------------------- H2O + O <--> 2OH
+ FEE9     0.0    FRE9     0.0   TFLAG9    0.0
+ CFE9  5.9000E+9 EFE9  8.5696E+3 ZFE9     1.3
+ AS9   0.3637860 BS9  -8.5959000 CS9   2.5144025 DS9  -0.2641520 ES9   0.0152378
+ TCUTEL9=  1200.000 TCUTEH9= 10000.000
+ AN9     0    0    0    0    0    0    0    0    0    0    1    0    0    0    1
+ BN9     0    0    0    0    0    0    0    0    0    0    0    0    0    2    0
+C----------------------------- H2 + OH <--> H2O + H
+ FEE10    0.0    FRE10    0.0   TFLG10    0.0
+ CFE10 1.1700E+9 EFE10 1.8246E+3 ZFE10    1.3
+ AS10 -0.4108070 BS10  7.6162000 CS10 -1.8043755 DS10  0.3441910 ES10 -0.0247334
+ TCUTL10=  1200.000 TCUTH10= 10000.000
+ AN10    0    0    1    0    0    0    0    0    0    0    0    0    0    1    0
+ BN10    0    0    0    1    0    0    0    0    0    0    0    0    0    0    1
+C=============================== PARTICLE INJECTION
+ IPTCL=     0
+ I3DP2D=    1
+ ICARRY=    1
+C------------- NiCrAlY -- used Alloy-601 PROPERTIES
+ ROPI   8.110     TMMI 1360.0     TMLI 1411.0    HLTNT   71.50
+ PSPHS 0.1071    PSPHL 0.1071    EMSSP  0.600
+C---------------------------------- ZrO2 PROPERTIES
+ ROPI   5.890     TMMI 2950.0     TMLI 2950.0    HLTNT  168.80
+ PSPHS 0.1385    PSPHL 0.1704    EMSSP  0.310
+C========================================== NOZZLES
+ NUMNOZ=    2
+C--------------------------- NiCrAlY - FOR NOZZLE 1
+ XINJ     0.0    YINJ     0.6    ZINJ     0.8
+ CONE   15.0     TILTZ 180.0     TILTX    0.0
+ ANOZ   0.01820000E+0    T1INJ  0.00300000E00
+TSPMAS  0.55000000E00    PMINJ  1.00000000E-6
+VELINJ  1170.0   VDISP 0.2140    TPINJ  300.0
+C------------------- PARTICLE SPECIES MASS FRACTION
+PYINJ   1.000   0.000
+C---------- PARTICLE SIZE DITRIBUTION (IN DIAMETER)
+ RPMIN  0.00220  RPMAX  0.00450
+ NPSDIS=   25
+  0-05  1368.457
+  5-10  1368.457
+ 10-15  1368.457
+ 15-20  1368.457
+ 20-25  1368.457
+ 25-30  1368.457
+ 30-35  1368.457
+ 35-40  5827.086
+ 40-45  5827.086
+ 45-50 23147.246
+ 50-55 23147.246
+ 55-60 17921.675
+ 60-65 17921.675
+ 65-70 11302.429
+ 70-75 11302.429
+ 75-80   409.176
+ 80-85   409.176
+ 85-90   409.176
+ 90-95   409.176
+  -100   409.176
+  -105   409.176
+  -110   409.176
+  -115   409.176
+  -120   409.176
+  -125   409.176
+C------------------------------ ZrO2 - FOR NOZZLE 2
+ XINJ     0.0    YINJ     0.6    ZINJ     0.8
+ CONE   15.0     TILTZ 180.0     TILTX    0.0
+ ANOZ   0.01820000E+0    T1INJ  0.00300000E00
+TSPMAS  0.33333333E00    PMINJ  2.20000000E-7
+VELINJ  1170.0   VDISP 0.2140    TPINJ  300.0
+C------------------- PARTICLE SPECIES MASS FRACTION
+PYINJ   0.000   1.000
+C---------- PARTICLE SIZE DITRIBUTION (IN DIAMETER)
+ RPMIN  0.00150  RPMAX  0.00500
+ NPSDIS=   24
+  5-10  2984.155
+ 10-15  5382.137
+ 15-20  5382.137
+ 20-25 11405.088
+ 25-30 11405.088
+ 30-35 11405.088
+ 35-40 11405.088
+ 40-45  2095.868
+ 45-50  2193.434
+ 50-55  2193.434
+ 55-60  1559.994
+ 60-65  1559.994
+ 65-70  1016.571
+ 70-75  1016.571
+ 75-80   183.346
+ 80-85   183.346
+ 85-90   183.346
+ 90-95   183.346
+  -100   183.346
+  -105   183.346
+  -110   183.346
+  -115   183.346
+  -120   183.346
+  -125   183.346
+C============================ CARRIER GAS FLOW RATE
+  Ar    0.0       0.0
+ Ar+    0.0       0.0
+  H2    0.0       0.0
+  H     0.0       0.0
+  H+    0.0       0.0
+  N2    0.0       0.0
+ N2+    0.0       0.0
+  N     0.0       0.0
+  N+    0.0       0.0
+  O2    0.0       0.0
+  O     0.0       0.0
+  O+    0.0       0.0
+  e-    0.0       0.0
+  HO    0.0       0.0
+ H2O    0.0       0.0
+C============================================================= END OF INPUT FILE

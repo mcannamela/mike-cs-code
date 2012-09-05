@@ -1,0 +1,94 @@
+*DECK VISCY
+      SUBROUTINE VISCY
+C===============================================================VISCY
+C     THIS ROUTINE UPDATES RORU, RORV, AND RORW
+C     DUE TO VISCOUS STRESSES IN THE Y-DIRECTION
+C----------
+C     CALLED BY LAVA
+C===============================================================VISCY
+      INCLUDE 'COML.h'
+C----------
+      DOUBLE PRECISION AMU,AMU1,DVDY,
+     1     DTDY,DTDZ,
+     2     RFTF,RFTT,RFT2,TFT,HDVDZ,HDWDY,
+     3     TMU,TMU1,DISST
+C
+C==================================== SRYY AND DISSIPATION =====VISCY
+      IF(ITURB.EQ.0) THEN
+        DO 10 IC=IC1,IC2
+        DVDY=(VN(IC)-VN(IC-NXT))*RDY(IC)
+        SRYY(IC)=RC(IC)*VISC(IC)*(TWO*DVDY+VISRAT*DIV(IC))
+        ROER(IC)=ROER(IC)+DT(IC)*SRYY(IC)*DVDY
+   10   CONTINUE
+      ELSEIF(ITURB.EQ.1) THEN
+        DO 11 IC=IC1,IC2
+        DVDY=(VN(IC)-VN(IC-NXT))*RDY(IC)
+        SRYY(IC)=RC(IC)*VISC(IC)*(TWO*DVDY+VISRAT*DIV(IC))
+        ROTKER(IC)=ROTKER(IC)+DT(IC)*SRYY(IC)*DVDY
+   11   CONTINUE
+      ELSEIF(ITURB.EQ.2) THEN
+        DO 12 IC=IC1,IC2
+        DVDY=(VN(IC)-VN(IC-NXT))*RDY(IC)
+        SRYY(IC)=RC(IC)*VISC(IC)*(TWO*DVDY+VISRAT*DIV(IC))
+        ROTKER(IC)=ROTKER(IC)+DT(IC)*SRYY(IC)*DVDY
+      ROEPSR(IC)=ROEPSR(IC)+DT(IC)*SRYY(IC)*DVDY*CE1*EPSN(IC)/TKEN(IC)
+   12   CONTINUE
+      END IF
+C---------------------------------------------------------------VISCY
+      DO 30 K=1,NZT
+      ICK=(K-1)*NXYT
+        DO 20 I=1,NXT
+        ICD=I+ICK
+        ICF=ICD+NXYT-NXT
+        SRYY(ICD)=SRYY(ICD+NXT)
+        SRYY(ICF)=SRYY(ICF-NXT)
+   20   CONTINUE
+   30 CONTINUE
+      DO 40 IC=IC1V,IC2
+      RORV(IC)=RORV(IC)+DT(IC)*(SRYY(IC+NXT)-SRYY(IC))*TWO*HRDYCF(IC)
+   40 CONTINUE
+C===============================================================VISCY
+      IF(NX.NE.1) THEN
+        DO 140 IC=IC1U,IC2
+        RORU(IC)=RORU(IC)+DT(IC)*(SRXY(IC)-SRXY(IC-NXT))*RDY(IC)
+  140   CONTINUE
+      END IF
+C---------------------------------------------------------------VISCY
+      IF(NZ.EQ.1) GO TO 300
+      DO 210 IC=IC1V-NXYT,IC2
+      RFTF=(DZ(IC)*RF(IC+NXYT)+DZ(IC+NXYT)*RF(IC))*HRDZCT(IC)
+      RFTT=(DY(IC)*RT(IC+NXT)+DY(IC+NXT)*RT(IC))*HRDYCF(IC)
+      RFT2=RFTF+RFTT
+      AMU1=AREA(IC)/VISC(IC)+AREA(IC+NXT+NXYT)/VISC(IC+NXT+NXYT)
+     1    +AREA(IC+NXT)/VISC(IC+NXT)+AREA(IC+NXYT)/VISC(IC+NXYT)
+      AMU=(AREA(IC)+AREA(IC+NXT)+AREA(IC+NXYT)+AREA(IC+NXT+NXYT))/AMU1
+      HDVDZ=(VN(IC+NXYT)-VN(IC))*HRDZCT(IC)
+      HDWDY=(WN(IC+NXT)-WN(IC))*HRDYCF(IC)
+      SRYZ(IC)=RFT2*AMU*(HDVDZ+HDWDY)
+      DISS(IC)=HALF*DT(IC)*SRYZ(IC)*(HDVDZ+HDWDY)
+  210 CONTINUE
+      DO 240 IC=IC1W,IC2
+      RORW(IC)=RORW(IC)+DT(IC)*(SRYZ(IC)-SRYZ(IC-NXT))*RDY(IC)
+  240 CONTINUE
+C--------------------------------- DISSIPATION DUE TO SRYZ -----VISCY
+      IF(ITURB.EQ.0) THEN
+        DO 250 IC=IC1,IC2
+        DISST=DISS(IC)+DISS(IC-NXT)+DISS(IC-NXYT)+DISS(IC-NXYT-NXT)
+        ROER(IC)=ROER(IC)+DISST
+  250   CONTINUE
+      ELSEIF(ITURB.EQ.1) THEN
+        DO 260 IC=IC1,IC2
+        DISST=DISS(IC)+DISS(IC-NXT)+DISS(IC-NXYT)+DISS(IC-NXYT-NXT)
+        ROTKER(IC)=ROTKER(IC)+DISST
+  260   CONTINUE
+      ELSEIF(ITURB.EQ.2) THEN
+        DO 270 IC=IC1,IC2
+        DISST=DISS(IC)+DISS(IC-NXT)+DISS(IC-NXYT)+DISS(IC-NXYT-NXT)
+        ROTKER(IC)=ROTKER(IC)+DISST
+        ROEPSR(IC)=ROEPSR(IC)+DISST*CE1*EPSN(IC)/TKEN(IC)
+  270   CONTINUE
+      END IF
+  300 CONTINUE
+C===============================================================VISCY
+      RETURN
+      END

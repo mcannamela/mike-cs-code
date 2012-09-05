@@ -1,0 +1,3 @@
+rhoPisoMhdFoam.C
+
+EXE = $(FOAM_APPBIN)/rhoPisoMhdFoam
