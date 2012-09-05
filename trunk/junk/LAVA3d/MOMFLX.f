@@ -1,0 +1,89 @@
+*DECK MOMFLX
+      SUBROUTINE MOMFLX
+C==============================================================MOMFLX
+C     THIS ROUTINE UPDATES RORU, RORV, AND RORW
+C     DUE TO CONVECTIVE FLUXING OF MOMENTUM IN THE X DIRECTION
+C----------
+C     CALLED BY LAVA
+C----------
+C     INPUT: ROUU, ROUV, ROUW, DX, DY, DZ, RC, RR
+C     OUTPUT: RORU, RORV, RORW
+C==============================================================MOMFLX
+      INCLUDE 'COML.h'
+C----------
+      DOUBLE PRECISION
+     1     RDXCR,UC,SS,COUR,WTC,UNRF,UNRT,DELR,RONC,RONL,RONR,
+     2     ROUL,ROUR,ROVR,ROVC,ROWR,ROWC,RRT,RRF,SSL,SSR,DRL,DRR
+C
+C==============================================================MOMFLX
+      DO 10 IC=IC1,IC2
+      UC=HALF*(UN(IC)+UN(IC-1))
+      SS=SIGN(ONE,UC)
+      COUR=UC*DT(IC)*RDX(IC)
+      WTC=HALF*(ONE+ADC*SS+BDC*COUR)
+      RONL=(DX(IC)*RON(IC-1)+DX(IC-1)*RON(IC))*HRDXCR(IC-1)
+      RONR=(DX(IC)*RON(IC+1)+DX(IC+1)*RON(IC))*HRDXCR(IC)
+      ROUL=RONL*UN(IC-1)
+      ROUR=RONR*UN(IC)
+      RORUU(IC)=(ROUL*WTC+ROUR*(ONE-WTC))*RC(IC)*UC
+   10 CONTINUE
+C---------- EXTRAPOLATE OUTFLOW BOUNDARY ----------------------MOMFLX
+      DO 20 ICLR=1,NLR
+      ICL=1+(ICLR-1)*NXT
+      ICR=ICL+NX+1
+      SSL=SIGN(ONE,U(ICL))
+      SSR=SIGN(ONE,-U(ICR-1))
+      DRL=(DX(ICL)+DX(ICL+1))/(DX(ICL+1)+DX(ICL+2))
+      DRR=(DX(ICR)+DX(ICR-1))/(DX(ICR-1)+DX(ICR-2))
+      RORUU(ICL)=RORUU(ICL+1)+HALF*(ONE-SSL)*DRL
+     1           *(RORUU(ICL+1)-RORUU(ICL+2))
+      RORUU(ICR)=RORUU(ICR-1)+HALF*(ONE-SSR)*DRR
+     1           *(RORUU(ICR-1)-RORUU(ICR-2))
+   20 CONTINUE
+C----------
+      DO 40 IC=IC1U,IC2
+      RORU(IC)=RORU(IC)-DT(IC)*(RORUU(IC+1)-RORUU(IC))*TWO*HRDXCR(IC)
+   40 CONTINUE
+C==============================================================MOMFLX
+      IF(NY.EQ.1) GO TO 200
+      DO 110 IC=IC1U-NXT,IC2
+      UNRF=(DY(IC)*UN(IC+NXT)+DY(IC+NXT)*UN(IC))*HRDYCF(IC)
+      SS=SIGN(ONE,UNRF)
+      RDXCR=TWO*HRDXCR(IC)
+      DELR=DX(IC+1)*RDXCR
+      COUR=UNRF*DT(IC)*RDXCR
+      WTC=HALF*(DELR+ADC*(ONE-DELR+SS)+BDC*COUR)
+      RONR=(DY(IC)*RON(IC+NXT+1)+DY(IC+NXT)*RON(IC+1))*HRDYCF(IC)
+      RONC=(DY(IC)*RON(IC+NXT)+DY(IC+NXT)*RON(IC))*HRDYCF(IC)
+      ROVR=RONR*VN(IC+1)
+      ROVC=RONC*VN(IC)
+      RRF=(DY(IC)*RR(IC+NXT)+DY(IC+NXT)*RR(IC))*HRDYCF(IC)
+      RORUV(IC)=(ROVC*WTC+ROVR*(ONE-WTC))*RRF*UNRF
+  110 CONTINUE
+      DO 140 IC=IC1V,IC2
+      RORV(IC)=RORV(IC)-DT(IC)*(RORUV(IC)-RORUV(IC-1))*RDX(IC)
+  140 CONTINUE
+  200 CONTINUE
+C==============================================================MOMFLX
+      IF(NZ.EQ.1) GO TO 300
+      DO 210 IC=IC1U-NXYT,IC2
+      UNRT=(DZ(IC)*UN(IC+NXYT)+DZ(IC+NXYT)*UN(IC))*HRDZCT(IC)
+      SS=SIGN(ONE,UNRT)
+      RDXCR=TWO*HRDXCR(IC)
+      DELR=DX(IC+1)*RDXCR
+      COUR=UNRT*DT(IC)*RDXCR
+      WTC=HALF*(DELR+ADC*(ONE-DELR+SS)+BDC*COUR)
+      RONR=(DZ(IC)*RON(IC+NXYT+1)+DZ(IC+NXYT)*RON(IC+1))*HRDZCT(IC)
+      RONC=(DZ(IC)*RON(IC+NXYT)+DZ(IC+NXYT)*RON(IC))*HRDZCT(IC)
+      ROWR=RONR*WN(IC+1)
+      ROWC=RONC*WN(IC)
+      RRT=(DZ(IC)*RR(IC+NXYT)+DZ(IC+NXYT)*RR(IC))*HRDZCT(IC)
+      RORUW(IC)=(ROWC*WTC+ROWR*(ONE-WTC))*RRT*UNRT
+  210 CONTINUE
+      DO 240 IC=IC1W,IC2
+      RORW(IC)=RORW(IC)-DT(IC)*(RORUW(IC)-RORUW(IC-1))*RDX(IC)
+  240 CONTINUE
+  300 CONTINUE
+C==============================================================MOMFLX
+      RETURN
+      END

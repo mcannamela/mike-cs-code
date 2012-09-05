@@ -1,0 +1,134 @@
+
+Unexpected Signal : EXCEPTION_ACCESS_VIOLATION (0xc0000005) occurred at PC=0x807848A
+Function=[Unknown.]
+Library=C:\Program Files\arduino-0015\java\bin\client\jvm.dll
+
+NOTE: We are unable to locate the function name symbol for the error
+      just occurred. Please refer to release documentation for possible
+      reason and solutions.
+
+
+Current Java thread:
+	at sun.awt.windows.WToolkit.eventLoop(Native Method)
+	at sun.awt.windows.WToolkit.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+
+Dynamic libraries:
+0x00400000 - 0x0040B000 	C:\Program Files\arduino-0015\java\bin\javaw.exe
+0x7C900000 - 0x7C9B2000 	C:\WINDOWS\system32\ntdll.dll
+0x7C800000 - 0x7C8F6000 	C:\WINDOWS\system32\kernel32.dll
+0x77DD0000 - 0x77E6B000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77E70000 - 0x77F02000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77FE0000 - 0x77FF1000 	C:\WINDOWS\system32\Secur32.dll
+0x7E410000 - 0x7E4A1000 	C:\WINDOWS\system32\USER32.dll
+0x77F10000 - 0x77F59000 	C:\WINDOWS\system32\GDI32.dll
+0x77C10000 - 0x77C68000 	C:\WINDOWS\system32\MSVCRT.dll
+0x76390000 - 0x763AD000 	C:\WINDOWS\system32\IMM32.DLL
+0x08000000 - 0x08138000 	C:\Program Files\arduino-0015\java\bin\client\jvm.dll
+0x76B40000 - 0x76B6D000 	C:\WINDOWS\system32\WINMM.dll
+0x00940000 - 0x00957000 	C:\Program Files\Common Files\Logishrd\LVMVFM\LVPrcInj.dll
+0x10000000 - 0x10007000 	C:\Program Files\arduino-0015\java\bin\hpi.dll
+0x00850000 - 0x0085E000 	C:\Program Files\arduino-0015\java\bin\verify.dll
+0x00860000 - 0x00879000 	C:\Program Files\arduino-0015\java\bin\java.dll
+0x00880000 - 0x0088E000 	C:\Program Files\arduino-0015\java\bin\zip.dll
+0x02F00000 - 0x03012000 	C:\Program Files\arduino-0015\java\bin\awt.dll
+0x73000000 - 0x73026000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x774E0000 - 0x7761D000 	C:\WINDOWS\system32\ole32.dll
+0x5AD70000 - 0x5ADA8000 	C:\WINDOWS\system32\uxtheme.dll
+0x03070000 - 0x030C1000 	C:\Program Files\arduino-0015\java\bin\fontmanager.dll
+0x73760000 - 0x737AB000 	C:\WINDOWS\system32\ddraw.dll
+0x73BC0000 - 0x73BC6000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x73940000 - 0x73A10000 	C:\WINDOWS\system32\D3DIM700.DLL
+0x74720000 - 0x7476C000 	C:\WINDOWS\system32\MSCTF.dll
+0x755C0000 - 0x755EE000 	C:\WINDOWS\system32\msctfime.ime
+0x04270000 - 0x0466F000 	C:\WINDOWS\Resources\themes\Luna\Luna.msstyles
+0x046B0000 - 0x046C1000 	C:\Program Files\arduino-0015\ICE_JNIRegistry.dll
+0x04720000 - 0x04732000 	C:\Program Files\arduino-0015\rxtxSerial.dll
+0x73D90000 - 0x73DB7000 	C:\WINDOWS\system32\crtdll.dll
+0x05040000 - 0x0504F000 	C:\Program Files\arduino-0015\java\bin\net.dll
+0x71AB0000 - 0x71AC7000 	C:\WINDOWS\system32\WS2_32.dll
+0x71AA0000 - 0x71AA8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x71A50000 - 0x71A8F000 	C:\WINDOWS\System32\mswsock.dll
+0x76F20000 - 0x76F47000 	C:\WINDOWS\system32\DNSAPI.dll
+0x76FB0000 - 0x76FB8000 	C:\WINDOWS\System32\winrnr.dll
+0x76F60000 - 0x76F8C000 	C:\WINDOWS\system32\WLDAP32.dll
+0x63560000 - 0x63568000 	C:\Program Files\National Instruments\Shared\mDNS Responder\nimdnsNSP.dll
+0x63550000 - 0x63559000 	C:\WINDOWS\system32\nimdnsResponder.dll
+0x78130000 - 0x781CB000 	C:\WINDOWS\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.3053_x-ww_b80fa8ca\MSVCR80.dll
+0x76D60000 - 0x76D79000 	C:\WINDOWS\system32\Iphlpapi.dll
+0x76FC0000 - 0x76FC6000 	C:\WINDOWS\system32\rasadhlp.dll
+0x662B0000 - 0x66308000 	C:\WINDOWS\system32\hnetcfg.dll
+0x71A90000 - 0x71A98000 	C:\WINDOWS\System32\wshtcpip.dll
+0x7C9C0000 - 0x7D1D7000 	C:\WINDOWS\system32\SHELL32.DLL
+0x77F60000 - 0x77FD6000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x773D0000 - 0x774D3000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5512_x-ww_35d4ce83\comctl32.dll
+0x5D090000 - 0x5D12A000 	C:\WINDOWS\system32\comctl32.dll
+0x763B0000 - 0x763F9000 	C:\WINDOWS\system32\COMDLG32.DLL
+0x77B40000 - 0x77B62000 	C:\WINDOWS\system32\appHelp.dll
+0x76FD0000 - 0x7704F000 	C:\WINDOWS\system32\CLBCATQ.DLL
+0x77050000 - 0x77115000 	C:\WINDOWS\system32\COMRes.dll
+0x77120000 - 0x771AB000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x77C00000 - 0x77C08000 	C:\WINDOWS\system32\VERSION.dll
+0x05960000 - 0x05977000 	C:\Program Files\Common Files\TortoiseOverlays\TortoiseOverlays.dll
+0x05940000 - 0x0594E000 	C:\Program Files\TortoiseSVN\bin\TortoiseStub.dll
+0x053A0000 - 0x05468000 	C:\Program Files\TortoiseSVN\bin\TortoiseSVN.dll
+0x76780000 - 0x76789000 	C:\WINDOWS\system32\SHFOLDER.dll
+0x3D930000 - 0x3DA16000 	C:\WINDOWS\system32\WININET.dll
+0x05480000 - 0x05489000 	C:\WINDOWS\system32\Normaliz.dll
+0x05490000 - 0x055C2000 	C:\WINDOWS\system32\urlmon.dll
+0x3DFD0000 - 0x3E1B8000 	C:\WINDOWS\system32\iertutil.dll
+0x6EEC0000 - 0x6EEE2000 	C:\Program Files\TortoiseSVN\bin\libapr_tsvn.dll
+0x78520000 - 0x785C3000 	C:\WINDOWS\WinSxS\x86_Microsoft.VC90.CRT_1fc8b3b9a1e18e3b_9.0.30729.1_x-ww_6f74963e\MSVCR90.dll
+0x6EE60000 - 0x6EE8E000 	C:\Program Files\TortoiseSVN\bin\libaprutil_tsvn.dll
+0x055F0000 - 0x05602000 	C:\Program Files\TortoiseSVN\bin\intl3_tsvn.dll
+0x78480000 - 0x7850E000 	C:\WINDOWS\WinSxS\x86_Microsoft.VC90.CRT_1fc8b3b9a1e18e3b_9.0.30729.1_x-ww_6f74963e\MSVCP90.dll
+0x77A80000 - 0x77B15000 	C:\WINDOWS\system32\CRYPT32.dll
+0x77B20000 - 0x77B32000 	C:\WINDOWS\system32\MSASN1.dll
+0x05890000 - 0x058A3000 	C:\Documents and Settings\User\Application Data\Dropbox\bin\DropboxExt.3.dll
+0x7C340000 - 0x7C396000 	C:\Documents and Settings\User\Application Data\Dropbox\bin\MSVCR71.dll
+0x7C3A0000 - 0x7C41B000 	C:\Documents and Settings\User\Application Data\Dropbox\bin\MSVCP71.dll
+0x77A20000 - 0x77A74000 	C:\WINDOWS\System32\cscui.dll
+0x76600000 - 0x7661D000 	C:\WINDOWS\System32\CSCDLL.dll
+0x75F80000 - 0x7607D000 	C:\WINDOWS\system32\browseui.dll
+0x77920000 - 0x77A13000 	C:\WINDOWS\system32\SETUPAPI.dll
+0x769C0000 - 0x76A74000 	C:\WINDOWS\system32\USERENV.dll
+0x76990000 - 0x769B5000 	C:\WINDOWS\system32\ntshrui.dll
+0x76B20000 - 0x76B31000 	C:\WINDOWS\system32\ATL.DLL
+0x5B860000 - 0x5B8B5000 	C:\WINDOWS\system32\NETAPI32.dll
+0x7E290000 - 0x7E401000 	C:\WINDOWS\system32\shdocvw.dll
+0x754D0000 - 0x75550000 	C:\WINDOWS\system32\CRYPTUI.dll
+0x76C30000 - 0x76C5E000 	C:\WINDOWS\system32\WINTRUST.dll
+0x76C90000 - 0x76CB8000 	C:\WINDOWS\system32\IMAGEHLP.dll
+0x71B20000 - 0x71B32000 	C:\WINDOWS\system32\MPR.dll
+0x75F60000 - 0x75F67000 	C:\WINDOWS\System32\drprov.dll
+0x71C10000 - 0x71C1E000 	C:\WINDOWS\System32\ntlanman.dll
+0x71CD0000 - 0x71CE7000 	C:\WINDOWS\System32\NETUI0.dll
+0x71C90000 - 0x71CD0000 	C:\WINDOWS\System32\NETUI1.dll
+0x71C80000 - 0x71C87000 	C:\WINDOWS\System32\NETRAP.dll
+0x71BF0000 - 0x71C03000 	C:\WINDOWS\System32\SAMLIB.dll
+0x75F70000 - 0x75F7A000 	C:\WINDOWS\System32\davclnt.dll
+0x046F0000 - 0x04704000 	C:\WINDOWS\system32\LMIRfsClientNP.dll
+0x59A60000 - 0x59B01000 	C:\WINDOWS\system32\DBGHELP.dll
+0x76BF0000 - 0x76BFB000 	C:\WINDOWS\system32\PSAPI.DLL
+
+Heap at VM Abort:
+Heap
+ def new generation   total 9088K, used 1642K [0x10010000, 0x109e0000, 0x109e0000)
+  eden space 8128K,  20% used [0x10010000, 0x101aa968, 0x10800000)
+  from space 960K,   0% used [0x10800000, 0x10800000, 0x108f0000)
+  to   space 960K,   0% used [0x108f0000, 0x108f0000, 0x109e0000)
+ tenured generation   total 121024K, used 9025K [0x109e0000, 0x18010000, 0x18010000)
+   the space 121024K,   7% used [0x109e0000, 0x112b06b0, 0x112b0800, 0x18010000)
+ compacting perm gen  total 7168K, used 7108K [0x18010000, 0x18710000, 0x1c010000)
+   the space 7168K,  99% used [0x18010000, 0x187012e8, 0x18701400, 0x18710000)
+
+Local Time = Fri Oct 23 13:55:48 2009
+Elapsed Time = 5686
+#
+# HotSpot Virtual Machine Error : EXCEPTION_ACCESS_VIOLATION
+# Error ID : 4F530E43505002EF
+# Please report this error at
+# http://java.sun.com/cgi-bin/bugreport.cgi
+#
+# Java VM: Java HotSpot(TM) Client VM (1.4.2_08-b03 mixed mode)
+#
