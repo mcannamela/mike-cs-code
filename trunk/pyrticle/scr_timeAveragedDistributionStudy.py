@@ -15,7 +15,7 @@ from carrierGasParameters import *
 import cPickle as pkl
 import warnings
 warnings.simplefilter('error')
-#this is a change
+
 def plotOverSpace(X, F, skip):
     N = double(len(X[0]))
     for i in range(len(X[0])):
