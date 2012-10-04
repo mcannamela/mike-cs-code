@@ -19,10 +19,17 @@ public abstract class AbstractCostInterval implements Comparable {
         maxCost = 100;
         selectedCost = 50;
     }
+    public AbstractCostInterval(int minCost, int maxCost, int selectedCost, ScalingLaw scalingLaw) {
+        this.minCost = minCost;
+        this.maxCost = maxCost;
+        this.selectedCost = selectedCost;
+        this.scalingLaw = scalingLaw;
+    }
     
     public int getScaledCost(){
         return scalingLaw.scale(selectedCost);
     }
+    
     public int getMeanCost(){
         return (getMinCost()+getMaxCost())/2;
     }
@@ -35,6 +42,10 @@ public abstract class AbstractCostInterval implements Comparable {
     public int getSelectedCost() {
         return selectedCost;
     }
+    public ScalingLaw getScalingLaw() {
+        return scalingLaw;
+    }
+    
     public void setMinCost(int minCost) {
         this.minCost = minCost;
     }
@@ -44,11 +55,17 @@ public abstract class AbstractCostInterval implements Comparable {
     public void setSelectedCost(int selectedCost) {
         this.selectedCost = selectedCost;
     }
+    public void setScalingLaw(ScalingLaw scalingLaw) {
+        this.scalingLaw = scalingLaw;
+    }
+    
     
     /**
-     *
-     * @param other
-     * @return
+     *implements Comparable interface so that cost intervals can be compared.
+     * they are compared first by mean, cost, then by minimum cost, then by 
+     * maximum cost. 
+     * @param other another cost interval to compare to this one
+     * @return -1,0,1 depending upon whether other is >, ==, < this
      */
     public int compareTo(AbstractCostInterval other){
         int retVal=0;
