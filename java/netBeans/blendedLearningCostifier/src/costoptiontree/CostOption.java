@@ -108,4 +108,11 @@ public class CostOption implements Comparable {
         }
         return retVal;
     }
+
+    @Override
+    public String toString() {
+        return getLabel()+", ("+getMinCost()+", "+getMaxCost()+", "+getSelectedCost()
+                +") - "+getDescription();
+    }
+    
 }
