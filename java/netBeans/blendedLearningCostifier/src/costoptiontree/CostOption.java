@@ -4,30 +4,48 @@
  */
 package costoptiontree;
 
+import blendedlearningprogram.AbstractScalingLaw;
+
 /**
  *
  * @author mcannamela
  */
-public abstract class AbstractCostInterval implements Comparable {
+public class CostOption implements Comparable {
+    private String label;
+    private String description;
+    
     private int minCost;
     private int maxCost;
     private int selectedCost;
-    private ScalingLaw scalingLaw;
+    
+    private AbstractScalingLaw scalingLaw;
 
-    public AbstractCostInterval() {
+    public CostOption() {
         minCost = 0;
         maxCost = 100;
         selectedCost = 50;
     }
-    public AbstractCostInterval(int minCost, int maxCost, int selectedCost, ScalingLaw scalingLaw) {
+
+    public CostOption(String label, String description, int minCost, int maxCost,
+                        int selectedCost, AbstractScalingLaw scalingLaw) {
+        this.label = label;
+        this.description = description;
         this.minCost = minCost;
         this.maxCost = maxCost;
         this.selectedCost = selectedCost;
         this.scalingLaw = scalingLaw;
     }
     
+    
     public int getScaledCost(){
         return scalingLaw.scale(selectedCost);
+    }
+
+    public String getLabel() {
+        return label;
+    }
+    public String getDescription() {
+        return description;
     }
     
     public int getMeanCost(){
@@ -42,10 +60,16 @@ public abstract class AbstractCostInterval implements Comparable {
     public int getSelectedCost() {
         return selectedCost;
     }
-    public ScalingLaw getScalingLaw() {
+    public AbstractScalingLaw getScalingLaw() {
         return scalingLaw;
     }
-    
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public void setMinCost(int minCost) {
         this.minCost = minCost;
     }
@@ -55,19 +79,21 @@ public abstract class AbstractCostInterval implements Comparable {
     public void setSelectedCost(int selectedCost) {
         this.selectedCost = selectedCost;
     }
-    public void setScalingLaw(ScalingLaw scalingLaw) {
+    public void setScalingLaw(AbstractScalingLaw scalingLaw) {
         this.scalingLaw = scalingLaw;
     }
     
     
     /**
-     *implements Comparable interface so that cost intervals can be compared.
+     *implements Comparable interface so that CostIntervals can be compared.
      * they are compared first by mean, cost, then by minimum cost, then by 
      * maximum cost. 
      * @param other another cost interval to compare to this one
      * @return -1,0,1 depending upon whether other is >, ==, < this
      */
-    public int compareTo(AbstractCostInterval other){
+    @Override
+    public int compareTo(Object otherObject){
+        CostOption other = (CostOption) otherObject;
         int retVal=0;
         if (getMeanCost()>other.getMeanCost()){retVal= 1;}
         else if (getMeanCost()<other.getMeanCost()){retVal= -1;}

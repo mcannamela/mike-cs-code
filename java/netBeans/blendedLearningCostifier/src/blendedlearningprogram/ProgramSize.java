@@ -4,7 +4,6 @@
  */
 
 package blendedlearningprogram;
-import java.lang.Math;
 
 /**
  *
@@ -14,7 +13,18 @@ public class ProgramSize {
     private BlendedLearningModelInterface blendedLearningModel;
     private int nrStudents;
     private int nrPeriods;
-    
+
+    public ProgramSize() {
+        this.blendedLearningModel = new StandardBlendedLearningModel();
+        this.nrStudents = 100;
+        this.nrPeriods = 8;
+    }
+
+    public ProgramSize(BlendedLearningModelInterface blendedLearningModel, int nrStudents, int nrPeriods) {
+        this.blendedLearningModel = blendedLearningModel;
+        this.nrStudents = nrStudents;
+        this.nrPeriods = nrPeriods;
+    }
 
     public int getNrPeriods() {
         return nrPeriods;
@@ -22,6 +32,11 @@ public class ProgramSize {
     public int getNrStudents() {
         return nrStudents;
     }
+
+    public BlendedLearningModelInterface getBlendedLearningModel() {
+        return blendedLearningModel;
+    }
+    
  
     
     public void setNrStudents(int nrStudents) {
@@ -29,6 +44,10 @@ public class ProgramSize {
     }
     public void setNrPeriods(int nrPeriods) {
         this.nrPeriods = nrPeriods;
+    }
+
+    public void setBlendedLearningModel(BlendedLearningModelInterface blendedLearningModel) {
+        this.blendedLearningModel = blendedLearningModel;
     }
     
     
