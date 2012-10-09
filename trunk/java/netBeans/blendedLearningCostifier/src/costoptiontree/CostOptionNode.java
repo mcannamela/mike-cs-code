@@ -17,14 +17,18 @@ public class CostOptionNode {
     private OptionSelectionInterface optionSelection;
     private String name;
     private String description;
+    private int treeLevel;
+    private boolean hasParent;
 
     public CostOptionNode() {
         parent = null;
+        hasParent = false;
         children = new ArrayList<>();
         costOptions = new ArrayList<>();
         optionSelection = new SingleOptionSelection();
         name = "aCostOptionNode";
         description = "the default node is pretty boring";
+        treeLevel = 0;
         
     }
 
@@ -34,27 +38,39 @@ public class CostOptionNode {
             OptionSelectionInterface optionSelection, 
             String name, String description) {
         this.parent = parent;
+        hasParent = true;
         this.children = children;
         this.costOptions = costOptions;
         this.optionSelection = optionSelection;
         this.name = name;
         this.description = description;
+        setTreeLevel();
     }
     public CostOptionNode(CostOptionNode parent, 
             ArrayList<CostOption> costOptions, 
             OptionSelectionInterface optionSelection, 
             String name, String description) {
         this.parent = parent;
+        hasParent = true;
+        this.costOptions = costOptions;
+        this.optionSelection = optionSelection;
+        this.name = name;
+        this.description = description;
+        setTreeLevel();
+    }
+    
+    public CostOptionNode( 
+            ArrayList<CostOption> costOptions, 
+            OptionSelectionInterface optionSelection, 
+            String name, String description) {
+        hasParent = false;
         this.children = new ArrayList<>();
         this.costOptions = costOptions;
         this.optionSelection = optionSelection;
         this.name = name;
         this.description = description;
+        setTreeLevel();
     }
-
-    
-    
-    
     
     public int nCostOptions(){
         return costOptions.size();
@@ -67,6 +83,7 @@ public class CostOptionNode {
     }
     public void addChild(CostOptionNode childNode){
         children.add(childNode);
+        childNode.setParent(this);
     }
     public CostOptionNode removeChild(){
         CostOptionNode child = children.remove(children.size()-1);
@@ -120,15 +137,30 @@ public class CostOptionNode {
     public ArrayList<CostOption> getCostOptions() {
         return costOptions;
     }
+    public CostOption getCostOption(int index){
+        return costOptions.get(index);
+    }
     public CostOptionNode getParent() {
         return parent;
     }
     public OptionSelectionInterface getOptionSelection() {
         return optionSelection;
     }
-
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public int getTreeLevel() {
+        return treeLevel;
+    }
+    
     public void setChildren(ArrayList<CostOptionNode> children) {
         this.children = children;
+        for(CostOptionNode child: this.children){
+            child.setParent(this);
+        }
     }
     public void setCostOptions(ArrayList<CostOption> costOptions) {
         this.costOptions = costOptions;
@@ -138,7 +170,47 @@ public class CostOptionNode {
     }
     public void setParent(CostOptionNode parent) {
         this.parent = parent;
+        hasParent = true;
+        setTreeLevel();
     }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }    
+    public void setTreeLevel(){
+        if (hasParent){
+            treeLevel = parent.getTreeLevel()+1;
+        }
+        else{
+            treeLevel = 0;
+        }
+    }
+
+    @Override
+    public String toString() {
+        int nTabs = getTreeLevel();
+        String tabString ="";
+        for(int i = 0; i<getTreeLevel();i++){
+            tabString+="    ";
+        }
+        String nodeString = "/n";
+        nodeString+=tabString + getName()+" - "+getDescription();
+        if (nCostOptions()>0){
+        for (CostOption option : costOptions){
+            nodeString+="/n"+tabString+option;
+        }
+        }
+        if (nChildren()>0){
+        for (CostOptionNode child: children){
+            nodeString+= child;
+        }
+        }
+        return nodeString;
+        
+    }
+    
     
     
 }
