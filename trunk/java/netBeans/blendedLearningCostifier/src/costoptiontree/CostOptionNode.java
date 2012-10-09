@@ -40,6 +40,17 @@ public class CostOptionNode {
         this.name = name;
         this.description = description;
     }
+    public CostOptionNode(CostOptionNode parent, 
+            ArrayList<CostOption> costOptions, 
+            OptionSelectionInterface optionSelection, 
+            String name, String description) {
+        this.parent = parent;
+        this.children = new ArrayList<>();
+        this.costOptions = costOptions;
+        this.optionSelection = optionSelection;
+        this.name = name;
+        this.description = description;
+    }
 
     
     
@@ -51,7 +62,9 @@ public class CostOptionNode {
     public int nChildren(){
         return children.size();
     }
-    
+    public boolean  isLeaf(){
+        return nChildren()==0;
+    }
     public void addChild(CostOptionNode childNode){
         children.add(childNode);
     }
