@@ -50,13 +50,17 @@ public class ProgramSize {
         this.blendedLearningModel = blendedLearningModel;
     }
     
-    
-    public int getNrTeachers(){
-        return (int) Math.ceil((double)nrStudents/
+    public int getNrSections(){
+        return (int) Math.ceil((double)getNrStudents()/
                        (double)blendedLearningModel.getStudentToTeacherRatio());
     }
+    public int getNrTeachers(){
+        return (int) Math.ceil((double)getNrStudents()/
+                       (double)(blendedLearningModel.getStudentToTeacherRatio()*
+                                getNrPeriods()));
+    }
     public int getNrSimultaneousSections(){
-        return (int) Math.ceil((double)getNrTeachers()/
+        return (int) Math.ceil((double)getNrSections()/
                        (double)getNrPeriods());
     }
     
