@@ -5,6 +5,7 @@
 package costoptiontree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -21,8 +22,8 @@ public class CostOptionNode {
     private boolean hasParent;
 
     public CostOptionNode() {
-        parent = null;
         hasParent = false;
+        setParent(null);
         children = new ArrayList<>();
         costOptions = new ArrayList<>();
         optionSelection = new SingleOptionSelection();
@@ -37,9 +38,10 @@ public class CostOptionNode {
             ArrayList<CostOption> costOptions, 
             OptionSelectionInterface optionSelection, 
             String name, String description) {
-        this.parent = parent;
-        hasParent = true;
-        this.children = children;
+        hasParent = false;
+        setParent(parent);
+        setChildren(children);
+        
         this.costOptions = costOptions;
         this.optionSelection = optionSelection;
         this.name = name;
@@ -50,8 +52,8 @@ public class CostOptionNode {
             ArrayList<CostOption> costOptions, 
             OptionSelectionInterface optionSelection, 
             String name, String description) {
-        this.parent = parent;
-        hasParent = true;
+        hasParent = false;
+        setParent(parent);
         this.costOptions = costOptions;
         this.optionSelection = optionSelection;
         this.name = name;
@@ -84,14 +86,35 @@ public class CostOptionNode {
     public boolean hasParent(){
         return hasParent;
     }
+    
+    public void addCostOption(CostOption option){
+        costOptions.add(option);
+        Collections.sort(costOptions);
+    }
+    public void removeCostOption(CostOption option){
+        costOptions.remove(option);
+    }
     public void addChild(CostOptionNode childNode){
         children.add(childNode);
         childNode.setParent(this);
+    }
+    public boolean isChild(CostOptionNode node){
+        boolean isChild = false;
+        for(CostOptionNode child: children){
+            if (node==child){
+                isChild = true;
+            }
+        }
+        return isChild;
     }
     public CostOptionNode removeChild(){
         CostOptionNode child = children.remove(children.size()-1);
         child.setParent(null);
         return child;
+    }
+    public CostOptionNode removeChild(CostOptionNode node){
+        children.remove(node);
+        return node;
     }
     public CostOptionNode removeChild(int index){
         CostOptionNode child = children.remove(index);
@@ -99,7 +122,6 @@ public class CostOptionNode {
     }
     
     public ArrayList<Double> getOptionBlendingFactors(){
-        System.out.println(optionSelection.nOptions() +"selection options");
         return optionSelection.getOptionBlendingFactors();
     }
     
@@ -161,25 +183,32 @@ public class CostOptionNode {
         return treeLevel;
     }
     
-    public void setChildren(ArrayList<CostOptionNode> children) {
-        this.children = children;
+    public final void setChildren(ArrayList<CostOptionNode> children) {
+        this.children = new ArrayList<>(children);
         for(CostOptionNode child: this.children){
             child.setParent(this);
         }
     }
     public void setCostOptions(ArrayList<CostOption> costOptions) {
-        this.costOptions = costOptions;
+        this.costOptions = new ArrayList<>(costOptions);
+        Collections.sort(this.costOptions);
     }
     public void setOptionSelection(OptionSelectionInterface optionSelection) {
         this.optionSelection = optionSelection;
     }
-    public void setParent(CostOptionNode parent) {
+    public final void setParent(CostOptionNode parent) {
+        if (hasParent() && this.parent!=parent){
+            this.parent.removeChild(this);
+        }
         this.parent = parent;
         if (parent==null){
             hasParent = false;
         }
         else{
             hasParent = true;
+            if (!parent.isChild(this)){
+                parent.addChild(this);
+            }
         }
         setTreeLevel();
     }
@@ -205,18 +234,19 @@ public class CostOptionNode {
         for(int i = 0; i<getTreeLevel();i++){
             tabString+="    ";
         }
-        String nodeString = "\n";
+        String nodeString = "\n------node start from level "+getTreeLevel()+"------\n";
         nodeString+=tabString + getName()+" - "+getDescription();
         if (nCostOptions()>0){
             for (CostOption option : costOptions){
-                nodeString+="\n"+tabString+option;
+                nodeString+="\n  "+tabString+option;
             }
         }
         if (nChildren()>0){
             for (CostOptionNode child: children){
-                nodeString+= child;
+                nodeString+= child.toString();
             }
         }
+        nodeString+="\n------node end at level "+getTreeLevel()+"------\n";
         return nodeString;
         
     }
