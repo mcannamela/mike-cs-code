@@ -38,7 +38,7 @@ public class CostOptionNodeTest {
     private static int[] selectedCosts = {50, 90, 150};
     private static ArrayList<AbstractScalingLaw> scalingLaws = new ArrayList<>(3);
     
-    private static CostOptionNode parent;
+    private CostOptionNode parent;
     
     private OptionSelectionInterface optionSelection;
     private CostOptionNode instance;
@@ -70,13 +70,16 @@ public class CostOptionNodeTest {
                     scalingLaws.get(i)));
         }
         
-        parent = new CostOptionNode();
+        
         
         
     }
     
     @Before
     public void setUp() {
+        
+        parent = new CostOptionNode();
+        
         optionSelection = new SingleOptionSelection(costOptions.size(),0);
 //        System.out.println("there are "+costOptions.size() +" options");
         
@@ -89,6 +92,7 @@ public class CostOptionNodeTest {
             optionSelection, 
             name, optionNodeDescription);
         
+        children = new ArrayList<>(3);
         for (int i=0;i<3;i++){
             children.add(new CostOptionNode(copyCostOptions(costOptions), 
                                 new SingleOptionSelection((SingleOptionSelection) optionSelection), 
@@ -176,21 +180,70 @@ public class CostOptionNodeTest {
         instance.addChild(children.get(0));
         assertEquals(1,instance.nChildren());
         assertEquals(children.get(0),instance.getChildren().get(0));
+        assertTrue(instance.isChild(children.get(0)));
 
+    }
+    
+    @Test
+    
+    public void testIsChild(){
+        System.out.println("isChild");
+        
+        for(CostOptionNode node: children){
+            assertFalse(instance.isChild(node));
+        }
+        
+        instance.setChildren(children);
+        for(CostOptionNode node: children){
+            assertTrue(instance.isChild(node));
+        }
+        for(CostOptionNode node: children){
+            instance.removeChild(node);
+        }
+        
+        for(CostOptionNode node: children){
+            assertFalse(instance.isChild(node));
+        }
+        
+        for(CostOptionNode node: children){
+            instance.addChild(node);
+        }
+        
+        for(CostOptionNode node: children){
+            assertTrue(instance.isChild(node));
+        }
+        
     }
 
     @Test
     public void testRemoveChild_0args() {
-        System.out.println("removeChild");
+        System.out.println("removeChild 0args");
         instance.addChild(children.get(0));
         CostOptionNode child = instance.removeChild();
         assertEquals(children.get(0), child);
+    }
+    
+    @Test
+    public void testRemoveChild_CostOptionNode() {
+        System.out.println("removeChild node");
+        for (CostOptionNode node: children){
+            instance.addChild(node);
+        }
+        for (CostOptionNode node: children){
+            instance.removeChild(node);
+        }
+        
+        instance.addChild(children.get(0));
+        instance.addChild(children.get(1));
+        instance.removeChild(children.get(1));
+        assertEquals(1, instance.nChildren());
+        assertEquals(children.get(0), instance.getChildren().get(0));
         
     }
 
     @Test
     public void testRemoveChild_int() {
-        System.out.println("removeChild");
+        System.out.println("removeChild int");
         
         int childCnt = 0;
         for(CostOptionNode child:children){
@@ -432,13 +485,23 @@ public class CostOptionNodeTest {
     public void testSetParent() {
         System.out.println("setParent");
         
+        assertTrue(parent.isChild(instance));
         instance.setParent(null);
+        assertFalse(parent.isChild(instance));
         assertFalse(instance.hasParent());
         assertEquals(0,instance.getTreeLevel());
         
         instance.setParent(parent);
         assertTrue(instance.hasParent());
+        assertTrue(parent.isChild(instance));
         assertEquals(1,instance.getTreeLevel());
+        
+        CostOptionNode otherParent = new CostOptionNode();
+        assertFalse(otherParent==parent);
+        instance.setParent(otherParent);
+        assertTrue(instance.hasParent());
+        assertFalse(parent.isChild(instance));
+        assertTrue(otherParent.isChild(instance));
         
     }
 
@@ -479,6 +542,7 @@ public class CostOptionNodeTest {
         System.out.println("from parent:");
         System.out.println(parent);
         
+        assertEquals(0,instance.nChildren());
         instance.setChildren(children);
         
         System.out.println("with children:");
