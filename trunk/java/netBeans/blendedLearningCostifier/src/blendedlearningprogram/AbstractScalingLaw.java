@@ -17,7 +17,7 @@ public abstract class AbstractScalingLaw {
     public AbstractScalingLaw(ProgramSize programSize) {
         this.programSize = programSize;
     }
-    
+
     
     public abstract int scale(int cost);
 

@@ -39,7 +39,7 @@ public class ProgramSizeTest {
         blendedLearningModel = new StandardBlendedLearningModel();
         nrStudents = 300;
         nrPeriods = 6;
-        instance = new ProgramSize(blendedLearningModel, nrStudents, nrPeriods = 6);
+        instance = new ProgramSize(blendedLearningModel, nrStudents, nrPeriods);
     }
 
     /**
