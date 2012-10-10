@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class CostOptionNode {
     private CostOptionNode parent;
-    private ArrayList<CostOptionNode> children;
-    private ArrayList<CostOption> costOptions;
+    private ArrayList<CostOptionNode> children = new ArrayList<>();
+    private ArrayList<CostOption> costOptions= new ArrayList<>();
     private OptionSelectionInterface optionSelection;
     private String name;
     private String description;
@@ -81,12 +81,16 @@ public class CostOptionNode {
     public boolean  isLeaf(){
         return nChildren()==0;
     }
+    public boolean hasParent(){
+        return hasParent;
+    }
     public void addChild(CostOptionNode childNode){
         children.add(childNode);
         childNode.setParent(this);
     }
     public CostOptionNode removeChild(){
         CostOptionNode child = children.remove(children.size()-1);
+        child.setParent(null);
         return child;
     }
     public CostOptionNode removeChild(int index){
@@ -95,6 +99,7 @@ public class CostOptionNode {
     }
     
     public ArrayList<Double> getOptionBlendingFactors(){
+        System.out.println(optionSelection.nOptions() +"selection options");
         return optionSelection.getOptionBlendingFactors();
     }
     
@@ -170,7 +175,12 @@ public class CostOptionNode {
     }
     public void setParent(CostOptionNode parent) {
         this.parent = parent;
-        hasParent = true;
+        if (parent==null){
+            hasParent = false;
+        }
+        else{
+            hasParent = true;
+        }
         setTreeLevel();
     }
     public void setDescription(String description) {
@@ -179,7 +189,7 @@ public class CostOptionNode {
     public void setName(String name) {
         this.name = name;
     }    
-    public void setTreeLevel(){
+    public final void setTreeLevel(){
         if (hasParent){
             treeLevel = parent.getTreeLevel()+1;
         }
@@ -195,17 +205,17 @@ public class CostOptionNode {
         for(int i = 0; i<getTreeLevel();i++){
             tabString+="    ";
         }
-        String nodeString = "/n";
+        String nodeString = "\n";
         nodeString+=tabString + getName()+" - "+getDescription();
         if (nCostOptions()>0){
-        for (CostOption option : costOptions){
-            nodeString+="/n"+tabString+option;
-        }
+            for (CostOption option : costOptions){
+                nodeString+="\n"+tabString+option;
+            }
         }
         if (nChildren()>0){
-        for (CostOptionNode child: children){
-            nodeString+= child;
-        }
+            for (CostOptionNode child: children){
+                nodeString+= child;
+            }
         }
         return nodeString;
         

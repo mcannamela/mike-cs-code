@@ -10,25 +10,38 @@ import java.util.ArrayList;
  *
  * @author wichtelwesen
  */
-public class SingleOptionSelection implements OptionSelectionInterface{
+public class SingleOptionSelection implements OptionSelectionInterface<Integer>{
     private int nOptions;
-    private int selectedOptionIndex;
+    private int selection;
 
     public SingleOptionSelection() {
-        nOptions = 0;
-        selectedOptionIndex = 0;
+        nOptions = 1;
+        selection = 0;
     }
-
-    public SingleOptionSelection(int nOptions, int selectedOptionIndex) {
+    
+    public SingleOptionSelection(SingleOptionSelection other) {
+        nOptions = other.nOptions;
+        selection = other.selection;
+    }
+    
+    public SingleOptionSelection(int nOptions) {
+        assert nOptions>0: "must have at least one option";
         this.nOptions = nOptions;
-        this.selectedOptionIndex = selectedOptionIndex;
+        this.selection = 0;
     }
 
-    public int getSelectedOptionIndex() {
-        return selectedOptionIndex;
+    public SingleOptionSelection(int nOptions, int selection) {
+        assert nOptions>0: "must have at least one option";
+        this.nOptions = nOptions;
+        this.selection = selection;
     }
 
-    public int getnOptions() {
+    public int getSelection() {
+        return selection;
+    }
+
+    @Override
+    public int nOptions() {
         return nOptions;
     }
 
@@ -36,8 +49,9 @@ public class SingleOptionSelection implements OptionSelectionInterface{
         this.nOptions = nOptions;
     }
 
-    public void setSelectedOptionIndex(int selectedOptionIndex) {
-        this.selectedOptionIndex = selectedOptionIndex;
+    @Override
+    public void select(Integer selection) {
+        this.selection = selection;
     }
     
     
@@ -45,9 +59,10 @@ public class SingleOptionSelection implements OptionSelectionInterface{
     @Override
     public ArrayList<Double> getOptionBlendingFactors() {
         ArrayList<Double> optionWeights = new ArrayList<>(nOptions);
+        
         for (int i = 0; i<nOptions;i++){
-            optionWeights.set(i, (double) 0);
-            if (i==selectedOptionIndex){
+            optionWeights.add((double) 0);
+            if (i==selection){
                 optionWeights.set(i, (double) 1);
             }
         }

@@ -26,6 +26,8 @@ public class ProgramSize {
         this.nrPeriods = nrPeriods;
     }
 
+        
+
     public int getNrPeriods() {
         return nrPeriods;
     }

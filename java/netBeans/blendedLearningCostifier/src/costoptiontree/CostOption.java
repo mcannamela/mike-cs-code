@@ -10,7 +10,7 @@ import blendedlearningprogram.AbstractScalingLaw;
  *
  * @author mcannamela
  */
-public class CostOption implements Comparable {
+public class CostOption implements Comparable<CostOption> {
     private String label;
     private String description;
     
@@ -25,14 +25,30 @@ public class CostOption implements Comparable {
         maxCost = 100;
         selectedCost = 50;
     }
+    
+    public CostOption(CostOption other){
+        this.label = other.label;
+        this.description = other.description;
+        this.minCost = other.minCost;
+        this.maxCost = other.maxCost;
+        this.selectedCost = other.selectedCost;
+        this.scalingLaw = other.scalingLaw;
+    }
+    
 
     public CostOption(String label, String description, int minCost, int maxCost,
                         int selectedCost, AbstractScalingLaw scalingLaw) {
         this.label = label;
         this.description = description;
+        assert minCost<maxCost:"minCost "+minCost+" must be less than maxCost "+maxCost;
         this.minCost = minCost;
         this.maxCost = maxCost;
-        this.selectedCost = selectedCost;
+        if (selectedCost<minCost || selectedCost>maxCost){
+            this.selectedCost = (minCost+maxCost)/2;
+        }
+        else{
+            this.selectedCost = selectedCost;
+        }
         this.scalingLaw = scalingLaw;
     }
     
@@ -92,8 +108,8 @@ public class CostOption implements Comparable {
      * @return -1,0,1 depending upon whether other is >, ==, < this
      */
     @Override
-    public int compareTo(Object otherObject){
-        CostOption other = (CostOption) otherObject;
+    public int compareTo(CostOption other){
+        
         int retVal=0;
         if (getMeanCost()>other.getMeanCost()){retVal= 1;}
         else if (getMeanCost()<other.getMeanCost()){retVal= -1;}
