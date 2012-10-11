@@ -90,7 +90,7 @@ public class CostOptionNodeFactory {
         }
         return costOptions;
     }
-    private OptionSelectionInterface getOptionSelection(Configuration config, Path costOptionsPath){
+    private OptionSelectionInterface getOptionSelection(AbstractConfiguration config, Path costOptionsPath){
         //later, can support choice and configuration of optionSelection type via the config file
         SingleOptionSelection optionSelection = new SingleOptionSelection(nOptions(costOptionsPath), 0);
         return optionSelection;
@@ -111,8 +111,14 @@ public class CostOptionNodeFactory {
 
         OptionSelectionInterface optionSelection = 
                    getOptionSelection(config, costOptionsPath);
+
         
-        String description = config.getString("description");
+        String[] descriptions = config.getStringArray("description");
+        String description = "";
+        for (String d: descriptions){
+            description+=d+", ";
+        }
+
             
         node = new CostOptionNode(parent, costOptions, 
                                 optionSelection, name, description);
