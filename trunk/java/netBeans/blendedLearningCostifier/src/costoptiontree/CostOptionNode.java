@@ -30,7 +30,6 @@ public class CostOptionNode {
         name = "aCostOptionNode";
         description = "the default node is pretty boring";
         treeLevel = 0;
-        
     }
 
     public CostOptionNode(CostOptionNode parent, 

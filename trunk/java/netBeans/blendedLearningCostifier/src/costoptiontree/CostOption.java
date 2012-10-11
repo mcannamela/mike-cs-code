@@ -67,11 +67,21 @@ public class CostOption implements Comparable<CostOption> {
     public int getMeanCost(){
         return (getMinCost()+getMaxCost())/2;
     }
+    
     public int getMaxCost() {
         return maxCost;
     }
     public int getMinCost() {
         return minCost;
+    }
+    public int getScaledMeanCost(){
+        return scalingLaw.scale(getMeanCost());
+    }
+    public int getScaledMinCost(){
+        return scalingLaw.scale(getMinCost());
+    }
+    public int getScaledMaxCost(){
+        return scalingLaw.scale(getMaxCost());
     }
     public int getSelectedCost() {
         return selectedCost;
@@ -109,17 +119,18 @@ public class CostOption implements Comparable<CostOption> {
      */
     @Override
     public int compareTo(CostOption other){
-        
+               
         int retVal=0;
-        if (getMeanCost()>other.getMeanCost()){retVal= 1;}
-        else if (getMeanCost()<other.getMeanCost()){retVal= -1;}
-        else if (getMeanCost()==other.getMeanCost()){
-            if (getMinCost()>other.getMinCost()){retVal= 1;}
-            else if (getMinCost()<other.getMinCost()){ retVal= -1;}
-            else if (getMinCost()==other.getMinCost()){
-                if (getMaxCost()>other.getMaxCost()){retVal= 1;}
-                else if (getMaxCost()<other.getMaxCost()){retVal= -1;}
-                else if (getMaxCost()==other.getMaxCost()){retVal= 0;}
+        
+        if (getScaledMeanCost()>other.getScaledMeanCost()){retVal= 1;}
+        else if (getScaledMeanCost()<other.getScaledMeanCost()){retVal= -1;}
+        else if (getScaledMeanCost()==other.getScaledMeanCost()){
+            if (getScaledMinCost()>other.getScaledMinCost()){retVal= 1;}
+            else if (getScaledMinCost()<other.getScaledMinCost()){ retVal= -1;}
+            else if (getScaledMinCost()==other.getScaledMinCost()){
+                if (getScaledMaxCost()>other.getScaledMaxCost()){retVal= 1;}
+                else if (getScaledMaxCost()<other.getScaledMaxCost()){retVal= -1;}
+                else if (getScaledMaxCost()==other.getScaledMaxCost()){retVal= 0;}
             }
         }
         return retVal;
