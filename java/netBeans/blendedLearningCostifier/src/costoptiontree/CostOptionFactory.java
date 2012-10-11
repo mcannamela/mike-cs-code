@@ -31,9 +31,17 @@ public class CostOptionFactory {
      * describes this cost option.
      * @return returns the configured CostOption object
      */
-    public CostOption makeCostOption(Configuration config){
+    public CostOption makeCostOption(AbstractConfiguration config){
         String label = config.getString("label");
-        String description = config.getString("description");
+        config.setListDelimiter('0');
+        
+        String[] descriptions = config.getStringArray("description");
+        String description = "";
+        for (String d: descriptions){
+            description+=d+", ";
+        }
+        
+        config.setListDelimiter(',');
         int minCost = config.getInt("minCost");
         int maxCost = config.getInt("maxCost");
         int selectedCost = config.getInt("selectedCost", (minCost+maxCost)/2 );
