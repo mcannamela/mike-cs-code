@@ -70,6 +70,7 @@ public class CostOptionFactoryTest {
             catch(ConfigurationException e){
                 System.out.println(e);
             }
+        }
             int[] minCosts = {100,200,300};
             int[] maxCosts = {1000,2000,3000};
             int[] selectedCosts = {500, 1100, 1000};
@@ -84,6 +85,6 @@ public class CostOptionFactoryTest {
                 assertEquals(labels[i], costOptions.get(i).getLabel());
             }
             
-        }
+        
     }
 }
