@@ -58,7 +58,7 @@ abstract public class BaseComponentListWithDeleteButtons extends JPanel{
         this.setLayout(layout);
     }
     
-    public void addComponent(Component component){
+    public JButton addComponent(Component component){
        JPanel componentPanel = makeNewComponentPanel();
        JButton button = makeNewButton();
        
@@ -70,6 +70,8 @@ abstract public class BaseComponentListWithDeleteButtons extends JPanel{
        
        deleteButtonList.add(button);
        componentList.add(component);
+       
+       return button;
        
     }
     
