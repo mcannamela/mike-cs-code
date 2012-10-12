@@ -142,7 +142,7 @@ public class CostOptionView extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -166,8 +166,7 @@ public class CostOptionView extends javax.swing.JPanel {
 
     private void jSlider_costStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_costStateChanged
         int value = jSlider_cost.getValue();
-        
-        
+
         JSlider source = (JSlider)evt.getSource();
         if (!source.getValueIsAdjusting()) {
             int selectedCost = (int)source.getValue();
