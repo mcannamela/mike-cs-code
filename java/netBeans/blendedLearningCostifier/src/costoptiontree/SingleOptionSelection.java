@@ -58,8 +58,6 @@ public class SingleOptionSelection implements OptionSelectionInterface<Integer>{
     public void select(Integer selection) {
         this.selection = selection;
     }
-    
-    
 
     @Override
     public ArrayList<Double> getOptionBlendingFactors() {
