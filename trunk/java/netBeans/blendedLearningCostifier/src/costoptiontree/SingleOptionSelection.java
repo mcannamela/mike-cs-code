@@ -40,13 +40,18 @@ public class SingleOptionSelection implements OptionSelectionInterface<Integer>{
         return selection;
     }
 
+    public void setnOptions(int nOptions) {
+        this.nOptions = nOptions;
+    }
+
+    @Override
+    public int getSummaryOptionIndex() {
+        return selection;
+    }
+
     @Override
     public int nOptions() {
         return nOptions;
-    }
-
-    public void setnOptions(int nOptions) {
-        this.nOptions = nOptions;
     }
 
     @Override
