@@ -18,13 +18,41 @@ public class CostOptionFactory {
         LINEAR_IN_STUDENTS,
         LINEAR_IN_TEACHERS;
     }
+    
+    private static final String labelKey = "label"; 
+    private static final String descriptionKey = "description";
+    private static final String minCostKey = "minCost";
+    private static final String maxCostKey = "maxCost";
+    private static final String selectedCostKey = "selectedCost";
+    private static final String scalingLawTypeKey = "scalingLawType";
 
+    public CostOptionFactory() {
+        this.programSize = new ProgramSize();
+    }
+    
     public CostOptionFactory(ProgramSize programSize) {
         this.programSize = programSize;
     }
     
     
     
+    
+    public PropertiesConfiguration defaultConfig(){
+        PropertiesConfiguration config = new PropertiesConfiguration();
+        config.addProperty(labelKey,  "optionLabel"); 
+        config.addProperty(descriptionKey, "this is a description of the option, "
+                                            +"which is very long and will probably be "
+                                            +"displayed on multiple lines");
+        config.addProperty(minCostKey, 10);
+        config.addProperty(maxCostKey, 100);
+        config.addProperty(selectedCostKey,60);
+        config.addProperty(scalingLawTypeKey, ScalingLawTypes.LINEAR_IN_STUDENTS.toString());
+                
+        return config;
+    }
+    public CostOption makeCostOption(){
+        return makeCostOption(defaultConfig());
+    }
     /**
      *
      * @param config the configuration object, presumably from a file, that 
@@ -32,22 +60,22 @@ public class CostOptionFactory {
      * @return returns the configured CostOption object
      */
     public CostOption makeCostOption(AbstractConfiguration config){
-        String label = config.getString("label");
+        String label = config.getString(labelKey);
         config.setListDelimiter('0');
         
-        String[] descriptions = config.getStringArray("description");
+        String[] descriptions = config.getStringArray(descriptionKey);
         String description = "";
         for (String d: descriptions){
             description+=d+", ";
         }
         
         config.setListDelimiter(',');
-        int minCost = config.getInt("minCost");
-        int maxCost = config.getInt("maxCost");
-        int selectedCost = config.getInt("selectedCost", (minCost+maxCost)/2 );
+        int minCost = config.getInt(minCostKey);
+        int maxCost = config.getInt(maxCostKey);
+        int selectedCost = config.getInt(selectedCostKey, (minCost+maxCost)/2 );
         
         ScalingLawTypes scalingLawTypes;
-        String scalingLawType = config.getString("scalingLawType");
+        String scalingLawType = config.getString(scalingLawTypeKey);
               
         AbstractScalingLaw scalingLaw;
         if (scalingLawType.equals(ScalingLawTypes.CONSTANT.toString())){
