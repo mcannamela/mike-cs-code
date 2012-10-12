@@ -11,8 +11,7 @@ import java.util.ArrayList;
 public interface OptionSelectionInterface<T> {
     public ArrayList<Double> getOptionBlendingFactors();
     public int getSummaryOptionIndex();
-    
-    
+
     public void select(T selection);
     public int nOptions();
     

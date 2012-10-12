@@ -120,8 +120,10 @@ public class CostOptionNode {
         return child;
     }
     
+    @SuppressWarnings("unchecked")
     public ArrayList<Double> getOptionBlendingFactors(){
-        return optionSelection.getOptionBlendingFactors();
+        ArrayList<Double> blendingFactors = optionSelection.getOptionBlendingFactors();
+        return blendingFactors;
     }
     
     public ArrayList<Integer> selectedCosts(){

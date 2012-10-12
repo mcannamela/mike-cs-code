@@ -13,14 +13,14 @@ import javax.swing.Box;
  *
  * @author Michael
  */
-public class CostOptionViewListTest extends javax.swing.JFrame{
+public class CostOptionViewTest extends javax.swing.JFrame{
     
     private ArrayList<CostOptionView> costOptionViews = new ArrayList<>();
     private int nOptionViews;
     
     private CostOption option= (new CostOptionFactory()).makeCostOption();
     
-    public CostOptionViewListTest() {
+    public CostOptionViewTest() {
         
         nOptionViews = 3;
         CostOptionView view;
@@ -63,13 +63,13 @@ public class CostOptionViewListTest extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CostOptionViewListTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CostOptionViewTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CostOptionViewListTest().setVisible(true);
+                new CostOptionViewTest().setVisible(true);
             }
         });
     }
