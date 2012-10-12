@@ -60,8 +60,16 @@ public class CostOptionFactoryTest {
         costOptions.clear();
     }
 
+    @Test 
+    public void testMakeCostOption_0args(){
+        System.out.println("makeCostOption_0args");
+        CostOptionFactory defaultFactory = new CostOptionFactory();
+        CostOption option = defaultFactory.makeCostOption();
+        System.out.println(option);
+    }
     @Test
     public void testMakeCostOption() {
+        System.out.println("makeCostOption_config");
         for (Path path : optionsConfigPaths){
             try{
                 config = new PropertiesConfiguration(testConfigurationPath.resolve(path).toFile());

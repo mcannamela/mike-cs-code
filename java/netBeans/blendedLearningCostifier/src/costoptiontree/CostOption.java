@@ -24,6 +24,7 @@ public class CostOption implements Comparable<CostOption> {
         minCost = 0;
         maxCost = 100;
         selectedCost = 50;
+        
     }
     
     public CostOption(CostOption other){
