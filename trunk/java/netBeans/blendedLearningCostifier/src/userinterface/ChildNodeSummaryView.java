@@ -7,13 +7,15 @@ package userinterface;
 import costoptiontree.CostOption;
 import costoptiontree.CostOptionNode;
 import costoptiontree.OptionSelectionInterface;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JSlider;
 
 /**
  *
  * @author Michael
  */
-public class ChildNodeSummaryView extends javax.swing.JPanel {
+public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionListener {
     
     private CostOptionNode node;
     /**
@@ -121,6 +123,17 @@ public class ChildNodeSummaryView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jSlider_selectedOptionCostStateChanged
     
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if ("delete".equals(e.getActionCommand())) {
+            delete();
+        } 
+    }
+    
+    public void delete(){
+        node.getParent().removeChild(node);
+        this.getParent().remove(this);
+    }
     
     public CostOption getSelectedOption(){
         OptionSelectionInterface optionSelection = node.getOptionSelection();

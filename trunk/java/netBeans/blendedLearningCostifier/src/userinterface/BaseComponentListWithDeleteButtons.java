@@ -6,6 +6,7 @@ package userinterface;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,12 +17,12 @@ import javax.swing.JPanel;
  *
  * @author Michael
  */
-abstract public class BaseComponentListWithDeleteButtons extends JPanel{
+public class BaseComponentListWithDeleteButtons extends JPanel implements ActionListener{
     
-    private ArrayList<Component> componentList = new ArrayList<>();
-    private ArrayList<JButton> deleteButtonList = new ArrayList<>();
+    protected ArrayList<Component> componentList = new ArrayList<>();
+    protected ArrayList<JButton> deleteButtonList = new ArrayList<>();
     
-    private static final String actionDeleteComponent = "deleteComponent";
+    public static final String actionDeleteComponent = "deleteComponent";
     private static final String deleteButtonText = "x";
     
     public BaseComponentListWithDeleteButtons() {
@@ -30,9 +31,9 @@ abstract public class BaseComponentListWithDeleteButtons extends JPanel{
     
     
     
-    private JPanel makeNewComponentPanel(){
+    protected JPanel makeNewComponentPanel(){
         JPanel panel = new JPanel();
-        BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.X_AXIS);
                
         panel.setLayout(layout);
         
@@ -40,47 +41,61 @@ abstract public class BaseComponentListWithDeleteButtons extends JPanel{
         return panel;
     }
     
-    private javax.swing.JButton makeNewButton(){
+    protected javax.swing.JButton makeNewButton(){
         JButton button = new JButton();
         
         return button;
     }
-    private javax.swing.JButton makeNewDeleteButton(){
-        JButton button = makeNewButton();
+    protected javax.swing.JButton makeNewDeleteButton(){
+        JButton button = new JButton();
         button.setText(deleteButtonText);
         button.setActionCommand(actionDeleteComponent);
+        button.addActionListener(this);
         return button;
     }
 
     @SuppressWarnings("unchecked")
-    private void initComponents() {
+    protected void initComponents() {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
     }
     
+    protected JPanel assembleComponentPanel(Component component, 
+            JButton deleteButton, JPanel componentPanel){
+        
+       
+        componentPanel.add(deleteButton);
+        componentPanel.add(Box.createHorizontalGlue());
+        componentPanel.add(component);
+       
+        deleteButtonList.add(deleteButton);
+        componentList.add(component);
+       
+        deleteButton.addActionListener((ActionListener) component);
+        
+        return componentPanel;
+    }
+    
     public JButton addComponent(Component component){
-       JPanel componentPanel = makeNewComponentPanel();
-       JButton button = makeNewButton();
-       
-       
-       
-       componentPanel.add(button);
-       componentPanel.add(Box.createHorizontalGlue());
-       componentPanel.add(component);
-       
-       deleteButtonList.add(button);
-       componentList.add(component);
-       
-       return button;
+        JPanel componentPanel = makeNewComponentPanel();
+        JButton deleteButton = makeNewDeleteButton();
+        
+        add(assembleComponentPanel(component, deleteButton, componentPanel));
+        validate();
+        return deleteButton;
        
     }
     
     
     
     public void removeComponent(int index){
+        
         componentList.remove(index);
         deleteButtonList.remove(index);
         remove(index);
+        validate();
+//        repaint(getBounds());
+        System.out.println("component should be removed!");
     }
     public void removeComponent(Component component){
         int index = componentList.indexOf(component);
@@ -90,10 +105,13 @@ abstract public class BaseComponentListWithDeleteButtons extends JPanel{
     public void removeComponent(JButton pushButton){
         int index = deleteButtonList.indexOf(pushButton);
         assert index>=0:"button not found in pushButtonList";
+        System.out.println("index of button is: "+index);
         removeComponent(index);
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
+        System.out.println("actionPerformed in BaseComponentListWithDeleteButtons: "+evt.getActionCommand());
         if (actionDeleteComponent.equals(evt.getActionCommand())) {
             JButton button = (JButton)evt.getSource();
             removeComponent(button);

@@ -5,15 +5,18 @@
 package userinterface;
 
 import costoptiontree.CostOption;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JSlider;
 
 /**
  *
  * @author Michael
  */
-public class CostOptionView extends javax.swing.JPanel {
+public class CostOptionView extends javax.swing.JPanel implements ActionListener{
     
     private CostOption option;
+    private boolean isOptionSet = false;
     /**
      * Creates new form CostOptionView
      */
@@ -28,6 +31,7 @@ public class CostOptionView extends javax.swing.JPanel {
 
     public void setOption(CostOption option) {
         this.option = option;
+        isOptionSet = true;
         
         jLabel_label.setText(option.getLabel());
         jTextArea_description.append(option.getDescription());
@@ -170,12 +174,37 @@ public class CostOptionView extends javax.swing.JPanel {
         JSlider source = (JSlider)evt.getSource();
         if (!source.getValueIsAdjusting()) {
             int selectedCost = (int)source.getValue();
-            option.setSelectedCost(selectedCost);
-            jLabel_unitSelected.setText(new Integer(option.getSelectedCost()).toString());
-            jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
+            
+            if (isOptionSet){
+                option.setSelectedCost(selectedCost);
+                jLabel_unitSelected.setText(new Integer(option.getSelectedCost()).toString());
+                jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
+            }
         }
     }//GEN-LAST:event_jSlider_costStateChanged
 
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("actionPerformed in CostOptionView: "+evt.getActionCommand());
+        if (!isOptionSet){
+            return;
+        }
+
+        if (BaseComponentListWithDeleteButtons.actionDeleteComponent.equals(evt.getActionCommand())) {
+            System.out.println("deleting option");
+            delete();
+        } 
+    }
+    
+    public void delete(){
+        
+        if (option.getParent()==null){
+            return;
+        }
+        option.getParent().removeCostOption(option);
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_label;
     private javax.swing.JLabel jLabel_scaled;
