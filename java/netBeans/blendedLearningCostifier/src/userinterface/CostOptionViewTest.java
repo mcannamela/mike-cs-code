@@ -6,6 +6,8 @@ package userinterface;
 
 import costoptiontree.CostOption;
 import costoptiontree.CostOptionFactory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Box;
 
@@ -13,12 +15,14 @@ import javax.swing.Box;
  *
  * @author Michael
  */
-public class CostOptionViewTest extends javax.swing.JFrame{
+public class CostOptionViewTest extends javax.swing.JFrame implements ActionListener{
     
     private ArrayList<CostOptionView> costOptionViews = new ArrayList<>();
     private int nOptionViews;
     
     private CostOption option= (new CostOptionFactory()).makeCostOption();
+    
+    private SelectableComponentList componentList;
     
     public CostOptionViewTest() {
         
@@ -41,13 +45,30 @@ public class CostOptionViewTest extends javax.swing.JFrame{
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
         
+//        BaseComponentListWithDeleteButtons componentList;
+        
+//        componentList = new BaseComponentListWithDeleteButtons();
+        componentList = new SelectableComponentList();
+        componentList.addSelectionChangedListener((ActionListener)this);
+//        getContentPane().add(componentList);
         for(CostOptionView view: costOptionViews){
-            getContentPane().add(view);
-            getContentPane().add(Box.createVerticalGlue());
+            componentList.addComponent(view);
+//            getContentPane().add(view);
+//            getContentPane().add(Box.createVerticalGlue());
         }
+        getContentPane().add(componentList);
 
         pack();
     }
+    
+    
+    public void actionPerformed(ActionEvent evt) {
+        
+        if ( SelectableComponentList.actionSelectionChanged.equals(evt.getActionCommand()) ){
+            System.out.println("we heard it here, selection is "+componentList.getSelection());
+        }
+    }
+    
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

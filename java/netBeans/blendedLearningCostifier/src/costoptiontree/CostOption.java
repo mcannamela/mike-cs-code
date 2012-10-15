@@ -11,6 +11,8 @@ import blendedlearningprogram.AbstractScalingLaw;
  * @author mcannamela
  */
 public class CostOption implements Comparable<CostOption> {
+    private CostOptionNode parent;
+    
     private String label;
     private String description;
     
@@ -91,6 +93,12 @@ public class CostOption implements Comparable<CostOption> {
         return scalingLaw;
     }
 
+    public CostOptionNode getParent() {
+        return parent;
+    }
+    
+    
+
     public void setLabel(String label) {
         this.label = label;
     }
@@ -108,6 +116,10 @@ public class CostOption implements Comparable<CostOption> {
     }
     public void setScalingLaw(AbstractScalingLaw scalingLaw) {
         this.scalingLaw = scalingLaw;
+    }
+
+    public void setParent(CostOptionNode parent) {
+        this.parent = parent;
     }
     
     

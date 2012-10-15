@@ -88,10 +88,12 @@ public class CostOptionNode {
     
     public void addCostOption(CostOption option){
         costOptions.add(option);
+        option.setParent(this);
         Collections.sort(costOptions);
     }
     public void removeCostOption(CostOption option){
         costOptions.remove(option);
+        option.setParent(null);
     }
     public void addChild(CostOptionNode childNode){
         children.add(childNode);
