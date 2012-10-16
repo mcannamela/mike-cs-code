@@ -75,7 +75,9 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
 
         jTextArea_description.setEditable(false);
         jTextArea_description.setColumns(20);
+        jTextArea_description.setLineWrap(true);
         jTextArea_description.setRows(5);
+        jTextArea_description.setWrapStyleWord(true);
         jScrollPane_descriptionScrollPane.setViewportView(jTextArea_description);
 
         jLabel_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -146,7 +148,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -163,8 +165,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                             .addComponent(jLabel_unitMax)
                             .addComponent(jLabel_unitSelected)
                             .addComponent(jLabel_unit)))
-                    .addComponent(jLabel_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 

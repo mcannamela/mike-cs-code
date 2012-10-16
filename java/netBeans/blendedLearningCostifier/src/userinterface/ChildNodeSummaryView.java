@@ -7,8 +7,12 @@ package userinterface;
 import costoptiontree.CostOption;
 import costoptiontree.CostOptionNode;
 import costoptiontree.OptionSelectionInterface;
+import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JDialog;
+import javax.swing.JRootPane;
 import javax.swing.JSlider;
 
 /**
@@ -42,11 +46,16 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
         jLabel_scaledSelected = new javax.swing.JLabel();
         jLabel_scaled = new javax.swing.JLabel();
 
-        jLabel_name.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel_name.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_name.setText("childName");
+        jLabel_name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_nameMouseClicked(evt);
+            }
+        });
 
-        jLabel_selectedOptionLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_selectedOptionLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_selectedOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_selectedOptionLabel.setText("selectedOptionLabel");
 
@@ -76,18 +85,18 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel_name)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 32, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel_selectedOptionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_scaledMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_scaledSelected)
-                        .addGap(64, 64, 64)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_scaledMax))
                     .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel_scaled)
                 .addContainerGap())
         );
@@ -95,19 +104,17 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_scaledMin)
-                            .addComponent(jLabel_scaledMax)
-                            .addComponent(jLabel_scaledSelected)
-                            .addComponent(jLabel_scaled))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel_name)
-                        .addComponent(jLabel_selectedOptionLabel)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_name)
+                    .addComponent(jLabel_selectedOptionLabel)))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_scaledMax)
+                    .addComponent(jLabel_scaledSelected)
+                    .addComponent(jLabel_scaled)
+                    .addComponent(jLabel_scaledMin))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -122,6 +129,23 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
             jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
         }
     }//GEN-LAST:event_jSlider_selectedOptionCostStateChanged
+
+    private void jLabel_nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_nameMouseClicked
+        
+        if (evt.getClickCount()==1){
+            System.out.println("Mouse clicked on node "+ node.getName());
+        }
+        else if (evt.getClickCount()==2){
+            System.out.println("Mouse double-clicked on node "+ node.getName());
+            
+            Container rootContainer = this.getTopLevelAncestor();
+            java.awt.Window rootWindow = (java.awt.Window) rootContainer;
+            CostOptionNodeDialog dialog = new CostOptionNodeDialog(rootWindow, Dialog.ModalityType.MODELESS);
+            dialog.setNode(node);
+            dialog.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_jLabel_nameMouseClicked
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -142,6 +166,7 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
     }
     public void setChildNode(CostOptionNode node) {
         this.node = node;
+        jLabel_name.setText(node.getName());
         selectedOptionChanged();
         
     }

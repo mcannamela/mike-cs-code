@@ -4,10 +4,16 @@
  */
 package userinterface;
 
+import costoptiontree.CostOption;
+
 /**
  *
  * @author Michael
  */
-public class CostOptionViewList extends BaseComponentListWithDeleteButtons{
-    
+public class CostOptionViewList extends SelectableComponentList{
+    public void addOption(CostOption option){
+        CostOptionView view = new CostOptionView();
+        view.setOption(option);
+        addComponent(view);
+    }
 }

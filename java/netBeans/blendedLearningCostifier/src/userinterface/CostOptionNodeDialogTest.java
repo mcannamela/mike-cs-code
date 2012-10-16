@@ -7,60 +7,53 @@ package userinterface;
 import blendedlearningprogram.ProgramSize;
 import costoptiontree.CostOptionNode;
 import costoptiontree.CostOptionNodeFactory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import javax.swing.Box;
-import org.apache.commons.configuration.*;
+import javax.swing.JButton;
+import org.apache.commons.configuration.ConfigurationException;
 
 /**
  *
- * @author Michael
+ * @author mcannamela
  */
-public class ChildNodeSummaryTest extends javax.swing.JFrame{
-    private ArrayList<ChildNodeSummaryView> childNodeSummaryViews = new ArrayList<>();
-    private int nOptionViews;
-    
-    private CostOptionNode rootNode;
-    private ProgramSize programSize = new ProgramSize();
-//    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+public class CostOptionNodeDialogTest extends javax.swing.JFrame implements ActionListener{
     private static final Path rootPath = Paths.get("C:\\Users\\mcannamela\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private CostOptionNode rootNode;
+    private JButton showButton = new JButton();
+    private static final String showDialogAction = "show";
     
-    public ChildNodeSummaryTest() throws ConfigurationException{
-        
-        CostOptionNodeFactory factory = new CostOptionNodeFactory(programSize);
-        
-        
+    public CostOptionNodeDialogTest()  throws ConfigurationException {
+        CostOptionNodeFactory factory = new CostOptionNodeFactory(new ProgramSize());
         rootNode = factory.makeCostOptionNode(rootPath, null);
-            
-        ChildNodeSummaryView view;
-        for (CostOptionNode node: rootNode.getChildren()){
-            view = new ChildNodeSummaryView();
-            view.setChildNode(node);
-            childNodeSummaryViews.add(view);
-            
-        }
-        
+          
         initComponents();
     }
-
     
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        
-        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
         
-        for(ChildNodeSummaryView view : childNodeSummaryViews){
-            getContentPane().add(view);
-            getContentPane().add(Box.createVerticalGlue());
-        }
+        showButton.setText("show me");
+        showButton.setActionCommand(showDialogAction);
+        
+        getContentPane().add(showButton);
+        
+        showButton.addActionListener(this);
 
         pack();
     }
-
-    public static void main(String args[]) {
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        if (showDialogAction.equals(evt.getActionCommand())) {
+            CostOptionNodeDialog dialog = new CostOptionNodeDialog(this, false);
+            dialog.setNode(rootNode);
+            dialog.setVisible(true);
+        }
+    }
+    public static void main(String args[]) throws ConfigurationException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -81,12 +74,14 @@ public class ChildNodeSummaryTest extends javax.swing.JFrame{
             @Override
             public void run() {
                 try{
-                    new ChildNodeSummaryTest().setVisible(true);
+                    new CostOptionNodeDialogTest().setVisible(true);
                 }
                 catch (ConfigurationException e){
                     System.out.println(e);
                 }
             }
-        });
-    }    
+        });           
+        
+    }
+    
 }
