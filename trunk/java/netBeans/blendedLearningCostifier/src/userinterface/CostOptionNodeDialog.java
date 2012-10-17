@@ -6,16 +6,24 @@ package userinterface;
 
 import costoptiontree.CostOption;
 import costoptiontree.CostOptionNode;
+import costoptiontree.SingleOptionSelection;
 import java.awt.Dialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 
 /**
  *
  * @author mcannamela
  */
-public class CostOptionNodeDialog extends javax.swing.JDialog {
+public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionListener{
     private CostOptionNode node;
     private CostOptionViewList costOptionViewList = new CostOptionViewList();
     private ChildNodeSummaryViewList childNodeSummaryViewList= new ChildNodeSummaryViewList();
+    
+    private JButton button_dummySelectionChanged;
+    public static final String ACTION_SELECTION_CHANGED = SelectableComponentList.ACTION_SELECTION_CHANGED;
+    
     /**
      * Creates new form CostOptionNodeDialog
      */
@@ -40,8 +48,17 @@ public class CostOptionNodeDialog extends javax.swing.JDialog {
     }
     
     private void initComponentLists(){
+        button_dummySelectionChanged = new JButton();
+        button_dummySelectionChanged.setVisible(false);
+        button_dummySelectionChanged.setActionCommand(ACTION_SELECTION_CHANGED);
+        
         jScrollPane_optionList.setViewportView(costOptionViewList);
         jScrollPane_childChoices.setViewportView(childNodeSummaryViewList);
+        
+        costOptionViewList.addCostChangedListener(this);
+        costOptionViewList.addSelectionChangedListener(this);
+        childNodeSummaryViewList.addCostChangedListener(this);
+        
     }
     
     public void setNode(CostOptionNode node){
@@ -56,6 +73,9 @@ public class CostOptionNodeDialog extends javax.swing.JDialog {
         for (CostOptionNode child : node.getChildren()){
             childNodeSummaryViewList.addChildNodeSummary(child);
         }
+        
+        int selection = ((SingleOptionSelection)node.getOptionSelection()).getSelection();
+        costOptionViewList.select(selection);
         
         displayCost();
         
@@ -190,13 +210,32 @@ public class CostOptionNodeDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_newChildChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_newChildChoiceActionPerformed
-        System.out.println("will add a new child choice");
+        System.out.println("would add a new child choice");
     }//GEN-LAST:event_jButton_newChildChoiceActionPerformed
 
     private void jButton_newOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_newOptionActionPerformed
-        System.out.println("will add a new option here");
+        System.out.println("would add a new option");
     }//GEN-LAST:event_jButton_newOptionActionPerformed
 
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        String command = evt.getActionCommand();
+        System.out.println("Action in CostOptionNodeDialog: "+command);
+        if (CostOptionViewList.ACTION_COST_CHANGED.equals(command) || 
+                ChildNodeSummaryViewList.ACTION_COST_CHANGED.equals(command)){
+//            System.out.println("Action in CostOptionNodeDialog: "+command);
+            displayCost();
+            
+        }
+        else if (SelectableComponentList.ACTION_SELECTION_CHANGED.equals(command)){
+            
+            button_dummySelectionChanged.doClick();
+            node.setOptionSelection(costOptionViewList.getOptionSelection());
+            displayCost();
+        }
+    }
+
+    
     /**
      * @param args the command line arguments
      */

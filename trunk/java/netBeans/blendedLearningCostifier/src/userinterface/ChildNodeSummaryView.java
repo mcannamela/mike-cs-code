@@ -11,6 +11,7 @@ import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.JSlider;
@@ -22,11 +23,18 @@ import javax.swing.JSlider;
 public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionListener {
     
     private CostOptionNode node;
+    
+    private JButton button_dummyCostChanged;
+    
+    public static final String ACTION_COST_CHANGED = "costChanged";
     /**
      * Creates new form ChildNodeSummaryView
      */
     public ChildNodeSummaryView() {
         initComponents();
+        button_dummyCostChanged = new JButton();
+        button_dummyCostChanged.setVisible(false);
+        button_dummyCostChanged.setActionCommand(ACTION_COST_CHANGED);
     }
 
     /**
@@ -118,6 +126,10 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void addCostChangedListener(ActionListener listener){
+        button_dummyCostChanged.addActionListener(listener);
+    }
+    
     private void jSlider_selectedOptionCostStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_selectedOptionCostStateChanged
         CostOption option = getSelectedOption();
         int value = jSlider_selectedOptionCost.getValue();
@@ -128,6 +140,7 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
             option.setSelectedCost(selectedCost);
             jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
         }
+        button_dummyCostChanged.doClick();
     }//GEN-LAST:event_jSlider_selectedOptionCostStateChanged
 
     private void jLabel_nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_nameMouseClicked

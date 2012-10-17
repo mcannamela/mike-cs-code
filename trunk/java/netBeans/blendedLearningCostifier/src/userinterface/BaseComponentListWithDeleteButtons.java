@@ -29,7 +29,9 @@ public class BaseComponentListWithDeleteButtons extends JPanel implements Action
         initComponents();
     }
     
-    
+    public int nComponents(){
+        return componentList.size();
+    }
     
     protected JPanel makeNewComponentPanel(){
         JPanel panel = new JPanel();
@@ -72,7 +74,7 @@ public class BaseComponentListWithDeleteButtons extends JPanel implements Action
         componentList.add(component);
        
         deleteButton.addActionListener((ActionListener) component);
-        
+        System.out.println("Base: assembled component number "+nComponents());
         return componentPanel;
     }
     
@@ -85,8 +87,6 @@ public class BaseComponentListWithDeleteButtons extends JPanel implements Action
         return deleteButton;
        
     }
-    
-    
     
     public void removeComponent(int index){
         
@@ -109,9 +109,13 @@ public class BaseComponentListWithDeleteButtons extends JPanel implements Action
         removeComponent(index);
     }
     
+    public Component getListComponent(int i){
+        return componentList.get(i);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("actionPerformed in BaseComponentListWithDeleteButtons: "+evt.getActionCommand());
+//        System.out.println("actionPerformed in BaseComponentListWithDeleteButtons: "+evt.getActionCommand());
         if (actionDeleteComponent.equals(evt.getActionCommand())) {
             JButton button = (JButton)evt.getSource();
             removeComponent(button);
