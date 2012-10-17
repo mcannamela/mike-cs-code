@@ -7,6 +7,7 @@ package userinterface;
 import costoptiontree.CostOption;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JSlider;
 
 /**
@@ -17,12 +18,24 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
     
     private CostOption option;
     private boolean isOptionSet = false;
+    private JButton button_dummyCostChanged;
+    
+    public static final String ACTION_COST_CHANGED = "optionCostChanged";
     /**
      * Creates new form CostOptionView
      */
     public CostOptionView() {
         initComponents();
         jTextArea_description.setLineWrap(true);
+        
+        button_dummyCostChanged = new JButton();
+        button_dummyCostChanged.setVisible(false);
+        button_dummyCostChanged.setActionCommand(ACTION_COST_CHANGED);
+        
+    }
+    
+    public void addCostChangedListener(ActionListener listener){
+        button_dummyCostChanged.addActionListener(listener);
     }
 
     public CostOption getOption() {
@@ -169,6 +182,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jSlider_costStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_costStateChanged
         int value = jSlider_cost.getValue();
 
@@ -182,6 +196,8 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
             }
         }
+        
+        button_dummyCostChanged.doClick();
     }//GEN-LAST:event_jSlider_costStateChanged
 
     @Override

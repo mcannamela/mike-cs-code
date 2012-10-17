@@ -19,7 +19,7 @@ import org.apache.commons.configuration.ConfigurationException;
  * @author mcannamela
  */
 public class CostOptionNodeDialogTest extends javax.swing.JFrame implements ActionListener{
-    private static final Path rootPath = Paths.get("C:\\Users\\mcannamela\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
     private CostOptionNode rootNode;
     private JButton showButton = new JButton();
     private static final String showDialogAction = "show";
@@ -45,13 +45,17 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
 
         pack();
     }
+    
+    
     @Override
     public void actionPerformed(ActionEvent evt) {
-        if (showDialogAction.equals(evt.getActionCommand())) {
+        String command = evt.getActionCommand();
+        if (showDialogAction.equals(command)) {
             CostOptionNodeDialog dialog = new CostOptionNodeDialog(this, false);
             dialog.setNode(rootNode);
             dialog.setVisible(true);
         }
+        
     }
     public static void main(String args[]) throws ConfigurationException {
         /* Set the Nimbus look and feel */
@@ -80,8 +84,7 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
                     System.out.println(e);
                 }
             }
-        });           
+        });
         
     }
-    
 }
