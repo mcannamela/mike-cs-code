@@ -36,7 +36,7 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
         
-        showButton.setText("show me");
+        showButton.setText("show demo");
         showButton.setActionCommand(showDialogAction);
         
         getContentPane().add(showButton);

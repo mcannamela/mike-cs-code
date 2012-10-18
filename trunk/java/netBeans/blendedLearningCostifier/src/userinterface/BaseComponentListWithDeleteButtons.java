@@ -82,6 +82,7 @@ public class BaseComponentListWithDeleteButtons extends JPanel implements Action
         JPanel componentPanel = makeNewComponentPanel();
         JButton deleteButton = makeNewDeleteButton();
         
+        componentPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         add(assembleComponentPanel(component, deleteButton, componentPanel));
         validate();
         return deleteButton;
