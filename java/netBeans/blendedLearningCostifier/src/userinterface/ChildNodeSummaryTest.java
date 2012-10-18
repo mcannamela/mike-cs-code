@@ -18,7 +18,7 @@ import org.apache.commons.configuration.*;
  * @author Michael
  */
 public class ChildNodeSummaryTest extends javax.swing.JFrame{
-    private ArrayList<ChildNodeSummaryView> childNodeSummaryViews = new ArrayList<>();
+    private ArrayList<ChildNodeView> childNodeSummaryViews = new ArrayList<>();
     private int nOptionViews;
     
     private CostOptionNode rootNode;
@@ -33,9 +33,9 @@ public class ChildNodeSummaryTest extends javax.swing.JFrame{
         
         rootNode = factory.makeCostOptionNode(rootPath, null);
             
-        ChildNodeSummaryView view;
+        ChildNodeView view;
         for (CostOptionNode node: rootNode.getChildren()){
-            view = new ChildNodeSummaryView();
+            view = new ChildNodeView();
             view.setChildNode(node);
             childNodeSummaryViews.add(view);
             
@@ -52,7 +52,7 @@ public class ChildNodeSummaryTest extends javax.swing.JFrame{
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
         
-        for(ChildNodeSummaryView view : childNodeSummaryViews){
+        for(ChildNodeView view : childNodeSummaryViews){
             getContentPane().add(view);
             getContentPane().add(Box.createVerticalGlue());
         }
@@ -74,7 +74,7 @@ public class ChildNodeSummaryTest extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChildNodeSummaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChildNodeView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {

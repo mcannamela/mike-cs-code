@@ -25,7 +25,7 @@ public class SelectableComponentList extends BaseComponentListWithDeleteButtons{
     protected int selection = 0;
     
     private JButton button_dummySelectionChanged;
-    public static final String ACTION_SELECTION_CHANGED = "selectionChanged";
+    public static final String ACTION_SELECTION_CHANGED = "SelectableComponentList:selectionChanged";
     public static final String SELECTION_ACTION_PREFIX = "selection";
 
     @Override
@@ -53,10 +53,10 @@ public class SelectableComponentList extends BaseComponentListWithDeleteButtons{
         componentPanel.add(selectionButton,2);
 //        componentPanel.add(Box.createHorizontalGlue(),3);        
         
-        if (nComponents()==1){
-            System.out.println("first component added, it will be selected");
-            selectionButton.setSelected(true);
-        }
+//        if (nComponents()==1){
+//            System.out.println("first component added, it will be selected");
+//            selectionButton.setSelected(true);
+//        }
         System.out.println("Selectable: assembled component number "+nComponents());
         return componentPanel;
     }
@@ -82,7 +82,7 @@ public class SelectableComponentList extends BaseComponentListWithDeleteButtons{
             if ( makeActionCommand(i).equals(evt.getActionCommand()) ){
                 selection = i;
                 button_dummySelectionChanged.doClick();
-                System.out.println("option "+i+" is selected");
+//                System.out.println("option "+i+" is selected");
             }
         }
     }

@@ -20,21 +20,25 @@ import javax.swing.JSlider;
  *
  * @author Michael
  */
-public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionListener {
+public class ChildNodeView extends javax.swing.JPanel implements ActionListener {
     
     private CostOptionNode node;
     
-    private JButton button_dummyCostChanged;
+    private JButton button_dummyCostChanged= new JButton();
+    private JButton button_dummyNodeDoubleClicked= new JButton();
     
     public static final String ACTION_COST_CHANGED = "costChanged";
+    public static final String ACTION_NODE_DOUBLE_CLICKED = "nodeDoubleClicked";
     /**
-     * Creates new form ChildNodeSummaryView
+     * Creates new form ChildNodeView
      */
-    public ChildNodeSummaryView() {
+    public ChildNodeView() {
         initComponents();
-        button_dummyCostChanged = new JButton();
+        
         button_dummyCostChanged.setVisible(false);
         button_dummyCostChanged.setActionCommand(ACTION_COST_CHANGED);
+        button_dummyNodeDoubleClicked.setVisible(false);
+        button_dummyNodeDoubleClicked.setActionCommand(ACTION_NODE_DOUBLE_CLICKED);
     }
 
     /**
@@ -57,11 +61,6 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
         jLabel_name.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_name.setText("childName");
-        jLabel_name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel_nameMouseClicked(evt);
-            }
-        });
 
         jLabel_selectedOptionLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_selectedOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -84,7 +83,7 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
 
         jLabel_scaled.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel_scaled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaled.setText("scaled");
+        jLabel_scaled.setText("$,scaled");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -96,15 +95,15 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
                 .addGap(18, 18, 18)
                 .addComponent(jLabel_selectedOptionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_scaledMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jLabel_scaledSelected)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_scaledMax))
-                    .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                    .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jLabel_scaled)
                 .addContainerGap())
         );
@@ -114,20 +113,24 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_name)
-                    .addComponent(jLabel_selectedOptionLabel)))
+                    .addComponent(jLabel_selectedOptionLabel))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_scaledMax)
                     .addComponent(jLabel_scaledSelected)
                     .addComponent(jLabel_scaled)
                     .addComponent(jLabel_scaledMin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     public void addCostChangedListener(ActionListener listener){
         button_dummyCostChanged.addActionListener(listener);
+    }
+    void addNodeDoubleClickedListener(ActionListener listener) {
+        button_dummyNodeDoubleClicked.addActionListener(listener);
     }
     
     private void jSlider_selectedOptionCostStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_selectedOptionCostStateChanged
@@ -139,26 +142,10 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
             int selectedCost = (int)source.getValue();
             option.setSelectedCost(selectedCost);
             jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
+            button_dummyCostChanged.doClick();
         }
-        button_dummyCostChanged.doClick();
+        
     }//GEN-LAST:event_jSlider_selectedOptionCostStateChanged
-
-    private void jLabel_nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_nameMouseClicked
-        
-        if (evt.getClickCount()==1){
-            System.out.println("Mouse clicked on node "+ node.getName());
-        }
-        else if (evt.getClickCount()==2){
-            System.out.println("Mouse double-clicked on node "+ node.getName());
-            
-            Container rootContainer = this.getTopLevelAncestor();
-            java.awt.Window rootWindow = (java.awt.Window) rootContainer;
-            CostOptionNodeDialog dialog = new CostOptionNodeDialog(rootWindow, Dialog.ModalityType.MODELESS);
-            dialog.setNode(node);
-            dialog.setVisible(true);
-        }
-        
-    }//GEN-LAST:event_jLabel_nameMouseClicked
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -183,6 +170,11 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
         selectedOptionChanged();
         
     }
+
+    public CostOptionNode getNode() {
+        return node;
+    }
+    
     public void selectedOptionChanged(){
         CostOption option = getSelectedOption();
         jLabel_selectedOptionLabel.setText(option.getDescription());
@@ -205,4 +197,11 @@ public class ChildNodeSummaryView extends javax.swing.JPanel implements ActionLi
     private javax.swing.JLabel jLabel_selectedOptionLabel;
     private javax.swing.JSlider jSlider_selectedOptionCost;
     // End of variables declaration//GEN-END:variables
+
+    void refresh() {
+        System.out.println("    refreshing view");
+        selectedOptionChanged();
+    }
+
+    
 }

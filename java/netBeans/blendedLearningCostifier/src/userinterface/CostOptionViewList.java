@@ -6,6 +6,7 @@ package userinterface;
 
 import costoptiontree.CostOption;
 import costoptiontree.SingleOptionSelection;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -23,7 +24,7 @@ public class CostOptionViewList extends SelectableComponentList implements Actio
         super.initComponents();
         button_dummyCostChanged = new JButton();
         button_dummyCostChanged.setVisible(false);
-        button_dummyCostChanged.setActionCommand(ACTION_COST_CHANGED);
+        button_dummyCostChanged.setActionCommand(CostOptionViewList.ACTION_COST_CHANGED);
     }
     
     public void addCostChangedListener(ActionListener listener){
@@ -57,11 +58,13 @@ public class CostOptionViewList extends SelectableComponentList implements Actio
             
             
         }
-        if (evt.getActionCommand().equals(ACTION_COST_CHANGED)){
-            System.out.println("Action in CostOptionViewList: "+ACTION_COST_CHANGED);
+        if (evt.getActionCommand().equals(CostOptionViewList.ACTION_COST_CHANGED)){
+            System.out.println("Action in CostOptionViewList: "+CostOptionViewList.ACTION_COST_CHANGED);
             button_dummyCostChanged.doClick();
         }
     }
+
+
     
     
     
