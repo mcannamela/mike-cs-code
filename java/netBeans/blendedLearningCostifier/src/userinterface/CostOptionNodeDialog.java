@@ -49,7 +49,7 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         super(parent,  modality);
         initComponents();
         initComponentLists();
-//        setNode(node);
+
     }
     
     public void addCostChangedListener(ActionListener listener){
@@ -71,6 +71,8 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         childNodeViewList.addCostChangedListener(this);
         childNodeViewList.addNodeExpandListener(this);
         
+        setSize(800,800);
+        
     }
     
     public void setNode(CostOptionNode node){
@@ -88,6 +90,13 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         
         int selection = ((SingleOptionSelection)node.getOptionSelection()).getSelection();
         costOptionViewList.select(selection);
+        
+        if (node.getTreeLevel()==0){
+            setLocation(100,20);
+        }
+        else{
+            setLocationRelativeTo(getOwner());
+        }
         
         displayCost();
         
