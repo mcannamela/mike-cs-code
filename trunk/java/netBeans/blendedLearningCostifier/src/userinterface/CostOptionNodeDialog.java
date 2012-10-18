@@ -71,7 +71,7 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         childNodeViewList.addCostChangedListener(this);
         childNodeViewList.addNodeExpandListener(this);
         
-        setSize(800,800);
+        setSize(900,800);
         
     }
     
@@ -115,6 +115,8 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea_nodeDescription = new javax.swing.JTextArea();
         jLabel_nodeName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_nodeDescription = new javax.swing.JTextArea();
@@ -126,6 +128,14 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         jScrollPane_childChoices = new javax.swing.JScrollPane();
         jButton_newChildChoice = new javax.swing.JButton();
         jButton_newOption = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jTextArea_nodeDescription.setEditable(false);
+        jTextArea_nodeDescription.setColumns(20);
+        jTextArea_nodeDescription.setLineWrap(true);
+        jTextArea_nodeDescription.setRows(5);
+        jTextArea_nodeDescription.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea_nodeDescription);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -149,10 +159,10 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         jLabel_scaledCostLabel.setText("scaled cost, $");
 
         jLabel_options.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel_options.setText("options");
+        jLabel_options.setText("OPTIONS");
 
         jLabel_childChoices.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel_childChoices.setText("child choices");
+        jLabel_childChoices.setText("CHILD CHOICES");
 
         jButton_newChildChoice.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jButton_newChildChoice.setText("+");
@@ -167,6 +177,13 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         jButton_newOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_newOptionActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -188,43 +205,53 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
                                 .addComponent(jLabel_scaledCost))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(306, 306, 306)
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel_options)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_newOption)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(294, 294, 294)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel_childChoices)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_newChildChoice)
-                .addContainerGap(577, Short.MAX_VALUE))
+                .addContainerGap(819, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane_childChoices)
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_nodeName)
-                    .addComponent(jLabel_scaledCost)
-                    .addComponent(jLabel_scaledCostLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_nodeName)
+                            .addComponent(jLabel_scaledCost)
+                            .addComponent(jLabel_scaledCostLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jButton1)))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_options)
                     .addComponent(jButton_newOption))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_childChoices)
                     .addComponent(jButton_newChildChoice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,6 +264,11 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     private void jButton_newOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_newOptionActionPerformed
         System.out.println("would add a new option");
     }//GEN-LAST:event_jButton_newOptionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     @Override
     public void actionPerformed(ActionEvent evt) {
@@ -316,6 +348,7 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_newChildChoice;
     private javax.swing.JButton jButton_newOption;
     private javax.swing.JLabel jLabel_childChoices;

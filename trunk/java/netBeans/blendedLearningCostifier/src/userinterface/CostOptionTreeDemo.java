@@ -18,13 +18,13 @@ import org.apache.commons.configuration.ConfigurationException;
  *
  * @author mcannamela
  */
-public class CostOptionNodeDialogTest extends javax.swing.JFrame implements ActionListener{
-    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+public class CostOptionTreeDemo extends javax.swing.JFrame implements ActionListener{
+    private static final Path rootPath = Paths.get("C:\\Users\\mcannamela\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
     private CostOptionNode rootNode;
     private JButton showButton = new JButton();
     private static final String showDialogAction = "show";
     
-    public CostOptionNodeDialogTest()  throws ConfigurationException {
+    public CostOptionTreeDemo()  throws ConfigurationException {
         CostOptionNodeFactory factory = new CostOptionNodeFactory(new ProgramSize());
         rootNode = factory.makeCostOptionNode(rootPath, null);
           
@@ -80,7 +80,9 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
             @Override
             public void run() {
                 try{
-                    new CostOptionNodeDialogTest().setVisible(true);
+                    CostOptionTreeDemo demo = new CostOptionTreeDemo();
+                    demo.setVisible(true);
+                    demo.showButton.doClick();
                 }
                 catch (ConfigurationException e){
                     System.out.println(e);

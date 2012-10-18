@@ -73,18 +73,102 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel_unitMax = new javax.swing.JLabel();
+        jLabel_unitSelected = new javax.swing.JLabel();
+        jLabel_scaled = new javax.swing.JLabel();
+        jLabel_scaledMin = new javax.swing.JLabel();
+        jSlider_cost = new javax.swing.JSlider();
+        jLabel_unit = new javax.swing.JLabel();
+        jLabel_scaledSelected = new javax.swing.JLabel();
+        jLabel_scaledMax = new javax.swing.JLabel();
+        jLabel_unitMin = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane_descriptionScrollPane = new javax.swing.JScrollPane();
         jTextArea_description = new javax.swing.JTextArea();
         jLabel_label = new javax.swing.JLabel();
-        jSlider_cost = new javax.swing.JSlider();
-        jLabel_scaledMin = new javax.swing.JLabel();
-        jLabel_scaledMax = new javax.swing.JLabel();
-        jLabel_unitMin = new javax.swing.JLabel();
-        jLabel_unitMax = new javax.swing.JLabel();
-        jLabel_scaledSelected = new javax.swing.JLabel();
-        jLabel_unitSelected = new javax.swing.JLabel();
-        jLabel_scaled = new javax.swing.JLabel();
-        jLabel_unit = new javax.swing.JLabel();
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+
+        jLabel_unitMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_unitMax.setText("unitMax");
+
+        jLabel_unitSelected.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_unitSelected.setText("unitSelected");
+
+        jLabel_scaled.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel_scaled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_scaled.setText("$,scaled");
+
+        jLabel_scaledMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_scaledMin.setText("scaledMin");
+
+        jSlider_cost.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider_costStateChanged(evt);
+            }
+        });
+
+        jLabel_unit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel_unit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_unit.setText("$,unit");
+
+        jLabel_scaledSelected.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_scaledSelected.setText("scaledSelected");
+
+        jLabel_scaledMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_scaledMax.setText("scaledMax");
+
+        jLabel_unitMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_unitMin.setText("unitMin");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel_scaledMin)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel_scaledSelected)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_scaledMax))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel_unitMin)
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel_unitSelected)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_unitMax))
+                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_unit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_scaledMin)
+                    .addComponent(jLabel_scaledMax)
+                    .addComponent(jLabel_scaledSelected)
+                    .addComponent(jLabel_scaled))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_unitMin)
+                    .addComponent(jLabel_unitMax)
+                    .addComponent(jLabel_unitSelected)
+                    .addComponent(jLabel_unit))
+                .addGap(2, 2, 2))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jTextArea_description.setEditable(false);
         jTextArea_description.setColumns(20);
@@ -96,89 +180,46 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         jLabel_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel_label.setText("label");
 
-        jSlider_cost.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider_costStateChanged(evt);
-            }
-        });
-
-        jLabel_scaledMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaledMin.setText("scaledMin");
-
-        jLabel_scaledMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaledMax.setText("scaledMax");
-
-        jLabel_unitMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_unitMin.setText("unitMin");
-
-        jLabel_unitMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_unitMax.setText("unitMax");
-
-        jLabel_scaledSelected.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaledSelected.setText("scaledSelected");
-
-        jLabel_unitSelected.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_unitSelected.setText("unitSelected");
-
-        jLabel_scaled.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel_scaled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaled.setText("$,scaled");
-
-        jLabel_unit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel_unit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_unit.setText("$,unit");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_scaledMin)
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel_scaledSelected)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_scaledMax))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_unitMin)
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel_unitSelected)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_unitMax))
-                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_unit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(4, 4, 4)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_scaledMin)
-                            .addComponent(jLabel_scaledMax)
-                            .addComponent(jLabel_scaledSelected)
-                            .addComponent(jLabel_scaled))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_unitMin)
-                            .addComponent(jLabel_unitMax)
-                            .addComponent(jLabel_unitSelected)
-                            .addComponent(jLabel_unit)))
-                    .addComponent(jLabel_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -233,6 +274,8 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
     private javax.swing.JLabel jLabel_unitMax;
     private javax.swing.JLabel jLabel_unitMin;
     private javax.swing.JLabel jLabel_unitSelected;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane_descriptionScrollPane;
     private javax.swing.JSlider jSlider_cost;
     private javax.swing.JTextArea jTextArea_description;
