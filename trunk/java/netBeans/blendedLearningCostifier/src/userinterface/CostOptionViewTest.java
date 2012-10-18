@@ -64,7 +64,7 @@ public class CostOptionViewTest extends javax.swing.JFrame implements ActionList
     
     public void actionPerformed(ActionEvent evt) {
         
-        if ( SelectableComponentList.actionSelectionChanged.equals(evt.getActionCommand()) ){
+        if ( SelectableComponentList.ACTION_SELECTION_CHANGED.equals(evt.getActionCommand()) ){
             System.out.println("we heard it here, selection is "+componentList.getSelection());
         }
     }

@@ -30,7 +30,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         
         button_dummyCostChanged = new JButton();
         button_dummyCostChanged.setVisible(false);
-        button_dummyCostChanged.setActionCommand(ACTION_COST_CHANGED);
+        button_dummyCostChanged.setActionCommand(CostOptionView.ACTION_COST_CHANGED);
         
     }
     
@@ -122,11 +122,11 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
 
         jLabel_scaled.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel_scaled.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_scaled.setText("scaled");
+        jLabel_scaled.setText("$,scaled");
 
         jLabel_unit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel_unit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_unit.setText("unit");
+        jLabel_unit.setText("$,unit");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,26 +136,26 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider_cost, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_scaledMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(39, 39, 39)
                         .addComponent(jLabel_scaledSelected)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_scaledMax))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_unitMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(60, 60, 60)
                         .addComponent(jLabel_unitSelected)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_unitMax)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel_unitMax))
+                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_scaled)
-                    .addComponent(jLabel_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_unit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -195,9 +195,10 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 jLabel_unitSelected.setText(new Integer(option.getSelectedCost()).toString());
                 jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
             }
+            button_dummyCostChanged.doClick();
         }
         
-        button_dummyCostChanged.doClick();
+        
     }//GEN-LAST:event_jSlider_costStateChanged
 
     @Override

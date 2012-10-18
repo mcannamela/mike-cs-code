@@ -42,6 +42,8 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
         getContentPane().add(showButton);
         
         showButton.addActionListener(this);
+        
+        setLocation(500,500);
 
         pack();
     }
@@ -71,7 +73,7 @@ public class CostOptionNodeDialogTest extends javax.swing.JFrame implements Acti
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChildNodeSummaryView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChildNodeView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {

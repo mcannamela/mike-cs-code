@@ -22,17 +22,17 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel_selectedOptionLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jLabel_scaledMin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="32767" attributes="0"/>
                       <Component id="jLabel_scaledSelected" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel_scaledMax" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jSlider_selectedOptionCost" min="-2" pref="282" max="-2" attributes="0"/>
+                  <Component id="jSlider_selectedOptionCost" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="32767" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
               <Component id="jLabel_scaled" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -46,6 +46,7 @@
                   <Component id="jLabel_name" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel_selectedOptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="16" max="32767" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
@@ -54,7 +55,7 @@
                   <Component id="jLabel_scaled" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel_scaledMin" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jSlider_selectedOptionCost" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -69,9 +70,6 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="childName"/>
       </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_nameMouseClicked"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel_selectedOptionLabel">
       <Properties>
@@ -111,7 +109,7 @@
           <Font name="Tahoma" size="12" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="scaled"/>
+        <Property name="text" type="java.lang.String" value="$,scaled"/>
       </Properties>
     </Component>
   </SubComponents>

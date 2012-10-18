@@ -19,10 +19,15 @@ import javax.swing.JButton;
 public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionListener{
     private CostOptionNode node;
     private CostOptionViewList costOptionViewList = new CostOptionViewList();
-    private ChildNodeSummaryViewList childNodeSummaryViewList= new ChildNodeSummaryViewList();
+    private ChildNodeViewList childNodeViewList= new ChildNodeViewList();
+    
+    public static final String ACTION_LIST_SELECTION_CHANGED = SelectableComponentList.ACTION_SELECTION_CHANGED;
     
     private JButton button_dummySelectionChanged;
-    public static final String ACTION_SELECTION_CHANGED = SelectableComponentList.ACTION_SELECTION_CHANGED;
+    public static final String ACTION_SELECTION_CHANGED = "nodeSelectionChanged";
+    
+    private JButton button_dummyCostChanged;
+    public static final String ACTION_COST_CHANGED = "nodeCostChanged";
     
     /**
      * Creates new form CostOptionNodeDialog
@@ -47,17 +52,24 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
 //        setNode(node);
     }
     
+    public void addCostChangedListener(ActionListener listener){
+        button_dummyCostChanged.addActionListener(listener);
+    }
+    public void addSelectionChangedListener(ActionListener listener){
+        button_dummySelectionChanged.addActionListener(listener);
+    }
     private void initComponentLists(){
-        button_dummySelectionChanged = new JButton();
-        button_dummySelectionChanged.setVisible(false);
-        button_dummySelectionChanged.setActionCommand(ACTION_SELECTION_CHANGED);
+        
+        button_dummySelectionChanged = DummyButtonFactory.makeDummyButton(ACTION_SELECTION_CHANGED);
+        button_dummyCostChanged = DummyButtonFactory.makeDummyButton(ACTION_COST_CHANGED);
         
         jScrollPane_optionList.setViewportView(costOptionViewList);
-        jScrollPane_childChoices.setViewportView(childNodeSummaryViewList);
+        jScrollPane_childChoices.setViewportView(childNodeViewList);
         
         costOptionViewList.addCostChangedListener(this);
         costOptionViewList.addSelectionChangedListener(this);
-        childNodeSummaryViewList.addCostChangedListener(this);
+        childNodeViewList.addCostChangedListener(this);
+        childNodeViewList.addNodeExpandListener(this);
         
     }
     
@@ -71,7 +83,7 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         }
         
         for (CostOptionNode child : node.getChildren()){
-            childNodeSummaryViewList.addChildNodeSummary(child);
+            childNodeViewList.addChildNodeSummary(child);
         }
         
         int selection = ((SingleOptionSelection)node.getOptionSelection()).getSelection();
@@ -220,18 +232,35 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
-        System.out.println("Action in CostOptionNodeDialog: "+command);
+        System.out.println("\nAction in CostOptionNodeDialog "+node.getName()+": "+command);
+        
         if (CostOptionViewList.ACTION_COST_CHANGED.equals(command) || 
-                ChildNodeSummaryViewList.ACTION_COST_CHANGED.equals(command)){
+                ChildNodeViewList.ACTION_COST_CHANGED.equals(command)||
+                CostOptionNodeDialog.ACTION_COST_CHANGED.equals(command)){
 //            System.out.println("Action in CostOptionNodeDialog: "+command);
             displayCost();
+            button_dummyCostChanged.doClick();
             
         }
-        else if (SelectableComponentList.ACTION_SELECTION_CHANGED.equals(command)){
-            
-            button_dummySelectionChanged.doClick();
+        else if (ACTION_LIST_SELECTION_CHANGED.equals(command)){
             node.setOptionSelection(costOptionViewList.getOptionSelection());
             displayCost();
+            button_dummySelectionChanged.doClick();
+        }
+        else if (ACTION_SELECTION_CHANGED.equals(command)){
+            System.out.println("will now refresh child views");
+            childNodeViewList.refresh();
+            displayCost();
+            button_dummyCostChanged.doClick();
+        }
+        else if (ChildNodeViewList.ACTION_EXPAND_NODE.equals(command)){
+            CostOptionNodeDialog dialog = new CostOptionNodeDialog( this,Dialog.ModalityType.MODELESS);
+            dialog.setNode(childNodeViewList.getClickedNode());
+            
+            dialog.addCostChangedListener(this);
+            dialog.addSelectionChangedListener(this);
+            dialog.setVisible(true);
+            
         }
     }
 
@@ -290,4 +319,5 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     private javax.swing.JScrollPane jScrollPane_optionList;
     private javax.swing.JTextArea jTextArea_nodeDescription;
     // End of variables declaration//GEN-END:variables
+
 }

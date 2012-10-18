@@ -20,29 +20,29 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jLabel_label" min="-2" pref="113" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane_descriptionScrollPane" min="-2" pref="304" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSlider_cost" pref="298" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+              <Component id="jScrollPane_descriptionScrollPane" min="-2" pref="227" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jLabel_scaledMin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="jLabel_scaledSelected" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel_scaledMax" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jLabel_unitMin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Component id="jLabel_unitSelected" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel_unitMax" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jSlider_cost" min="-2" pref="237" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace pref="31" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel_scaled" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_unit" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="jLabel_scaled" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_unit" alignment="1" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -151,7 +151,7 @@
           <Font name="Tahoma" size="12" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="scaled"/>
+        <Property name="text" type="java.lang.String" value="$,scaled"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel_unit">
@@ -160,7 +160,7 @@
           <Font name="Tahoma" size="12" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="unit"/>
+        <Property name="text" type="java.lang.String" value="$,unit"/>
       </Properties>
     </Component>
   </SubComponents>
