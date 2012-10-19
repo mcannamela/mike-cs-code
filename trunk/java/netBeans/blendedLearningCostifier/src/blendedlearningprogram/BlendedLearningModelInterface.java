@@ -10,4 +10,6 @@ package blendedlearningprogram;
  */
 public interface BlendedLearningModelInterface {
     public int getStudentToTeacherRatio();
+    
+    public String getDescription();
 }
