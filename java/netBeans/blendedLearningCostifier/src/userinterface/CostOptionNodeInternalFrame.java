@@ -10,13 +10,16 @@ import costoptiontree.SingleOptionSelection;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
  *
  * @author mcannamela
  */
-public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionListener{
+public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame implements ActionListener {
     private CostOptionNode node;
     private CostOptionViewList costOptionViewList = new CostOptionViewList();
     private ChildNodeViewList childNodeViewList= new ChildNodeViewList();
@@ -28,30 +31,14 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     
     private JButton button_dummyCostChanged;
     public static final String ACTION_COST_CHANGED = "nodeCostChanged";
-    
     /**
-     * Creates new form CostOptionNodeDialog
+     * Creates new form CostOptionNodeInternalFrame
      */
-    public CostOptionNodeDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public CostOptionNodeInternalFrame() {
         initComponents();
         initComponentLists();
-//        setNode(node);
+        setResizable(true);
     }
-    public CostOptionNodeDialog(javax.swing.JDialog parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        initComponentLists();
-//        setNode(node);
-    }
-    
-    public CostOptionNodeDialog(java.awt.Window parent, Dialog.ModalityType modality) {
-        super(parent,  modality);
-        initComponents();
-        initComponentLists();
-
-    }
-    
     public void addCostChangedListener(ActionListener listener){
         button_dummyCostChanged.addActionListener(listener);
     }
@@ -69,10 +56,7 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         costOptionViewList.addCostChangedListener(this);
         costOptionViewList.addSelectionChangedListener(this);
         childNodeViewList.addCostChangedListener(this);
-        childNodeViewList.addNodeExpandListener(this);
-        
-        setSize(900,800);
-        
+        childNodeViewList.addNodeExpandListener(this);        
     }
     
     public void setNode(CostOptionNode node){
@@ -94,9 +78,9 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         if (node.getTreeLevel()==0){
             setLocation(100,20);
         }
-        else{
-            setLocationRelativeTo(getOwner());
-        }
+//        else{
+//            setLocationRelativeTo(getOwner());
+//        }
         
         displayCost();
         
@@ -115,8 +99,6 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea_nodeDescription = new javax.swing.JTextArea();
         jLabel_nodeName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_nodeDescription = new javax.swing.JTextArea();
@@ -129,15 +111,6 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         jButton_newChildChoice = new javax.swing.JButton();
         jButton_newOption = new javax.swing.JButton();
         jButton_OK = new javax.swing.JButton();
-
-        jTextArea_nodeDescription.setEditable(false);
-        jTextArea_nodeDescription.setColumns(20);
-        jTextArea_nodeDescription.setLineWrap(true);
-        jTextArea_nodeDescription.setRows(5);
-        jTextArea_nodeDescription.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea_nodeDescription);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel_nodeName.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel_nodeName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -192,66 +165,66 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane_optionList)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel_nodeName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel_scaledCostLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel_scaledCost))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel_options)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton_newOption)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_OK)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel_childChoices)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_newChildChoice)
-                .addContainerGap(819, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane_childChoices)
-                .addGap(33, 33, 33))
+                .addContainerGap(639, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel_options)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton_newOption)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel_nodeName)
+                                .addGap(48, 48, 48)
+                                .addComponent(jButton_OK)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel_scaledCostLabel)))
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel_scaledCost))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane_childChoices))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_nodeName)
                             .addComponent(jLabel_scaledCost)
                             .addComponent(jLabel_scaledCostLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jButton_OK)))
-                .addGap(29, 29, 29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton_OK)
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_options)
                     .addComponent(jButton_newOption))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_childChoices)
                     .addComponent(jButton_newChildChoice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -295,58 +268,26 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
             button_dummyCostChanged.doClick();
         }
         else if (ChildNodeViewList.ACTION_EXPAND_NODE.equals(command)){
-            CostOptionNodeDialog dialog = new CostOptionNodeDialog( this,Dialog.ModalityType.MODELESS);
-            dialog.setNode(childNodeViewList.getClickedNode());
+            CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
+            frame.setNode(childNodeViewList.getClickedNode());
             
-            dialog.addCostChangedListener(this);
-            dialog.addSelectionChangedListener(this);
-            dialog.setVisible(true);
+            frame.addCostChangedListener(this);
+            frame.addSelectionChangedListener(this);
+            frame.setVisible(true);   
+            
+            getParent().add(frame);
+            frame.setLocation(getLocation().x+100, getLocation().y + 50);
+            frame.moveToFront();
+            try {
+                frame.setSelected(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(CostOptionNodeInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             
         }
     }
-
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CostOptionNodeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CostOptionNodeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CostOptionNodeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CostOptionNodeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CostOptionNodeDialog dialog = new CostOptionNodeDialog(new javax.swing.JFrame(), false);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_OK;
     private javax.swing.JButton jButton_newChildChoice;
@@ -361,5 +302,4 @@ public class CostOptionNodeDialog extends javax.swing.JDialog implements ActionL
     private javax.swing.JScrollPane jScrollPane_optionList;
     private javax.swing.JTextArea jTextArea_nodeDescription;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -17,5 +17,10 @@ public class StandardBlendedLearningModel implements BlendedLearningModelInterfa
     public int getStudentToTeacherRatio() {
         return 25;
     }
+
+    @Override
+    public String getDescription() {
+        return "This is a standard schmandard model with a standard student/teacher ratio";
+    }
     
 }

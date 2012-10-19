@@ -13,11 +13,7 @@ import org.apache.commons.configuration.*;
 public class CostOptionFactory {
     private ProgramSize programSize;
     
-    private enum ScalingLawTypes{
-        CONSTANT ,
-        LINEAR_IN_STUDENTS,
-        LINEAR_IN_TEACHERS;
-    }
+
     
     private static final String labelKey = "label"; 
     private static final String descriptionKey = "description";
@@ -46,7 +42,7 @@ public class CostOptionFactory {
         config.addProperty(minCostKey, 10);
         config.addProperty(maxCostKey, 100);
         config.addProperty(selectedCostKey,60);
-        config.addProperty(scalingLawTypeKey, ScalingLawTypes.LINEAR_IN_STUDENTS.toString());
+        config.addProperty(scalingLawTypeKey, ScalingLawTypeEnum.LINEAR_IN_STUDENTS.toString());
                 
         return config;
     }
@@ -74,18 +70,18 @@ public class CostOptionFactory {
         int maxCost = config.getInt(maxCostKey);
         int selectedCost = config.getInt(selectedCostKey, (minCost+maxCost)/2 );
         
-        ScalingLawTypes scalingLawTypes;
+        
         String scalingLawType = config.getString(scalingLawTypeKey);
               
         AbstractScalingLaw scalingLaw;
-        if (scalingLawType.equals(ScalingLawTypes.CONSTANT.toString())){
+        if (scalingLawType.equals(ScalingLawTypeEnum.CONSTANT.toString())){
             scalingLaw = new ConstantScalingLaw(programSize);
         }       
-        else if (scalingLawType.equals(ScalingLawTypes.LINEAR_IN_STUDENTS.toString())){
+        else if (scalingLawType.equals(ScalingLawTypeEnum.LINEAR_IN_STUDENTS.toString())){
             scalingLaw = new LinearInStudentsScalingLaw(programSize);
         }
          
-        else if (scalingLawType.equals(ScalingLawTypes.LINEAR_IN_TEACHERS.toString())){
+        else if (scalingLawType.equals(ScalingLawTypeEnum.LINEAR_IN_TEACHERS.toString())){
             scalingLaw = new LinearInTeachersScalingLaw(programSize);
         }
         else {
