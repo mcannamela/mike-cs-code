@@ -69,7 +69,7 @@ public class ChildNodeViewList extends BaseComponentListWithDeleteButtons implem
         
         Point p = evt.getPoint();
         
-        System.out.println("the point clicked is "+p);
+//        System.out.println("the point clicked is "+p);
         int cnt = 0;
         for (Component c: componentList){
             System.out.println(c.getParent().getBounds());

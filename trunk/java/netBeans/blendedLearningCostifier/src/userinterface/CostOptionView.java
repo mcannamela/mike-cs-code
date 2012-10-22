@@ -88,7 +88,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         jTextArea_description = new javax.swing.JTextArea();
         jLabel_label = new javax.swing.JLabel();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
 
         jLabel_unitMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_unitMax.setText("unitMax");
@@ -130,19 +130,19 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel_scaledMin)
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel_scaledSelected)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_scaledMax))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel_unitMin)
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel_unitSelected)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel_unitSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_unitMax))
-                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel_scaledMin)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_scaledSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_scaledMax, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel_unit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -168,7 +168,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addGap(2, 2, 2))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
 
         jTextArea_description.setEditable(false);
         jTextArea_description.setColumns(20);
@@ -177,7 +177,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         jTextArea_description.setWrapStyleWord(true);
         jScrollPane_descriptionScrollPane.setViewportView(jTextArea_description);
 
-        jLabel_label.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_label.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel_label.setText("label");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -186,10 +186,10 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,8 +209,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addGap(4, 4, 4)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

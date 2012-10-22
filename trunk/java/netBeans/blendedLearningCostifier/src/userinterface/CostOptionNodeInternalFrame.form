@@ -24,7 +24,7 @@
               <Component id="jLabel_childChoices" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jButton_newChildChoice" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="639" max="32767" attributes="0"/>
+              <EmptySpace pref="411" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
@@ -73,7 +73,7 @@
                           <Component id="jLabel_scaledCost" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_scaledCostLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="17" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jButton_OK" min="-2" max="-2" attributes="0"/>
@@ -87,14 +87,14 @@
                   <Component id="jButton_newOption" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane_optionList" pref="262" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <Component id="jScrollPane_optionList" pref="163" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel_childChoices" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_newChildChoice" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane_childChoices" min="-2" pref="225" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane_childChoices" min="-2" pref="130" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
