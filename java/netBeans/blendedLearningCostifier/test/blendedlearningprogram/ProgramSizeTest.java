@@ -18,7 +18,7 @@ import org.junit.Ignore;
 public class ProgramSizeTest {
     private static ProgramSize defaultInstance;
     private ProgramSize instance;
-    private BlendedLearningModelInterface blendedLearningModel;
+    private BaseBlendedLearningModel blendedLearningModel;
     private int nrStudents;
     private int nrPeriods;
     
@@ -71,8 +71,8 @@ public class ProgramSizeTest {
     public void testGetBlendedLearningModel() {
         System.out.println("getBlendedLearningModel");
         ProgramSize instance = new ProgramSize();
-        BlendedLearningModelInterface expResult = null;
-        BlendedLearningModelInterface result = instance.getBlendedLearningModel();
+        BaseBlendedLearningModel expResult = null;
+        BaseBlendedLearningModel result = instance.getBlendedLearningModel();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -110,7 +110,7 @@ public class ProgramSizeTest {
     @Ignore
     public void testSetBlendedLearningModel() {
         System.out.println("setBlendedLearningModel");
-        BlendedLearningModelInterface blendedLearningModel = null;
+        BaseBlendedLearningModel blendedLearningModel = null;
         ProgramSize instance = new ProgramSize();
         instance.setBlendedLearningModel(blendedLearningModel);
         // TODO review the generated test code and remove the default call to fail.

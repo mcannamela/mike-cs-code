@@ -16,7 +16,7 @@ public class ProgramSizeFactory {
     public static final String NR_PERIODS_KEY = "nrPeriods";
     
     public ProgramSize makeProgramSize(Configuration config){
-        BlendedLearningModelInterface model;
+        BaseBlendedLearningModel model;
         int nrStudents, nrPeriods; 
                 
         nrPeriods = config.getInt(NR_PERIODS_KEY, 8);

@@ -4,6 +4,7 @@
  */
 package blendedlearningprogram;
 
+import costoptiontree.CostOptionNodeFactory;
 import org.apache.commons.configuration.Configuration;
 
 /**
@@ -12,15 +13,19 @@ import org.apache.commons.configuration.Configuration;
  */
 public class BlendedLearningModelFactory {
     
-    private static final String TYPE_KEY = "type";
+    private static final String TYPE_KEY = "modelType";
+    private static final String DESCRIPTION_KEY = "modelDescription";
     
-    public BlendedLearningModelInterface makeBlendedLearningModel(Configuration config){
-        String type;
+    public BaseBlendedLearningModel makeBlendedLearningModel(Configuration config){
+        String type, description;
+        String[] descriptionTokens;
         type = config.getString(TYPE_KEY, BlendedLearningModelEnum.STANDARD.toString());
+        descriptionTokens = config.getStringArray(DESCRIPTION_KEY);
+        description = CostOptionNodeFactory.reconstituteCommaConfigString(descriptionTokens);
         return makeBlendedLearningModel(type);
     }
-    public BlendedLearningModelInterface makeBlendedLearningModel(String type){
-        BlendedLearningModelInterface model;
+    public BaseBlendedLearningModel makeBlendedLearningModel(String type){
+        BaseBlendedLearningModel model;
         if (type.equals(BlendedLearningModelEnum.ONE_ON_ONE.toString())){
             model =  new OneOnOneBlendedLearningModel();
         }
@@ -35,5 +40,13 @@ public class BlendedLearningModelFactory {
         }
         return model;
     }
+    
+    public BaseBlendedLearningModel makeBlendedLearningModel(String type, String description){
+        BaseBlendedLearningModel model;
+        model = makeBlendedLearningModel(type);
+        model.setDescription(description);
+        return model;
+    }
+    
     
 }

@@ -32,7 +32,7 @@ public class CostOptionTreeIFrameDemo extends JFrame
                                implements ActionListener {
     JDesktopPane desktop;
     
-    private static final Path rootPath = Paths.get("C:\\Users\\mcannamela\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
     private CostOptionNode rootNode;
 
     public CostOptionTreeIFrameDemo() throws ConfigurationException {

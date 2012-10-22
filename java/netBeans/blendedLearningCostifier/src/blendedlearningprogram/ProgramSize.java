@@ -10,7 +10,7 @@ package blendedlearningprogram;
  * @author mcannamela
  */
 public class ProgramSize {
-    private BlendedLearningModelInterface blendedLearningModel;
+    private BaseBlendedLearningModel blendedLearningModel;
     private int nrStudents;
     private int nrPeriods;
 
@@ -20,7 +20,7 @@ public class ProgramSize {
         this.nrPeriods = 8;
     }
 
-    public ProgramSize(BlendedLearningModelInterface blendedLearningModel, int nrStudents, int nrPeriods) {
+    public ProgramSize(BaseBlendedLearningModel blendedLearningModel, int nrStudents, int nrPeriods) {
         this.blendedLearningModel = blendedLearningModel;
         this.nrStudents = nrStudents;
         this.nrPeriods = nrPeriods;
@@ -35,7 +35,7 @@ public class ProgramSize {
         return nrStudents;
     }
 
-    public BlendedLearningModelInterface getBlendedLearningModel() {
+    public BaseBlendedLearningModel getBlendedLearningModel() {
         return blendedLearningModel;
     }
     
@@ -48,7 +48,7 @@ public class ProgramSize {
         this.nrPeriods = nrPeriods;
     }
 
-    public void setBlendedLearningModel(BlendedLearningModelInterface blendedLearningModel) {
+    public void setBlendedLearningModel(BaseBlendedLearningModel blendedLearningModel) {
         this.blendedLearningModel = blendedLearningModel;
     }
     

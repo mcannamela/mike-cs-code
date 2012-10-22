@@ -8,14 +8,14 @@ package blendedlearningprogram;
  *
  * @author mcannamela
  */
-public class OneOnOneBlendedLearningModel implements BlendedLearningModelInterface {
-    @Override
-    public int getStudentToTeacherRatio() {
-        return 1;
-    }
+public class OneOnOneBlendedLearningModel extends BaseBlendedLearningModel {
 
-    @Override
-    public String getDescription() {
-        return "This is a very inefficent way to blend learning!";
+    public OneOnOneBlendedLearningModel() {
+        description = "This is a very inefficent way to blend learning!";
+        type = BlendedLearningModelEnum.ONE_ON_ONE.toString();
+        studentToTeacherRatio = 1;
     }
+    
+
+   
 }

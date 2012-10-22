@@ -5,6 +5,7 @@
 package userinterface;
 
 import blendedlearningprogram.ProgramSize;
+import blendedlearningprogram.ProgramSizeFactory;
 import costoptiontree.CostOptionNode;
 import costoptiontree.CostOptionNodeFactory;
 import java.awt.Dimension;
@@ -15,10 +16,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  *
@@ -35,17 +39,29 @@ public class BlendedLearningCostifier extends JFrame
                                implements ActionListener {
     private JDesktopPane desktop;
     private JSplitPane hSplitPane, vSplitPane;
-    private ProgramSizePanel programSizePanel = new ProgramSizePanel();;
-    private JPanel rootPanelArea = new JPanel();
+    private ProgramSizePanel programSizePanel = new ProgramSizePanel();
     
+    private ProgramSize programSize;
+    private JPanel jPanel_rootNodes = new JPanel();
+    private JPanel jPanel_rightSide = new JPanel();
+    
+    private ArrayList<RootNodePanel> rootNodePanels= new ArrayList<>();
     private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\aBlendedLearningProgram");   
     private CostOptionNode rootNode;
-
-    public BlendedLearningCostifier() throws ConfigurationException {
+    
+    public BlendedLearningCostifier() throws ConfigurationException  {
         super("BlendedLearningCostifier");
         
-        CostOptionNodeFactory factory = new CostOptionNodeFactory(new ProgramSize());
+        PropertiesConfiguration sizeConfig = new PropertiesConfiguration(rootPath.resolve("programSize.config").toFile());
+        programSize = new ProgramSizeFactory().makeProgramSize(sizeConfig);
+        
+        
+        CostOptionNodeFactory factory = new CostOptionNodeFactory(programSize);
         rootNode = factory.makeCostOptionNode(rootPath, null);
+        
+        programSizePanel.setProgramSize(programSize);
+        programSizePanel.addProgramSizeChangedListener(this);
+        
         
         //Make the big window be indented 50 pixels from each edge
         //of the screen.
@@ -55,20 +71,16 @@ public class BlendedLearningCostifier extends JFrame
                   screenSize.width  - inset*3,
                   screenSize.height - inset*0);
 
-        //Set up the GUI.
         desktop = new JDesktopPane(); //a specialized layered pane
-//        desktop.setMinimumSize(new Dimension(900, 800));
-//        desktop.setLayout(new javax.swing.BoxLayout(desktop, javax.swing.BoxLayout.LINE_AXIS));
-//        desktop.setLayout(new FlowLayout());
+       
+        vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, jPanel_rootNodes, desktop);
         
-        vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, rootPanelArea, desktop);
-//        vSplitPane.setResizeWeight(1.0);
-        
-//        programSizePanel.setMaximumSize(programSizePanel.getPreferredSize());
-        hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vSplitPane, programSizePanel);
+        jPanel_rightSide.setLayout(new javax.swing.BoxLayout(jPanel_rightSide, javax.swing.BoxLayout.Y_AXIS));
+        jPanel_rightSide.add(programSizePanel);
+        hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vSplitPane, jPanel_rightSide);
         hSplitPane.setResizeWeight(1.0);
         
-        createFrame(); //create first "window"
+        createRootNodePanels(); //create first "window"
         setContentPane(hSplitPane);
         
         
@@ -109,43 +121,42 @@ public class BlendedLearningCostifier extends JFrame
 
     //React to menu selections.
     public void actionPerformed(ActionEvent e) {
-        if ("new".equals(e.getActionCommand())) { //new
-            createFrame();
-        } else { //quit
+        String command = e.getActionCommand();
+        if ("new".equals(command)) { //new
+            createRootNodePanels();
+        } 
+        else if (ProgramSizePanel.ACTION_PROGRAM_SIZE_CHANGED.equals(command)){
+            System.out.println("rootNodePanels heard that program size changed");
+            for (RootNodePanel panel : rootNodePanels){
+                panel.displayCost();
+            }
+            for (JInternalFrame frame : desktop.getAllFrames()){
+                ((CostOptionNodeInternalFrame)frame).programSizeChanged();
+            }
+        }
+        else if ("quit".equals(command)) { //quit
             quit();
         }
     }
 
     //Create a new internal frame.
-    protected void createFrame() {
-//        CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
+    protected void createRootNodePanels() {
         for (CostOptionNode node : rootNode.getChildren()){
             RootNodePanel panel = new RootNodePanel();
             panel.setNode(node);
             panel.setDesktop(desktop);
-    //        panel.setVisible(true);
-    //        panel.setLocation(0,0);
-            rootPanelArea.add(panel); 
+            jPanel_rootNodes.add(panel); 
+            rootNodePanels.add(panel);
         }
-        
-        
-        
-//        frame.setNode(rootNode);
-//        frame.setVisible(true); //necessary as of 1.3
-//        frame.setLocation(0,0);
-//        addFrame(frame);
     }
     
-    public void addFrame(CostOptionNodeInternalFrame frame){
-        desktop.add(frame);
-        try {
-            frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
-    }
 
     //Quit the application.
     protected void quit() {
         System.exit(0);
+    }
+    private int nFrames(){
+        return desktop.getAllFrames().length;
     }
 
     /**

@@ -19,7 +19,7 @@ public class LinearInStudentsScalingLawTest {
     
     private static ProgramSize programSize;
     
-    private static BlendedLearningModelInterface blendedLearningModel;
+    private static BaseBlendedLearningModel blendedLearningModel;
     private static int nrStudents;
     private static int nrPeriods;
     
