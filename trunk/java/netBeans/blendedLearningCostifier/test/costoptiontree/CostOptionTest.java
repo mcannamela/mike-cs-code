@@ -5,7 +5,7 @@
 package costoptiontree;
 
 import blendedlearningprogram.AbstractScalingLaw;
-import blendedlearningprogram.BlendedLearningModelInterface;
+import blendedlearningprogram.BaseBlendedLearningModel;
 import blendedlearningprogram.LinearInStudentsScalingLaw;
 import blendedlearningprogram.LinearInTeachersScalingLaw;
 import blendedlearningprogram.ProgramSize;
@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 public class CostOptionTest {
     private CostOption instance;
     private static ProgramSize programSize;
-    private static BlendedLearningModelInterface blendedLearningModel;
+    private static BaseBlendedLearningModel blendedLearningModel;
     private static int nrStudents;
     private static int nrPeriods;
     

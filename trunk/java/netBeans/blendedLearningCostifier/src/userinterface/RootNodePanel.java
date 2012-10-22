@@ -28,23 +28,27 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
     private CostOptionNode clickedNode;
     private JDesktopPane desktop;
     private ArrayList<ChildListItem> childList = new ArrayList<>();
-    public static final String ACTION_SELECTION_CHANGED = CostOptionNodeInternalFrame.ACTION_SELECTION_CHANGED;
     
-    private JButton button_dummyCostChanged;
+    
+    private JButton dButton_costChanged = new JButton();
     public static final String ACTION_COST_CHANGED = "rootNodeCostChanged";
     /**
      * Creates new form RootNodePanel
      */
     public RootNodePanel() {
         initComponents();
+        dButton_costChanged.setActionCommand(ACTION_COST_CHANGED);
         
     }
     public void addCostChangedListener(ActionListener listener){
-        button_dummyCostChanged.addActionListener(listener);
+        dButton_costChanged.addActionListener(listener);
     }
     
-    private void displayCost(){
+    public void displayCost(){
         jLabel_cost.setText(((Integer)node.cost()).toString());
+        for (ChildListItem item : childList){
+            item.refresh();
+        }
     }
     
     private void addChild(CostOptionNode node){
@@ -160,20 +164,18 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
-        System.out.println("\nAction in CostOptionNodeDialog "+node.getName()+": "+command);
+        System.out.println("\nAction in RootNodePanel "+node.getName()+": "+command);
         
-        if (CostOptionViewList.ACTION_COST_CHANGED.equals(command) || 
-                ChildNodeViewList.ACTION_COST_CHANGED.equals(command)||
-                CostOptionNodeDialog.ACTION_COST_CHANGED.equals(command)){
-//            System.out.println("Action in CostOptionNodeDialog: "+command);
+        if (CostOptionNodeInternalFrame.ACTION_COST_CHANGED.equals(command)){
+//            System.out.println("Action in CostOptionNodeInternalFrame: "+command);
             displayCost();
-            button_dummyCostChanged.doClick();
+            dButton_costChanged.doClick();
             
         }
         
-        else if (ACTION_SELECTION_CHANGED.equals(command)){
+        else if (CostOptionNodeInternalFrame.ACTION_SELECTION_CHANGED.equals(command)){
             displayCost();
-            button_dummyCostChanged.doClick();
+            dButton_costChanged.doClick();
         }
         
     }    
@@ -188,12 +190,16 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
             frame.setVisible(true);   
 
             if (desktop!=null){
+                int nFrames = desktop.getAllFrames().length;
                 desktop.add(frame);
+                
+                frame.setLocation(100*nFrames, 0);
             }
             else{
                 getParent().add(frame);
+                frame.setLocation(getLocation().x+100, getLocation().y + 50);
             }
-            frame.setLocation(getLocation().x+100, getLocation().y + 50);
+            
             frame.moveToFront();
             try {
                 frame.setSelected(true);
@@ -218,7 +224,7 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
         public ChildListItem(CostOptionNode child){
             super();
             childNode = child;
-            setText(child.getName()+", $"+child.cost());
+            refresh();
             addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -229,9 +235,8 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
             }
         });
         }
-        
-
-            
-            
+        public void refresh(){
+            setText(childNode.getName()+", $"+childNode.cost());
+        }
     }
 }

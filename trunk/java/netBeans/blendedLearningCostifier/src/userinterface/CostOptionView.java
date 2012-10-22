@@ -49,8 +49,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         jLabel_label.setText(option.getLabel());
         jTextArea_description.append(option.getDescription());
         
-        jLabel_scaledMax.setText(new Integer(option.getScaledMaxCost()).toString());
-        jLabel_scaledMin.setText(new Integer(option.getScaledMinCost()).toString());
+        refresh();
         
         jSlider_cost.setMaximum(option.getMaxCost());
         jSlider_cost.setMinimum(option.getMinCost());
@@ -128,21 +127,21 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel_unitMin)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel_unitSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_unitSelected, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jLabel_unitMax))
-                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSlider_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel_scaledMin)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_scaledSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_scaledSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
                         .addComponent(jLabel_scaledMax, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel_unit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,7 +187,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addContainerGap()
                 .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
         jPanel2Layout.setVerticalGroup(
@@ -233,7 +232,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
             if (isOptionSet){
                 option.setSelectedCost(selectedCost);
                 jLabel_unitSelected.setText(new Integer(option.getSelectedCost()).toString());
-                jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
+                refresh();
             }
             button_dummyCostChanged.doClick();
         }
@@ -279,4 +278,10 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
     private javax.swing.JSlider jSlider_cost;
     private javax.swing.JTextArea jTextArea_description;
     // End of variables declaration//GEN-END:variables
+
+    void refresh() {
+        jLabel_scaledMax.setText(new Integer(option.getScaledMaxCost()).toString());
+        jLabel_scaledMin.setText(new Integer(option.getScaledMinCost()).toString());
+        jLabel_scaledSelected.setText(new Integer(option.getScaledCost()).toString());
+    }
 }

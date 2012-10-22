@@ -48,19 +48,17 @@ public class CostOptionViewList extends SelectableComponentList implements Actio
     public void actionPerformed(ActionEvent evt) {
         super.actionPerformed(evt);
         if (evt.getActionCommand().contains(SELECTION_ACTION_PREFIX)){
-            
-
-//            
-//            CostOptionView view;
-//            CostOption option;
-//            
-//            view = (CostOptionView) getListComponent(selection);
-            
-            
+         
         }
         if (evt.getActionCommand().equals(CostOptionViewList.ACTION_COST_CHANGED)){
             System.out.println("Action in CostOptionViewList: "+CostOptionViewList.ACTION_COST_CHANGED);
             button_dummyCostChanged.doClick();
+        }
+    }
+    
+    public void refresh(){
+        for (Component view : componentList){
+            ((CostOptionView) view).refresh();
         }
     }
 

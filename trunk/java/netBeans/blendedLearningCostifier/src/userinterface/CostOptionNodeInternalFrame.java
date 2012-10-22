@@ -45,6 +45,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
     public void addSelectionChangedListener(ActionListener listener){
         button_dummySelectionChanged.addActionListener(listener);
     }
+    
     private void initComponentLists(){
         
         button_dummySelectionChanged = DummyButtonFactory.makeDummyButton(ACTION_SELECTION_CHANGED);
@@ -213,8 +214,8 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                     .addComponent(jLabel_options)
                     .addComponent(jButton_newOption))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                .addGap(32, 32, 32)
+                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_childChoices)
                     .addComponent(jButton_newChildChoice))
@@ -242,12 +243,12 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
     @Override
     public void actionPerformed(ActionEvent evt) {
         String command = evt.getActionCommand();
-        System.out.println("\nAction in CostOptionNodeDialog "+node.getName()+": "+command);
+        System.out.println("\nAction in CostOptionInternalFrame "+node.getName()+": "+command);
         
         if (CostOptionViewList.ACTION_COST_CHANGED.equals(command) || 
                 ChildNodeViewList.ACTION_COST_CHANGED.equals(command)||
-                CostOptionNodeDialog.ACTION_COST_CHANGED.equals(command)){
-//            System.out.println("Action in CostOptionNodeDialog: "+command);
+                CostOptionNodeInternalFrame.ACTION_COST_CHANGED.equals(command)){
+//            System.out.println("Action in CostOptionNodeInternalFrame: "+command);
             displayCost();
             button_dummyCostChanged.doClick();
             
@@ -269,7 +270,8 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
             
             frame.addCostChangedListener(this);
             frame.addSelectionChangedListener(this);
-            frame.setVisible(true);   
+            frame.setVisible(true);
+            
             
             getParent().add(frame);
             frame.setLocation(getLocation().x+100, getLocation().y + 50);
@@ -282,6 +284,11 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
         }
     }
     
+    public void programSizeChanged(){
+        childNodeViewList.refresh();
+        costOptionViewList.refresh();
+        displayCost();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_OK;
     private javax.swing.JButton jButton_newChildChoice;

@@ -23,10 +23,13 @@ public class CostOptionNodeFactory {
     
     public static String reconstituteCommaConfigString(String[] arrayOfStrings){
         String description = "";
-        for (String d: arrayOfStrings){
-            description+=d+", ";
+        if (arrayOfStrings.length>0){
+            for (String d: arrayOfStrings){
+                description+=d+", ";
+            }
+            description = description.substring(0, description.length()-2);
         }
-        description = description.substring(0, description.length()-2);
+        
         return description;
     }
     public int nOptions(Path costOptionsPath){

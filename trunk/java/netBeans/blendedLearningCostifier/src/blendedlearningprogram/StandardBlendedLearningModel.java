@@ -8,19 +8,16 @@ package blendedlearningprogram;
  *
  * @author wichtelwesen
  */
-public class StandardBlendedLearningModel implements BlendedLearningModelInterface {
+public class StandardBlendedLearningModel extends BaseBlendedLearningModel {
 
     public StandardBlendedLearningModel() {
+        description = "This is a standard schmandard model with a standard student/teacher ratio";
+        type = BlendedLearningModelEnum.STANDARD.toString();
+        studentToTeacherRatio = 25;
     }
     
-    @Override
-    public int getStudentToTeacherRatio() {
-        return 25;
-    }
-
-    @Override
-    public String getDescription() {
-        return "This is a standard schmandard model with a standard student/teacher ratio";
-    }
+    
+    
+   
     
 }

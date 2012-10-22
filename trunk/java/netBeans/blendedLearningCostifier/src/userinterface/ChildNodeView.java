@@ -240,7 +240,7 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
     // End of variables declaration//GEN-END:variables
 
     void refresh() {
-        System.out.println("    refreshing view");
+//        System.out.println("    refreshing view");
         selectedOptionChanged();
     }
 
