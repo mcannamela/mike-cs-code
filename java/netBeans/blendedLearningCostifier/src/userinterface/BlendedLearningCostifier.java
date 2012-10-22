@@ -38,7 +38,7 @@ public class BlendedLearningCostifier extends JFrame
     private ProgramSizePanel programSizePanel = new ProgramSizePanel();;
     private JPanel rootPanelArea = new JPanel();
     
-    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\aBlendedLearningProgram");   
     private CostOptionNode rootNode;
 
     public BlendedLearningCostifier() throws ConfigurationException {
@@ -119,12 +119,15 @@ public class BlendedLearningCostifier extends JFrame
     //Create a new internal frame.
     protected void createFrame() {
 //        CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
-        RootNodePanel panel = new RootNodePanel();
-        panel.setNode(rootNode);
-        panel.setDesktop(desktop);
-//        panel.setVisible(true);
-//        panel.setLocation(0,0);
-        rootPanelArea.add(panel);
+        for (CostOptionNode node : rootNode.getChildren()){
+            RootNodePanel panel = new RootNodePanel();
+            panel.setNode(node);
+            panel.setDesktop(desktop);
+    //        panel.setVisible(true);
+    //        panel.setLocation(0,0);
+            rootPanelArea.add(panel); 
+        }
+        
         
         
 //        frame.setNode(rootNode);

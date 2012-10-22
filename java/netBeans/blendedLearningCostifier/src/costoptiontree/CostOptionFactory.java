@@ -60,10 +60,12 @@ public class CostOptionFactory {
         config.setListDelimiter('0');
         
         String[] descriptions = config.getStringArray(descriptionKey);
-        String description = "";
+        String temp = "";
         for (String d: descriptions){
-            description+=d+", ";
+            temp+=d+", ";
         }
+        String description = CostOptionNodeFactory.reconstituteCommaConfigString(descriptions);
+        
         
         config.setListDelimiter(',');
         int minCost = config.getInt(minCostKey);
