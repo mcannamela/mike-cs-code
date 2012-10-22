@@ -78,12 +78,8 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
         if (node.getTreeLevel()==0){
             setLocation(100,20);
         }
-//        else{
-//            setLocationRelativeTo(getOwner());
-//        }
-        
-        displayCost();
-        
+       
+        displayCost();   
     }
     
     public void displayCost(){
@@ -169,7 +165,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                 .addComponent(jLabel_childChoices)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_newChildChoice)
-                .addContainerGap(639, Short.MAX_VALUE))
+                .addContainerGap(411, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -207,7 +203,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                             .addComponent(jLabel_nodeName)
                             .addComponent(jLabel_scaledCost)
                             .addComponent(jLabel_scaledCostLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton_OK)
                         .addGap(18, 18, 18)))
@@ -217,13 +213,13 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                     .addComponent(jLabel_options)
                     .addComponent(jButton_newOption))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                .addGap(47, 47, 47)
+                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_childChoices)
                     .addComponent(jButton_newChildChoice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane_childChoices, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -283,8 +279,6 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(CostOptionNodeInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
         }
     }
     

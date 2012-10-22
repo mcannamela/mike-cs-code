@@ -8,6 +8,7 @@ import blendedlearningprogram.ProgramSize;
 import costoptiontree.CostOptionNode;
 import costoptiontree.CostOptionNodeFactory;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import org.apache.commons.configuration.ConfigurationException;
@@ -32,10 +34,11 @@ import org.apache.commons.configuration.ConfigurationException;
 public class BlendedLearningCostifier extends JFrame
                                implements ActionListener {
     private JDesktopPane desktop;
-    private JSplitPane splitPane;
-    private ProgramSizePanel programSizePanel;
+    private JSplitPane hSplitPane, vSplitPane;
+    private ProgramSizePanel programSizePanel = new ProgramSizePanel();;
+    private JPanel rootPanelArea = new JPanel();
     
-    private static final Path rootPath = Paths.get("C:\\Users\\mcannamela\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
     private CostOptionNode rootNode;
 
     public BlendedLearningCostifier() throws ConfigurationException {
@@ -54,15 +57,19 @@ public class BlendedLearningCostifier extends JFrame
 
         //Set up the GUI.
         desktop = new JDesktopPane(); //a specialized layered pane
-        desktop.setMinimumSize(new Dimension(900, 800));
+//        desktop.setMinimumSize(new Dimension(900, 800));
+//        desktop.setLayout(new javax.swing.BoxLayout(desktop, javax.swing.BoxLayout.LINE_AXIS));
+//        desktop.setLayout(new FlowLayout());
         
-        programSizePanel = new ProgramSizePanel();
+        vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, rootPanelArea, desktop);
+//        vSplitPane.setResizeWeight(1.0);
+        
 //        programSizePanel.setMaximumSize(programSizePanel.getPreferredSize());
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, programSizePanel);
-        splitPane.setResizeWeight(1.0);
+        hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vSplitPane, programSizePanel);
+        hSplitPane.setResizeWeight(1.0);
         
         createFrame(); //create first "window"
-        setContentPane(splitPane);
+        setContentPane(hSplitPane);
         
         
         setJMenuBar(createMenuBar());
@@ -111,11 +118,19 @@ public class BlendedLearningCostifier extends JFrame
 
     //Create a new internal frame.
     protected void createFrame() {
-        CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
-        frame.setNode(rootNode);
-        frame.setVisible(true); //necessary as of 1.3
-        frame.setLocation(0,0);
-        addFrame(frame);
+//        CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
+        RootNodePanel panel = new RootNodePanel();
+        panel.setNode(rootNode);
+        panel.setDesktop(desktop);
+//        panel.setVisible(true);
+//        panel.setLocation(0,0);
+        rootPanelArea.add(panel);
+        
+        
+//        frame.setNode(rootNode);
+//        frame.setVisible(true); //necessary as of 1.3
+//        frame.setLocation(0,0);
+//        addFrame(frame);
     }
     
     public void addFrame(CostOptionNodeInternalFrame frame){

@@ -60,7 +60,7 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
         jPanel2 = new javax.swing.JPanel();
         jLabel_selectedOptionLabel = new javax.swing.JLabel();
 
-        jLabel_name.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_name.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_name.setText("childName");
 
@@ -94,12 +94,12 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel_scaledMin)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jLabel_scaledSelected)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_scaledSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_scaledMax))
-                    .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_scaledMax, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSlider_selectedOptionCost, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jLabel_scaled)
                 .addContainerGap())
         );
@@ -117,7 +117,7 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
                 .addGap(2, 2, 2))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
 
         jLabel_selectedOptionLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_selectedOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -151,7 +151,7 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
