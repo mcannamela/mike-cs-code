@@ -127,7 +127,9 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
         jScrollPane2.setViewportView(jPanel_childListPanel);
 
         jTextArea_description.setColumns(20);
+        jTextArea_description.setLineWrap(true);
         jTextArea_description.setRows(5);
+        jTextArea_description.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea_description);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -176,55 +178,28 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
         
     }    
     
-    private void clickEvent(java.awt.event.MouseEvent evt) {                                         
-        
-        Point p = evt.getPoint();
-        
-        System.out.println("the point clicked is "+p);
-        int cnt = 0;
-        for (ChildListItem c: childList){
-            System.out.println(c.getBounds());
-            if (c.getBounds().contains(p)){
-//                System.out.println("this is the "+cnt+"th node");
-                clickedNode = (c.node);
-            }
-            cnt++;
-        }
-        if (clickedNode!=null){
-            
-            if (evt.getClickCount()==1){
-                System.out.println("Mouse clicked on node "+ clickedNode.getName());
-            }
-            else if (evt.getClickCount()==2){
-                System.out.println("Mouse double-clicked on node "+ clickedNode.getName());
-//                button_dummyNodeClicked.doClick();
-                
-                CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
-                frame.setNode(clickedNode);
+    private void nodeClicked(CostOptionNode node) {                                         
+                      
+            CostOptionNodeInternalFrame frame = new CostOptionNodeInternalFrame();
+            frame.setNode(node);
 
-                frame.addCostChangedListener(this);
-                frame.addSelectionChangedListener(this);
-                frame.setVisible(true);   
-                
-                if (desktop!=null){
-                    desktop.add(frame);
-                }
-                else{
-                    getParent().add(frame);
-                }
-                frame.setLocation(getLocation().x+100, getLocation().y + 50);
-                frame.moveToFront();
-                try {
-                    frame.setSelected(true);
-                } catch (PropertyVetoException ex) {
-                    Logger.getLogger(CostOptionNodeInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            frame.addCostChangedListener(this);
+            frame.addSelectionChangedListener(this);
+            frame.setVisible(true);   
 
-                }
-        }
-        else{
-            System.out.println("clicked node is null");
-        }
+            if (desktop!=null){
+                desktop.add(frame);
+            }
+            else{
+                getParent().add(frame);
+            }
+            frame.setLocation(getLocation().x+100, getLocation().y + 50);
+            frame.moveToFront();
+            try {
+                frame.setSelected(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(CostOptionNodeInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -239,15 +214,18 @@ public class RootNodePanel extends javax.swing.JPanel implements ActionListener{
     // End of variables declaration//GEN-END:variables
 
     private class ChildListItem extends JLabel{
-        public CostOptionNode node;
-        public ChildListItem(CostOptionNode node){
+        public CostOptionNode childNode;
+        public ChildListItem(CostOptionNode child){
             super();
-            this.node = node;
-            setText(node.getName());
+            childNode = child;
+            setText(child.getName()+", $"+child.cost());
             addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clickEvent(evt);
+                if (evt.getClickCount()==2){
+                    System.out.println("Mouse double-clicked on node "+ childNode.getName());
+                    nodeClicked(childNode);
+                }
             }
         });
         }

@@ -21,6 +21,14 @@ public class CostOptionNodeFactory {
         this.programSize = programSize;
     }
     
+    public static String reconstituteCommaConfigString(String[] arrayOfStrings){
+        String description = "";
+        for (String d: arrayOfStrings){
+            description+=d+", ";
+        }
+        description = description.substring(0, description.length()-2);
+        return description;
+    }
     public int nOptions(Path costOptionsPath){
         assert Files.exists(costOptionsPath) && !Files.notExists(costOptionsPath): 
                 "file DNE or can't be accessed:"+costOptionsPath;
@@ -114,11 +122,8 @@ public class CostOptionNodeFactory {
 
         
         String[] descriptions = config.getStringArray("description");
-        String description = "";
-        for (String d: descriptions){
-            description+=d+", ";
-        }
-
+        
+        String description = reconstituteCommaConfigString(descriptions);
             
         node = new CostOptionNode(parent, costOptions, 
                                 optionSelection, name, description);
@@ -130,4 +135,5 @@ public class CostOptionNodeFactory {
                
         return node;
     }
+    
 }
