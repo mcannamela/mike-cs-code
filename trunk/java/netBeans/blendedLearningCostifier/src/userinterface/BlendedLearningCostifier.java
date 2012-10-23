@@ -14,12 +14,16 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -45,23 +49,27 @@ public class BlendedLearningCostifier extends JFrame
     private ProgramSize programSize;
     private JPanel jPanel_rootNodes = new JPanel();
     private JPanel jPanel_rightSide = new JPanel();
+    private JMenu jMenu = new JMenu("File");
     
     private ArrayList<RootNodePanel> rootNodePanels= new ArrayList<>();
-    private static final Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\aBlendedLearningProgram");   
+    private Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\aBlendedLearningProgram");   
     private CostOptionNode rootNode;
+    
+    private static final String ACTION_OPEN = "open";
+    private static final String ACTION_CLOSE = "quit";
+    private static final String ACTION_DEFAULT_DEMO = "demo";
+    
+    private JButton dButton_close = new JButton();
+    
+    private boolean hasOpenConfiguration = false;
     
     public BlendedLearningCostifier() throws ConfigurationException  {
         super("BlendedLearningCostifier");
         
-        PropertiesConfiguration sizeConfig = new PropertiesConfiguration(rootPath.resolve("programSize.config").toFile());
-        programSize = new ProgramSizeFactory().makeProgramSize(sizeConfig);
         
-        
-        CostOptionNodeFactory factory = new CostOptionNodeFactory(programSize);
-        rootNode = factory.makeCostOptionNode(rootPath, null);
-        
-        programSizePanel.setProgramSize(programSize);
-        programSizePanel.addProgramSizeChangedListener(this);
+        dButton_close.setVisible(false);
+        dButton_close.setActionCommand(ACTION_CLOSE);
+        dButton_close.addActionListener(this);
         
         
         int inset = 50;
@@ -81,50 +89,104 @@ public class BlendedLearningCostifier extends JFrame
         hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vSplitPane, jPanel_rightSide);
         hSplitPane.setResizeWeight(1.0);
         
-        createRootNodePanels(); 
         setContentPane(hSplitPane);
-        
-        
         setJMenuBar(createMenuBar());
         
         desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
     }
-
+    
     protected JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
         //Set up the lone menu.
-        JMenu menu = new JMenu("File");
-        menu.setMnemonic(KeyEvent.VK_D);
-        menuBar.add(menu);
+        jMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(jMenu);
 
         //Set up the first menu item.
-        JMenuItem menuItem = new JMenuItem("New");
+        JMenuItem menuItem = new JMenuItem("Open Configuration");
         menuItem.setMnemonic(KeyEvent.VK_N);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_N, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("new");
+        menuItem.setActionCommand(ACTION_OPEN);
         menuItem.addActionListener(this);
-        menu.add(menuItem);
-
-        //Set up the second menu item.
-        menuItem = new JMenuItem("Quit");
-        menuItem.setMnemonic(KeyEvent.VK_Q);
+        jMenu.add(menuItem);
+        
+        
+        menuItem = new JMenuItem("Close Configuration");
+        menuItem.setMnemonic(KeyEvent.VK_L);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("quit");
+                KeyEvent.VK_L, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand(ACTION_CLOSE);
         menuItem.addActionListener(this);
-        menu.add(menuItem);
+        jMenu.add(menuItem);
+        
+        
+        menuItem = new JMenuItem("Show Demo Configuration");
+        menuItem.setMnemonic(KeyEvent.VK_D);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_D, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand(ACTION_DEFAULT_DEMO);
+        menuItem.addActionListener(this);
+        jMenu.add(menuItem);
 
         return menuBar;
     }
 
+    public void readProgramSize() throws ConfigurationException {
+        PropertiesConfiguration sizeConfig = new PropertiesConfiguration(rootPath.resolve("programSize.config").toFile());
+        programSize = new ProgramSizeFactory().makeProgramSize(sizeConfig);
+        
+        programSizePanel.setProgramSize(programSize);
+        programSizePanel.addProgramSizeChangedListener(this);
+    }
+    
+    public void readRootNode() throws ConfigurationException{
+        CostOptionNodeFactory factory = new CostOptionNodeFactory(programSize);
+        rootNode = factory.makeCostOptionNode(rootPath, null);
+    }
+    
+    public void openNodeDirectory() throws ConfigurationException{
+        if (hasOpenConfiguration){
+            dButton_close.doClick();            
+        }
+        readProgramSize();
+        readRootNode();
+        createRootNodePanels();
+        costSummaryPanel.displayCost(rootNode.cost());
+        validate();
+        vSplitPane.resetToPreferredSizes();
+        hasOpenConfiguration = true;
+    }
+    
+    
     //React to menu selections.
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        if ("new".equals(command)) { //new
-            createRootNodePanels();
-        } 
+        if (ACTION_OPEN.equals(command)) { //new
+            JFileChooser chooser = new JFileChooser();
+            File file;
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnVal = chooser.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+               file = chooser.getSelectedFile();
+               System.out.println("You chose to open this directory: " +
+                    file.getName());
+               rootPath = file.toPath();
+               try {
+                openNodeDirectory();
+                } catch (ConfigurationException ex) {
+                    Logger.getLogger(BlendedLearningCostifier.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }
+        else if (ACTION_DEFAULT_DEMO.equals(command)){
+            try {
+                openNodeDirectory();
+            } catch (ConfigurationException ex) {
+                Logger.getLogger(BlendedLearningCostifier.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         else if (ProgramSizePanel.ACTION_PROGRAM_SIZE_CHANGED.equals(command)){
             System.out.println("rootNodePanels heard that program size changed");
             for (RootNodePanel panel : rootNodePanels){
@@ -137,8 +199,19 @@ public class BlendedLearningCostifier extends JFrame
         else if (RootNodePanel.ACTION_COST_CHANGED.equals(command)){
             costSummaryPanel.displayCost(rootNode.cost());
         }
-        else if ("quit".equals(command)) { //quit
-            quit();
+        else if (ACTION_CLOSE.equals(command)) { //quit
+            System.out.println("closing...");
+            for(JInternalFrame frame:desktop.getAllFrames()){
+                frame.setVisible(false);
+                frame.dispose();
+            }
+            jPanel_rootNodes.removeAll();
+            rootNodePanels.clear();
+            
+            validate();
+            jPanel_rootNodes.validate();
+            vSplitPane.resetToPreferredSizes();
+            hasOpenConfiguration = false;
         }
     }
 
