@@ -16,7 +16,7 @@ public enum BlendedLearningModelEnum {
         EXTREME;
         
     public ArrayList<String> getScalingLawTypes(){
-        ArrayList<String> types = new ArrayList();
+        ArrayList<String> types = new ArrayList<>();
         for(ScalingLawTypeEnum type: ScalingLawTypeEnum.values()){
             types.add(type.toString());
         }

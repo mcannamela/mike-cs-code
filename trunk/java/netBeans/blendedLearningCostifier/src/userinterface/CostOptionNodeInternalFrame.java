@@ -128,13 +128,13 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
         jLabel_scaledCostLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_scaledCostLabel.setText("scaled cost, $");
 
-        jLabel_options.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_options.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_options.setText("OPTIONS");
 
-        jLabel_childChoices.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_childChoices.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_childChoices.setText("CHILD CHOICES");
 
-        jButton_newChildChoice.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButton_newChildChoice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton_newChildChoice.setText("+");
         jButton_newChildChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +142,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
             }
         });
 
-        jButton_newOption.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButton_newOption.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton_newOption.setText("+");
         jButton_newOption.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,7 +166,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                 .addComponent(jLabel_childChoices)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_newChildChoice)
-                .addContainerGap(411, Short.MAX_VALUE))
+                .addContainerGap(448, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -204,7 +204,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                             .addComponent(jLabel_nodeName)
                             .addComponent(jLabel_scaledCost)
                             .addComponent(jLabel_scaledCostLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton_OK)
                         .addGap(18, 18, 18)))
@@ -214,7 +214,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                     .addComponent(jLabel_options)
                     .addComponent(jButton_newOption))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addComponent(jScrollPane_optionList, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_childChoices)

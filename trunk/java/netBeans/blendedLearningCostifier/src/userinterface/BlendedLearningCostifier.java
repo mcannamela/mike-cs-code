@@ -40,6 +40,7 @@ public class BlendedLearningCostifier extends JFrame
     private JDesktopPane desktop;
     private JSplitPane hSplitPane, vSplitPane;
     private ProgramSizePanel programSizePanel = new ProgramSizePanel();
+    private CostSummaryPanel costSummaryPanel = new CostSummaryPanel();
     
     private ProgramSize programSize;
     private JPanel jPanel_rootNodes = new JPanel();
@@ -63,30 +64,29 @@ public class BlendedLearningCostifier extends JFrame
         programSizePanel.addProgramSizeChangedListener(this);
         
         
-        //Make the big window be indented 50 pixels from each edge
-        //of the screen.
         int inset = 50;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(2*inset, 0,
                   screenSize.width  - inset*3,
                   screenSize.height - inset*0);
 
-        desktop = new JDesktopPane(); //a specialized layered pane
+        desktop = new JDesktopPane();
        
         vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, jPanel_rootNodes, desktop);
         
         jPanel_rightSide.setLayout(new javax.swing.BoxLayout(jPanel_rightSide, javax.swing.BoxLayout.Y_AXIS));
         jPanel_rightSide.add(programSizePanel);
+        jPanel_rightSide.add(costSummaryPanel);
+        
         hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, vSplitPane, jPanel_rightSide);
         hSplitPane.setResizeWeight(1.0);
         
-        createRootNodePanels(); //create first "window"
+        createRootNodePanels(); 
         setContentPane(hSplitPane);
         
         
         setJMenuBar(createMenuBar());
-
-        //Make dragging a little faster but perhaps uglier.
+        
         desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
     }
 
@@ -134,6 +134,9 @@ public class BlendedLearningCostifier extends JFrame
                 ((CostOptionNodeInternalFrame)frame).programSizeChanged();
             }
         }
+        else if (RootNodePanel.ACTION_COST_CHANGED.equals(command)){
+            costSummaryPanel.displayCost(rootNode.cost());
+        }
         else if ("quit".equals(command)) { //quit
             quit();
         }
@@ -147,6 +150,8 @@ public class BlendedLearningCostifier extends JFrame
             panel.setDesktop(desktop);
             jPanel_rootNodes.add(panel); 
             rootNodePanels.add(panel);
+            panel.addCostChangedListener(this);
+//            System.out.println(node);
         }
     }
     
