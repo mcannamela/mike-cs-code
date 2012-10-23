@@ -166,7 +166,7 @@ public class CostOptionNodeInternalFrame extends javax.swing.JInternalFrame impl
                 .addComponent(jLabel_childChoices)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_newChildChoice)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addContainerGap(460, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
