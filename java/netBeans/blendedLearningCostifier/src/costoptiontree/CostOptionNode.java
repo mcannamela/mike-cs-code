@@ -89,7 +89,12 @@ public class CostOptionNode {
     public void addCostOption(CostOption option){
         costOptions.add(option);
         option.setParent(this);
+//        System.out.println("Before sorting:");
+//        System.out.println(this);
         Collections.sort(costOptions);
+//        System.out.println("After sorting:");
+//        System.out.println(this);
+//        Collections.reverse(costOptions);
     }
     public void removeCostOption(CostOption option){
         costOptions.remove(option);

@@ -7,6 +7,7 @@ import blendedlearningprogram.ProgramSize;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.apache.commons.configuration.*;
 
 
@@ -99,6 +100,11 @@ public class CostOptionNodeFactory {
         } catch (IOException | DirectoryIteratorException x) {
             System.err.println(x);
         }
+//        System.out.println("Before sorting:");
+//        System.out.println(costOptions);
+        Collections.sort(costOptions);
+//        System.out.println("After sorting:");
+//        System.out.println(costOptions);
         return costOptions;
     }
     private OptionSelectionInterface getOptionSelection(AbstractConfiguration config, Path costOptionsPath){
