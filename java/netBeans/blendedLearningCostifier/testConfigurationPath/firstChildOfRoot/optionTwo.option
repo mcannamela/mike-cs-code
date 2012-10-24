@@ -1,0 +1,5 @@
+label = optionTwo
+description = the second option
+minCost = 200
+maxCost = 2000
+scalingLawType = LINEAR_IN_STUDENTS

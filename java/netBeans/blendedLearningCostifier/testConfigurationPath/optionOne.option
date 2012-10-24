@@ -1,0 +1,6 @@
+label = optionOne
+description = the first option
+minCost = 100
+maxCost = 1000
+selectedCost = 500
+scalingLawType = CONSTANT

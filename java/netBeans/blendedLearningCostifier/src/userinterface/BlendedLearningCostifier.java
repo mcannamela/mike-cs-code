@@ -52,7 +52,7 @@ public class BlendedLearningCostifier extends JFrame
     private JMenu jMenu = new JMenu("File");
     
     private ArrayList<RootNodePanel> rootNodePanels= new ArrayList<>();
-    private Path rootPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\aBlendedLearningProgram");   
+    private Path rootPath = Paths.get(".","aBlendedLearningProgram");   
     private CostOptionNode rootNode;
     
     private static final String ACTION_OPEN = "open";
@@ -66,7 +66,8 @@ public class BlendedLearningCostifier extends JFrame
     public BlendedLearningCostifier() throws ConfigurationException  {
         super("BlendedLearningCostifier");
         
-        
+//        System.out.println("CWD is:");
+//        System.out.println(Paths.get(".").toAbsolutePath());
         dButton_close.setVisible(false);
         dButton_close.setActionCommand(ACTION_CLOSE);
         dButton_close.addActionListener(this);

@@ -27,8 +27,8 @@ public class CostOptionFactoryTest {
     private static final StandardBlendedLearningModel blendedLearningModel = new StandardBlendedLearningModel();
     private static final int nrStudents = 300;
     private static final int nrPeriods = 6;
-//    private static final Path testConfigurationPath = Paths.get(URI.create("https://www.dropbox.com/sh/17n5pq7zjc0nle0/Cu89TnYIL5"));
-    private static final Path testConfigurationPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");
+
+    private static final Path testConfigurationPath = Paths.get(".","testConfigurationPath");
     
     private static ProgramSize programSize;
     private static ArrayList<Path> optionsConfigPaths = new ArrayList<>(3);
@@ -49,9 +49,9 @@ public class CostOptionFactoryTest {
     public void setUp() {
         optionFactory = new CostOptionFactory(programSize);    
         
-        optionsConfigPaths.add(Paths.get("nodeCostOptions", "optionOne.config"));
-        optionsConfigPaths.add(Paths.get("nodeCostOptions", "optionTwo.config"));
-        optionsConfigPaths.add(Paths.get("nodeCostOptions", "optionThree.config"));
+        optionsConfigPaths.add(Paths.get( "optionOne.option"));
+        optionsConfigPaths.add(Paths.get( "optionTwo.option"));
+        optionsConfigPaths.add(Paths.get( "optionThree.option"));
     }
     
     @After

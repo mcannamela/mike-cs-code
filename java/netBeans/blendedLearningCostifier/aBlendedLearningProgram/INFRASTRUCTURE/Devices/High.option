@@ -1,0 +1,5 @@
+label = H
+description = High cost option.
+minCost = 10000
+maxCost = 100000
+scalingLawType = CONSTANT

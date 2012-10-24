@@ -1,0 +1,6 @@
+label = full time employee
+description = assign a salaried employee to teach this course
+minCost = 30000
+maxCost = 100000
+
+scalingLawType = LINEAR_IN_TEACHERS

@@ -1,0 +1,6 @@
+label = L
+description = low cost option
+minCost = 100
+maxCost = 1000
+
+scalingLawType = CONSTANT

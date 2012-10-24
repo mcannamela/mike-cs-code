@@ -1,0 +1,5 @@
+label = hourly teacher
+description = contract out by the hour
+minCost = 10000
+maxCost = 50000
+scalingLawType = LINEAR_IN_TEACHERS

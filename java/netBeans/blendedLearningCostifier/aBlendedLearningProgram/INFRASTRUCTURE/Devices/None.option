@@ -1,0 +1,6 @@
+label = none
+description = no cost
+minCost = 0
+maxCost = 1
+selectedCost = 0
+scalingLawType = CONSTANT
