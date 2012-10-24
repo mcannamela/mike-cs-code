@@ -147,7 +147,7 @@ public class ProgramSizePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jLabel7.setText("nrTeachers:");
+        jLabel7.setText("FTE");
 
         jLabel_displayNrTeachers.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_displayNrTeachers.setText("##");
@@ -175,7 +175,7 @@ public class ProgramSizePanel extends javax.swing.JPanel {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(jLabel_displayNrTeachers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(layout.createSequentialGroup()
