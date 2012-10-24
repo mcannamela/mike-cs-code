@@ -216,7 +216,7 @@ public class ChildNodeView extends javax.swing.JPanel implements ActionListener 
     
     public void selectedOptionChanged(){
         CostOption option = getSelectedOption();
-        jLabel_selectedOptionLabel.setText(option.getDescription());
+        jLabel_selectedOptionLabel.setText(option.getLabel());
         
         jLabel_scaledMax.setText(new Integer(option.getScaledMaxCost()).toString());
         jLabel_scaledMin.setText(new Integer(option.getScaledMinCost()).toString());
