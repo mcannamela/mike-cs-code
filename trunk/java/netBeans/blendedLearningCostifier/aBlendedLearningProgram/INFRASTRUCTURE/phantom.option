@@ -1,0 +1,6 @@
+label = phantom
+description = this is just a placeholder
+minCost = 0
+maxCost = 1
+selectedCost = 0
+scalingLawType = CONSTANT

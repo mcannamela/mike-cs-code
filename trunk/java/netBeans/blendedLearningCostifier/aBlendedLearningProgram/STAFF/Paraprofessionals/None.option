@@ -1,0 +1,6 @@
+label = none
+description = certified teachers not required for this program
+minCost = 0
+maxCost = 1
+selectedCost = 0
+scalingLawType = CONSTANT

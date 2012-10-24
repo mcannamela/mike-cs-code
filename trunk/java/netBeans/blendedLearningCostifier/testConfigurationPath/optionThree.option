@@ -1,0 +1,6 @@
+label = optionThree
+description = the third option
+minCost = 300
+maxCost = 3000
+selectedCost = 1000
+scalingLawType = LINEAR_IN_TEACHERS

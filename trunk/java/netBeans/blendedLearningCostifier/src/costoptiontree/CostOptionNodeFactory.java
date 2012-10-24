@@ -4,6 +4,7 @@
  */
 package costoptiontree;
 import blendedlearningprogram.ProgramSize;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ import org.apache.commons.configuration.*;
  */
 public class CostOptionNodeFactory {
     private ProgramSize programSize;
+    
+    public static final String NODE_DESCRIPTION_KEY = "description";
+    public static final String NODE_CONFIG_FILENAME = "node.config";
+    public static final String OPTION_SUFFIX = "option";
 
     public CostOptionNodeFactory(ProgramSize programSize) {
         this.programSize = programSize;
@@ -33,115 +38,103 @@ public class CostOptionNodeFactory {
         
         return description;
     }
-    public int nOptions(Path costOptionsPath){
-        assert Files.exists(costOptionsPath) && !Files.notExists(costOptionsPath): 
-                "file DNE or can't be accessed:"+costOptionsPath;
-        int nOptions = 0;
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(costOptionsPath, "*.{config}")) {
-            //iterate over all config files in the nodeCostOptions directory
-            for (Path file: stream) {
-                nOptions++;
+    
+    public static void assertExists(Path path){
+        assert Files.exists(path) && !Files.notExists(path): 
+                "file DNE or can't be accessed:"+path;
+    }
+    static ArrayList<Path> getCostOptionPaths(Path nodePath){
+        assertExists(nodePath);
+        
+        ArrayList<Path> costOptionPaths = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(nodePath, "*.{"+OPTION_SUFFIX+"}")) {
+            for (Path path: stream) {
+                costOptionPaths.add(path);
             }
         } catch (IOException | DirectoryIteratorException x) {
             System.err.println(x);
         }
-        return nOptions;
+        return costOptionPaths;
+    }
+    static int nOptions(Path costOptionsPath){
+        return getCostOptionPaths(costOptionsPath).size();
     }
     
-    public int nChildren(Path childDirectory){
-        int nChildren = 0;
-        
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(childDirectory)) {
-            for (Path file: stream) {
-                assert Files.isDirectory(file): "child directory must contain "+
-                        "only costOptionNode directories:"+file;
-                nChildren++;
+    static ArrayList<Path> getChildNodePaths(Path parentPath){
+        assertExists(parentPath);
+         ArrayList<Path> childPaths = new ArrayList<>();
+         
+         try (DirectoryStream<Path> stream = Files.newDirectoryStream(parentPath)) {
+            for (Path path: stream) {
+                if (Files.isDirectory(path)){
+                    childPaths.add(path);
+                }
             }
         } catch (IOException | DirectoryIteratorException x) {
             System.err.println(x);
         }
-        return nChildren;
+         return childPaths;
     }
+    
+    public static int nChildren(Path parentPath){
+        return getChildNodePaths(parentPath).size();
+    }
+    
     private void setChildren(Path nodePath, CostOptionNode parent) throws ConfigurationException{
-        Path childDirectory = Paths.get(nodePath.toString(), "children");
-        assert Files.isDirectory(childDirectory): "nodePath must have subdirectory called children:"+nodePath;
         CostOptionNodeFactory childFactory = new CostOptionNodeFactory(programSize);
+        
+        ArrayList<Path> childPaths = getChildNodePaths(nodePath);
         ArrayList<CostOptionNode> children = new ArrayList<>();
-        if (nChildren(childDirectory)>0){
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(childDirectory)) {
-                for (Path file: stream) {
-                    System.out.println(file);
-                    children.add(childFactory.makeCostOptionNode(file, parent));
-                }
-            } catch (IOException | DirectoryIteratorException x) {
-                System.err.println(x);
-            }
+        for (Path path: childPaths) {
+//                    System.out.println(path);
+                    children.add(childFactory.makeCostOptionNode(path, parent));
         }
-        
-//        for (CostOptionNode child : children){
-//            parent.addChild(child);
-//        }
-        
     }
-    private ArrayList<CostOption> getCostOptions(Path costOptionsPath) throws ConfigurationException {
-        assert Files.exists(costOptionsPath) && !Files.notExists(costOptionsPath): 
-                "file DNE or can't be accessed:"+costOptionsPath;
+    
+    ArrayList<CostOption> getCostOptions(Path nodePath) throws ConfigurationException {
         CostOptionFactory optionFactory = new CostOptionFactory(programSize);
         ArrayList<CostOption> costOptions = new ArrayList<>();
+        ArrayList<Path> costOptionPaths = getCostOptionPaths(nodePath);
         PropertiesConfiguration optionConfig;
-        //open the sub-directory that contains the costOptions config files
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(costOptionsPath)) {
-            //iterate over all config files in the nodeCostOptions directory
-            for (Path file: stream) {
-                //open the option config file and add it to the list of costOptions for this node
-                optionConfig = new PropertiesConfiguration(file.toFile());
-                costOptions.add(optionFactory.makeCostOption(optionConfig));
-            }
-        } catch (IOException | DirectoryIteratorException x) {
-            System.err.println(x);
+        
+             
+        for (Path path: costOptionPaths) {
+            optionConfig = new PropertiesConfiguration(path.toFile());
+            costOptions.add(optionFactory.makeCostOption(optionConfig));
         }
-//        System.out.println("Before sorting:");
-//        System.out.println(costOptions);
+        
         Collections.sort(costOptions);
-//        System.out.println("After sorting:");
-//        System.out.println(costOptions);
         return costOptions;
     }
-    private OptionSelectionInterface getOptionSelection(AbstractConfiguration config, Path costOptionsPath){
+    
+    private OptionSelectionInterface getOptionSelection(AbstractConfiguration config, Path nodePath){
         //later, can support choice and configuration of optionSelection type via the config file
-        SingleOptionSelection optionSelection = new SingleOptionSelection(nOptions(costOptionsPath), 0);
+        SingleOptionSelection optionSelection = new SingleOptionSelection(nOptions(nodePath), 0);
         return optionSelection;
     }
     public CostOptionNode makeCostOptionNode(Path nodePath, CostOptionNode parent ) throws ConfigurationException{
-        
+        CostOptionNode node;
+        ArrayList<CostOption> costOptions = getCostOptions( nodePath);
         String name = nodePath.getFileName().toString();       
         
         assert !"".equals(name): "name string is empty or null!";
-        Path costOptionsPath = Paths.get(nodePath.toString(), "nodeCostOptions");
-        ArrayList<CostOption> costOptions = getCostOptions( costOptionsPath);
         
+        File configFile;
+        PropertiesConfiguration config; 
+        OptionSelectionInterface optionSelection; 
         
-        //open the config file for this node
-        CostOptionNode node;
-        PropertiesConfiguration config = 
-                    new PropertiesConfiguration(nodePath.resolve(Paths.get("node.config")).toFile());
-
-        OptionSelectionInterface optionSelection = 
-                   getOptionSelection(config, costOptionsPath);
-
+        configFile= nodePath.resolve(Paths.get(NODE_CONFIG_FILENAME)).toFile();
+        config= new PropertiesConfiguration(configFile);
+        optionSelection = getOptionSelection(config, nodePath);
         
-        String[] descriptions = config.getStringArray("description");
-        
+        String[] descriptions = config.getStringArray(NODE_DESCRIPTION_KEY);
         String description = reconstituteCommaConfigString(descriptions);
             
         node = new CostOptionNode(parent, costOptions, 
                                 optionSelection, name, description);
              
-        if (Files.exists(nodePath.resolve("children"))){
-                 setChildren(nodePath,node);
-             }
-
-               
+        setChildren(nodePath,node);
+             
         return node;
     }
     

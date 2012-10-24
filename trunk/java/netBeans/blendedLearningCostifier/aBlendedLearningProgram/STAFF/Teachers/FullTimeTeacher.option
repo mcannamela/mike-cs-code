@@ -1,0 +1,6 @@
+label = full time teacher
+description = assign one FTE's worth of a salaried teacher to teach this course
+minCost = 30000
+maxCost = 100000
+
+scalingLawType = LINEAR_IN_TEACHERS

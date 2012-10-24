@@ -1,0 +1,5 @@
+label = fiber
+description = blazing fast fiber connection
+minCost = 1000
+maxCost = 5000
+scalingLawType = CONSTANT

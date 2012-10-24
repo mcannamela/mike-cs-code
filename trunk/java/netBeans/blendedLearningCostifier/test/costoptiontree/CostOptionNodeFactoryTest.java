@@ -23,7 +23,7 @@ public class CostOptionNodeFactoryTest {
     private static final StandardBlendedLearningModel blendedLearningModel = new StandardBlendedLearningModel();
     private static final int nrStudents = 300;
     private static final int nrPeriods = 6;
-    private static final Path testConfigurationPath = Paths.get("C:\\Users\\Michael\\Dropbox\\timewise_blendedLearningEvaluator\\testConfigurationPath");   
+    private static final Path testConfigurationPath = Paths.get(".","testConfigurationPath");
     private static ProgramSize programSize;
     
     private CostOptionNodeFactory instance;
@@ -45,12 +45,9 @@ public class CostOptionNodeFactoryTest {
     public void testNOptions() {
         System.out.println("nOptions");
         
-        Path nodeCostOptions = Paths.get("nodeCostOptions");
-        Path costOptionsPath = testConfigurationPath.resolve(nodeCostOptions);
-        
         
         int expResult = 3;
-        int result = instance.nOptions(costOptionsPath);
+        int result = CostOptionNodeFactory.nOptions(testConfigurationPath);
         assertEquals(expResult, result);
         
     }
@@ -58,10 +55,9 @@ public class CostOptionNodeFactoryTest {
     @Test
     public void testNChildren() {
         System.out.println("nChildren");
-        Path children = Paths.get("children");
-        
+                
         int expResult = 2;
-        int result = instance.nChildren(testConfigurationPath.resolve(children));
+        int result = CostOptionNodeFactory.nChildren(testConfigurationPath);
         assertEquals(expResult, result);
     }
 

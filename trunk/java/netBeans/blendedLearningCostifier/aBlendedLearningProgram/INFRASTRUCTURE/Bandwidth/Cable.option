@@ -1,0 +1,5 @@
+label = cable
+description = a new cable connection
+minCost = 500
+maxCost = 2000
+scalingLawType = CONSTANT

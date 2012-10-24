@@ -1,0 +1,5 @@
+label = M
+description = Medium cost option.
+minCost = 1000
+maxCost = 10000
+scalingLawType = CONSTANT
