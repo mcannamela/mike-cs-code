@@ -43,6 +43,7 @@ public class ProgramSizePanel extends javax.swing.JPanel {
     public void setProgramSize(ProgramSize programSize){
         this.programSize = programSize;
         jSpinner_nrStudents.setValue(programSize.getNrStudents());
+        jSpinner_nrPeriods.setValue(programSize.getNrPeriods());
         jComboBox_blendedLearningModel.setSelectedItem(programSize.getBlendedLearningModel().getType());
         programSizeChanged();
     }
@@ -87,13 +88,13 @@ public class ProgramSizePanel extends javax.swing.JPanel {
 
         jLabel3.setText("nrStudents:");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel5.setText("Student/Teacher Ratio:");
 
         jLabel_displayStudentTeacherRatio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_displayStudentTeacherRatio.setText("##");
-        jLabel_displayStudentTeacherRatio.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        jLabel_displayStudentTeacherRatio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jComboBox_blendedLearningModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,7 +151,7 @@ public class ProgramSizePanel extends javax.swing.JPanel {
 
         jLabel_displayNrTeachers.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_displayNrTeachers.setText("##");
-        jLabel_displayNrTeachers.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        jLabel_displayNrTeachers.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel6.setText("nrPeriods:");
 
@@ -239,6 +240,7 @@ public class ProgramSizePanel extends javax.swing.JPanel {
     private void displayNrTeachers(){
         jLabel_displayNrTeachers.setText(""+programSize.getNrTeachers());
     }
+    
     private void displayRatio(){
         jLabel_displayStudentTeacherRatio.setText(""
                 +programSize.getBlendedLearningModel().getStudentToTeacherRatio());
