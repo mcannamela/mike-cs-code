@@ -87,7 +87,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
         jTextArea_description = new javax.swing.JTextArea();
         jLabel_label = new javax.swing.JLabel();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel_unitMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_unitMax.setText("unitMax");
@@ -139,8 +139,8 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                         .addComponent(jLabel_scaledMin)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel_scaledSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel_scaledMax, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_scaledMax, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_scaled, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -167,7 +167,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
                 .addGap(2, 2, 2))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jTextArea_description.setEditable(false);
         jTextArea_description.setColumns(20);
@@ -185,7 +185,7 @@ public class CostOptionView extends javax.swing.JPanel implements ActionListener
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel_label, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_label, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane_descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
         );
