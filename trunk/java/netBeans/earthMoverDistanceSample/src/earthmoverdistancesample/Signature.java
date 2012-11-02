@@ -4,11 +4,11 @@ import java.util.ArrayList;
  *
  * @author wichtelwesen
  */
-class Signature {
-    private ArrayList<Feature> features;
+public class Signature {
+    private ArrayList<BaseFeature> features;
     private ArrayList<Double> weights;
     
-    Signature(ArrayList<Feature> features, ArrayList<Double> weights){ 
+    Signature(ArrayList<BaseFeature> features, ArrayList<Double> weights){ 
         assert features.size()==weights.size(): assertString(features.size(), 
                                                             weights.size());
         this.features = features;
@@ -22,15 +22,14 @@ class Signature {
         return weights.size();
     }
     
-            
-    public ArrayList<Feature> getFeatures(){
-        return features;
+    public ArrayList<BaseFeature> getFeatures(){
+        return new ArrayList<BaseFeature>(features);
     }
     public ArrayList<Double> getWeights(){
-        return weights;
+        return new ArrayList<Double>(weights);
     }
     
-    public Feature featureAt(int i){
+    public BaseFeature featureAt(int i){
         return features.get(i);
     }
     
@@ -38,7 +37,7 @@ class Signature {
         return weights.get(i);
     }
     
-    public void setFeatures(ArrayList<Feature> features){
+    public void setFeatures(ArrayList<BaseFeature> features){
         assert features.size()==nWeights(): assertString(features.size(),
                                                         nWeights());
         this.features = features;
@@ -49,33 +48,39 @@ class Signature {
         this.weights = weights;
     }
     
-    public Simple2DArrayInterface distanceMatrix( Signature  other){
+    public AbstractSimple2DArray distanceMatrix( Signature  other){
         assert nFeatures()==nWeights(): assertString(nFeatures(), nWeights());
         assert other.nFeatures()==other.nWeights(): "other "+assertString(
                                            other.nFeatures(), other.nWeights());
-        Simple2DArray distanceArray = new Simple2DArray(nFeatures(), other.nFeatures());
+        Simple2DDoubleArray distanceArray = new Simple2DDoubleArray(nFeatures(), other.nFeatures());
         for(int i=0;i<nFeatures();i++){
-            for(int j=0;j<nFeatures();j++){
-                Feature thisFeature = featureAt(i);
-                Feature thatFeature = other.featureAt(j);
+            for(int j=0;j<other.nFeatures();j++){
+                BaseFeature thisFeature = featureAt(i);
+                BaseFeature thatFeature = other.featureAt(j);
                 distanceArray.setValueAt(i, j, thisFeature.distance(thatFeature));
             }
         }
-        
         return distanceArray;
-                
     }
     
+    
+    public void normalizeWeights(){
+        normalizeWeights(1.0);
+    }
     public void normalizeWeights(double normValue){
-        
+        double weightSum = 0;
+        double newVal;
+        for (double x: weights){
+            weightSum+=x;
+        }
+        for (int i = 0; i<nWeights();i++){
+            newVal = normValue*weights.get(i)/weightSum;
+            weights.set(i, newVal);
+        }
     }
     
     private String assertString(int nFeatures, int nWeights){
         return "features has "+ nFeatures+ "elements, weights has"
                                    +nWeights +"elements";
     }
-    
-    
-    
-    
 }

@@ -4,16 +4,16 @@ package earthmoverdistancesample;
  *
  * @author wichtelwesen
  */
-public abstract class Feature<T> {
+public class BaseFeature<T> {
     private T value;
-    private GroundDistanceFunctionInterface<Feature<T>> distanceFunction;
+    private GroundDistanceFunctionInterface<BaseFeature<T>> distanceFunction;
     
-    Feature(T value,GroundDistanceFunctionInterface<Feature<T>> distanceFunction ){
+    BaseFeature(T value,GroundDistanceFunctionInterface<BaseFeature<T>> distanceFunction ){
         this.value = value;
         this.distanceFunction = distanceFunction;
     }
     
-    double distance(Feature<T> other){
+    public final double distance(BaseFeature<T> other){
         return distanceFunction.distance(this, other);
     }
     
