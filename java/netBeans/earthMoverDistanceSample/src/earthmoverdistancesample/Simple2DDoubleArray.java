@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author wichtelwesen
  */
-public class Simple2DDoubleArray implements AbstractSimple2DArray<Double>{
+public class Simple2DDoubleArray implements Simple2DArrayInterface<Double>{
     private double[][] valueArray;
     private int nRows;
     private int nColumns;
@@ -43,10 +43,35 @@ public class Simple2DDoubleArray implements AbstractSimple2DArray<Double>{
     public static Simple2DDoubleArray ones(int nRows, int nColumns){
         return new Simple2DDoubleArray(nRows,nColumns, 1.0);
     }
-    
+    public static double[] ArrayListToDoubleArray(ArrayList<Double> arr){
+        double[] A = new double[arr.size()];
+        for (int i=0;i<arr.size();i++){
+            A[i] = arr.get(i);
+        }
+        return A;
+    }
+    public Simple2DDoubleArray zeros(){
+        return zeros(nRows, nColumns);
+    }
+    @Override
+    public Simple2DDoubleArray onesInRow(int row){
+        Simple2DDoubleArray arr = zeros();
+        for(int j=0;j<nColumns;j++){
+            arr.setValueAt(row,j,1.0);
+        }
+        return arr;
+    }
+    @Override
+    public Simple2DDoubleArray onesInColumn(int column){
+        Simple2DDoubleArray arr = zeros();
+        for(int i=0;i<nRows;i++){
+            arr.setValueAt(i,column,1.0);
+        }
+        return arr;
+    }
 
     @Override
-    public AbstractSimple2DArray ravel(ArrayList<Double> flatArray, int nRows, int nColumns) {
+    public Simple2DArrayInterface ravel(ArrayList<Double> flatArray, int nRows, int nColumns) {
         assert flatArray.size()==nRows*nColumns:"bad ravel size, flatArray is size:"+flatArray.size()+
                    ", while nRows, nColumns is "+nRows +", "+nColumns;
         
@@ -63,7 +88,7 @@ public class Simple2DDoubleArray implements AbstractSimple2DArray<Double>{
     }
 
     @Override
-    public AbstractSimple2DArray ravel(ArrayList<Double> flatArray) {
+    public Simple2DArrayInterface ravel(ArrayList<Double> flatArray) {
         return ravel(flatArray, shape()[0], shape()[1]);
     }
     
@@ -84,7 +109,7 @@ public class Simple2DDoubleArray implements AbstractSimple2DArray<Double>{
     }
     
     @Override
-    public AbstractSimple2DArray elementWiseOperate(AbstractSimple2DArray<Double> other,
+    public Simple2DArrayInterface elementWiseOperate(Simple2DArrayInterface<Double> other,
                                     BinaryOperatorInterface<Double> operator){
         Simple2DDoubleArray result = new Simple2DDoubleArray(nRows,nColumns);
         for(int i=0; i<nRows;i++){
@@ -96,12 +121,12 @@ public class Simple2DDoubleArray implements AbstractSimple2DArray<Double>{
     }
    
     @Override
-    public AbstractSimple2DArray elementWiseAdd(AbstractSimple2DArray other){
+    public Simple2DArrayInterface elementWiseAdd(Simple2DArrayInterface other){
         doubleAdder adder = new doubleAdder();
         return elementWiseOperate(other, adder);
     }
     @Override
-    public AbstractSimple2DArray elementWiseMultiply(AbstractSimple2DArray other){
+    public Simple2DArrayInterface elementWiseMultiply(Simple2DArrayInterface other){
         doubleMultiplier multiplier = new doubleMultiplier();
         return elementWiseOperate(other, multiplier);
     }
