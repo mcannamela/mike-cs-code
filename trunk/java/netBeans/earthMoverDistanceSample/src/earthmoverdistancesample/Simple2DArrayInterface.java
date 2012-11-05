@@ -10,20 +10,23 @@ import java.util.ArrayList;
  *
  * @author wichtelwesen
  */
-public interface AbstractSimple2DArray<T> {
+public interface Simple2DArrayInterface<T> {
 
-    AbstractSimple2DArray elementWiseOperate(AbstractSimple2DArray<T> other, 
+    Simple2DArrayInterface elementWiseOperate(Simple2DArrayInterface<T> other, 
                                             BinaryOperatorInterface<T> operator);
     
-    AbstractSimple2DArray elementWiseMultiply(AbstractSimple2DArray other);
+    Simple2DArrayInterface elementWiseMultiply(Simple2DArrayInterface other);
     
-    AbstractSimple2DArray elementWiseAdd(AbstractSimple2DArray other);
+    Simple2DArrayInterface elementWiseAdd(Simple2DArrayInterface other);
+    
+    Simple2DDoubleArray onesInRow(int row);
+    Simple2DDoubleArray onesInColumn(int column);
    
     ArrayList<T> flatten();
     
-    AbstractSimple2DArray ravel(ArrayList<T> flatArray, int nRows, int nColumns);
+    Simple2DArrayInterface ravel(ArrayList<T> flatArray, int nRows, int nColumns);
     
-    AbstractSimple2DArray ravel(ArrayList<T> flatArray);
+    Simple2DArrayInterface ravel(ArrayList<T> flatArray);
 
     void setValueAt(int row, int column, T value);
 

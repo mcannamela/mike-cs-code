@@ -11,8 +11,8 @@ public class Signature {
     Signature(ArrayList<BaseFeature> features, ArrayList<Double> weights){ 
         assert features.size()==weights.size(): assertString(features.size(), 
                                                             weights.size());
-        this.features = features;
-        this.weights = weights;
+        this.features = new ArrayList<>(features);
+        this.weights = new ArrayList<>(weights);
     }
     
     public int nFeatures(){
@@ -23,10 +23,18 @@ public class Signature {
     }
     
     public ArrayList<BaseFeature> getFeatures(){
-        return new ArrayList<BaseFeature>(features);
+        return new ArrayList<>(features);
     }
     public ArrayList<Double> getWeights(){
-        return new ArrayList<Double>(weights);
+        return new ArrayList<>(weights);
+    }
+    
+    public double getWeightsNorm(){
+        double s = 0;
+        for (Double x: weights){
+            s+=x;
+        }
+        return s;
     }
     
     public BaseFeature featureAt(int i){
@@ -40,15 +48,15 @@ public class Signature {
     public void setFeatures(ArrayList<BaseFeature> features){
         assert features.size()==nWeights(): assertString(features.size(),
                                                         nWeights());
-        this.features = features;
+        this.features = new ArrayList<>(features);
     }
     public void setWeights(ArrayList<Double> weights){
         assert nFeatures()==weights.size(): assertString(nFeatures(),
                                                         weights.size());
-        this.weights = weights;
+        this.weights = new ArrayList<>(weights);
     }
     
-    public AbstractSimple2DArray distanceMatrix( Signature  other){
+    public Simple2DArrayInterface distanceMatrix( Signature  other){
         assert nFeatures()==nWeights(): assertString(nFeatures(), nWeights());
         assert other.nFeatures()==other.nWeights(): "other "+assertString(
                                            other.nFeatures(), other.nWeights());
@@ -68,11 +76,9 @@ public class Signature {
         normalizeWeights(1.0);
     }
     public void normalizeWeights(double normValue){
-        double weightSum = 0;
+        double weightSum = getWeightsNorm();
         double newVal;
-        for (double x: weights){
-            weightSum+=x;
-        }
+        
         for (int i = 0; i<nWeights();i++){
             newVal = normValue*weights.get(i)/weightSum;
             weights.set(i, newVal);
