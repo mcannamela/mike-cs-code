@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  */
 public class NDEntityTest {
     private NDEntity instance;
-    private int[] defaultShape = {2,3,4};;
+    private int[] defaultShape = {2,3,4};
     public NDEntityTest() {
     }
     
@@ -121,4 +121,25 @@ public class NDEntityTest {
         assertEquals(expResult, result);
         
     }
+    
+    @Test
+    public void testNDTo1D(){
+        System.out.println("nDTo1D");
+        int[][] testIndices = {
+                                {0,0,0},
+                                {1,0,0},
+                                {0,1,0},
+                                {1,1,0},
+                                {0,2,0},
+                                {0,0,1},
+                                {0,1,1} 
+        };
+        int[] expecteds = {0,1,2,3,4,6,8};
+        int[] results = new int[testIndices.length];
+        for (int i=0;i<testIndices.length;i++){
+            results[i] = instance.nDTo1D(testIndices[i]);
+        }
+        assertArrayEquals(expecteds, results);
+    }
+    
 }

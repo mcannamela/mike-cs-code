@@ -32,12 +32,14 @@ public class Slice{
         this.stop = stop;
         this.step = DEFAULT_STEP_VALUE;
         validate();
+        setIndices();
     }
     public Slice(int start, int stop, int step) {
         this.start = start;
         this.stop = stop;   
         this.step = step;
         validate();
+        setIndices();
     }
     
     private void validate(){
@@ -53,10 +55,10 @@ public class Slice{
         assert (stop>=0||stop==UNCOOKED_STOP_VALUE):"stop must be positive, or -1 for end element";
     }
     private void validateStep(){
-        if (start<stop){
+        if (start<stop || stop==UNCOOKED_STOP_VALUE ){
             assert step>=0:"this is an incrementing slice, step must be positive";
         }
-        else if (stop<start){
+        else if (stop!=UNCOOKED_STOP_VALUE && stop<start){
             assert step<0:"this is a decrementing slice, step must be negative";
         }
         else{
