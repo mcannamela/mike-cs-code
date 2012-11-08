@@ -16,7 +16,7 @@ public class NDArrayDemo {
         int[] shape = {2, 3, 4};
         int[] idx = new int[shape.length];
         String idxString;
-        NDIterator iterator = new NDIterator(shape);
+        NDCounter iterator = new NDCounter(shape);
         
         while (iterator.hasNext()){
             idxString = "";
