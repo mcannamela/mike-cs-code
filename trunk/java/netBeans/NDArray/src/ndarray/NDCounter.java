@@ -10,42 +10,36 @@ import java.util.NoSuchElementException;
  *
  * @author mcannamela
  */
-public class NDIterator extends NDEntity {
-    private int[] nDIndex;
-    private int   index;
+public class NDCounter extends NDEntity {
+    protected int[] nDIndex;
+    protected int   index;
 
-    public NDIterator(int[] shape) {
-        this.shape = shape;
+    public NDCounter() {
+    }
+
+    
+    public NDCounter(int[] shape) {
+        super(shape);
         initNDIndex();
-        initStrides();
-        initNElements();
     }
     
-    private void initNDIndex(){
-        nDIndex = new int[shape.length];
+    protected final void initNDIndex(){
+        nDIndex = new int[nDimensions()];
         for (int i=0;i<nDIndex.length;i++){
             nDIndex[i]=0;
         }
     }
-
-    public void setStrides(int[] strides) {
-        this.strides = strides;
-    }
-    public void setStrideAt(int index, int stride){
-        strides[index] = stride;
-    }
     
-    public boolean hasNext(){
-        return index<(nElements-1);
+    public final boolean hasNext(){
+        return index<(nElements);
     }
     private boolean dimensionHasNext(int dimension){
-        
         return nDIndex[dimension]<(shape[dimension]-1);
     }
     
-    public int[] next() throws NoSuchElementException{
-        int dimCounter = shape.length;
-        int[] idx = idxCopy(nDIndex);
+    public final int[] next() throws NoSuchElementException{
+        int dimCounter = nDimensions();
+        int[] idx = getCurrentIndex();
         
         if (hasNext()){
             recursiveIncrement(dimCounter-1);
@@ -54,9 +48,9 @@ public class NDIterator extends NDEntity {
         else{
             throw new NoSuchElementException("this iterator is exhausted");
         }
-        
         return idx;
     }
+    
     
     private void recursiveIncrement(int activeDimension){
         if (dimensionHasNext(activeDimension)){
@@ -69,9 +63,10 @@ public class NDIterator extends NDEntity {
             }
         }
     }
-
-    int[] newIndex() {
-        return new int[shape.length];
+    
+    protected int[] getCurrentIndex(){
+        return idxCopy(nDIndex);
     }
+    
     
 }
