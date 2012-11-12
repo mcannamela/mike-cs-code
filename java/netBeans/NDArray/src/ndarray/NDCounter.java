@@ -15,6 +15,7 @@ public class NDCounter extends NDEntity {
     protected int   index;
 
     public NDCounter() {
+        super();
     }
 
     
@@ -51,6 +52,10 @@ public class NDCounter extends NDEntity {
         return idx;
     }
     
+    public final int[] getCounterPosition(){
+        return NDEntity.idxCopy(nDIndex);
+    }
+    
     
     private void recursiveIncrement(int activeDimension){
         if (dimensionHasNext(activeDimension)){
@@ -67,6 +72,7 @@ public class NDCounter extends NDEntity {
     protected int[] getCurrentIndex(){
         return idxCopy(nDIndex);
     }
+    
     
     
 }

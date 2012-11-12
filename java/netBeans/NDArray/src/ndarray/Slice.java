@@ -42,6 +42,22 @@ public class Slice{
         setIndices();
     }
     
+    public Slice(int[] sliceParameters){
+        if (sliceParameters.length==2){
+            this.start = sliceParameters[0];
+            this.stop = sliceParameters[1];
+            this.step = DEFAULT_STEP_VALUE;
+        }
+        if (sliceParameters.length==3){
+            this.start = sliceParameters[0];
+            this.stop = sliceParameters[1];
+            this.step = sliceParameters[2];
+        }
+        
+        validate();
+        setIndices();
+    }
+    
     private void validate(){
         validateStart();
         validateStop();
