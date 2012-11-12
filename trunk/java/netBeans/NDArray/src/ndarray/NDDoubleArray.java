@@ -100,14 +100,14 @@ public class NDDoubleArray extends NDEntity{
         operate(operator, ownCounter, otherCounter, null);
     }
     
-    public NDDoubleArray get(ArrayList<Slice> rawSlices) {
+    public NDDoubleArray get(Slice[] rawSlices) {
         SliceCounter ownCounter = getSliceCounter(rawSlices);
         NDDoubleArray slicedArray = new NDDoubleArray(ownCounter.shape());
         AccessOperator operator = new AccessOperator(slicedArray);
         operate(operator, ownCounter, null, slicedArray.getNewCounter());
         return slicedArray;
     }
-    public void assign(ArrayList<Slice> rawSlices, NDDoubleArray other){
+    public void assign(Slice[] rawSlices, NDDoubleArray other){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
         if (!Arrays.equals(ownCounter.shape(),other.shape())){
             throw new DimensionMismatchException("shape of slices does not match shape of array");
@@ -115,7 +115,7 @@ public class NDDoubleArray extends NDEntity{
         assign(ownCounter, other.getNewCounter(), other);
     }
     
-    public void assign(ArrayList<Slice> rawSlices, NDDoubleArray other, ArrayList<Slice> rawOtherSlices){
+    public void assign(Slice[] rawSlices, NDDoubleArray other, Slice[] rawOtherSlices){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
         SliceCounter otherCounter = other.getSliceCounter(rawOtherSlices);
         if (!Arrays.equals(ownCounter.shape(),otherCounter.shape())){
@@ -125,22 +125,24 @@ public class NDDoubleArray extends NDEntity{
     }
     
     
-    public final SliceCounter getSliceCounter(ArrayList<Slice> rawSlices) throws NoSuchElementException{
-        assert rawSlices.size()==shape.length:"must provide a slice for each dimension";
-        ArrayList<Slice> cookedSlices = new ArrayList<>(rawSlices.size());
+    public final SliceCounter getSliceCounter(Slice[] rawSlices) throws NoSuchElementException{
+        assert rawSlices.length==shape.length:"must provide a slice for each dimension";
+        Slice[] cookedSlices = new Slice[rawSlices.length];
         Slice cookedSlice;
+        Slice slice;
         int dimension = 0;
-        for (Slice slice:rawSlices){
+        for (int i=0;i<rawSlices.length;i++){
+            slice = rawSlices[i];
             if (slice.isRaw()){
                 cookedSlice = slice.getCookedSlice(shape[dimension]);
             }
             else{
                 cookedSlice = slice;
             }
-            cookedSlices.add(cookedSlice);
+            cookedSlices[i]=cookedSlice;
         }
-        for (Slice slice:cookedSlices){
-            validateSlice(slice, dimension);
+        for (Slice cooked:cookedSlices){
+            validateSlice(cooked, dimension);
         }
         return new SliceCounter(cookedSlices);
     }

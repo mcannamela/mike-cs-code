@@ -71,8 +71,12 @@ public class NDEntity {
         }
     }
     protected final void initStrides() {
+        assert nDimensions()>=1:"0-D arrays currently unsupported";
         strides = new int[nDimensions()];
         strides[0] = 1;
+        if (nDimensions()==1){
+            return;
+        }
         strides[1] = shape[0];
         for (int i = 2; i < nDimensions(); i++) {
             strides[i] = strides[i - 1] * shape[i - 1];

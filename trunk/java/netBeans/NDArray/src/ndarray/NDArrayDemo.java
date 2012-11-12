@@ -27,5 +27,9 @@ public class NDArrayDemo {
             }
             System.out.println(idxString);
         }
+        
+        for (int i=1;i<1;i++){
+            System.out.println("loop executed "+i+" times");
+        }
     }
 }
