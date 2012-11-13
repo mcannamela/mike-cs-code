@@ -99,7 +99,7 @@ public class SliceCounterTest {
             assertArrayEquals(expResults[cnt], idx);
             cnt++;
             
-            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
+            System.out.println("1-D index: "+instance.flattenIndex(counterPosition)+
                                 ", position: "+Arrays.toString(counterPosition)+
                                 ", value:"+Arrays.toString(idx));
         }
@@ -137,7 +137,7 @@ public class SliceCounterTest {
             assertArrayEquals(expResults[cnt], idx);
             cnt++;
             
-//            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
+//            System.out.println("1-D index: "+instance.flattenIndex(counterPosition)+
 //                                ", position: "+Arrays.toString(counterPosition)+
 //                                ", value:"+Arrays.toString(idx));
         }
@@ -178,7 +178,7 @@ public class SliceCounterTest {
             assertArrayEquals(expResults[cnt], idx);
             cnt++;
             
-            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
+            System.out.println("1-D index: "+instance.flattenIndex(counterPosition)+
                                 ", position: "+Arrays.toString(counterPosition)+
                                 ", value:"+Arrays.toString(idx));
         }

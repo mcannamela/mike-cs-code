@@ -8,6 +8,18 @@ package ndarray;
  *
  * @author Michael
  */
-public interface IndexFlattener {
-    int nDTo1D(int[] nDIndex);
+abstract public class IndexFlattener {
+    int[] flattenerStrides;
+    
+    int flatten(int[] nDIndex){
+        int idx = nDIndex[0]*flattenerStrides[0];
+            for (int i = 1; i < flattenerStrides.length; i++) {
+                idx += flattenerStrides[i] * nDIndex[i];
+            }
+            return idx;
+    }
+    
+    int[] getFlattenerStrides(){
+        return NDEntity.idxCopy(flattenerStrides);
+    }
 }

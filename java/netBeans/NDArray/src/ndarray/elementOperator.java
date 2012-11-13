@@ -22,6 +22,11 @@ abstract public class elementOperator{
         this.result = result;
     }
     
-    abstract public void operate(int[] ownIndex, int[] otherIndex, int[] resultIndex);
+    /*
+     * carry out the operation on one element of the arrays
+     * ownIndex, otherIndex, resultIndex - pre-flattened indices into the respective
+     *                                      arrays
+     */
+    abstract public void operate(int ownIndex, int otherIndex, int resultIndex);
     
 }
