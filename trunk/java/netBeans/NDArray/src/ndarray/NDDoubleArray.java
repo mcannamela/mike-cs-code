@@ -11,14 +11,8 @@ import java.util.NoSuchElementException;
  *
  * @author mcannamela
  */
-public class NDDoubleArray extends NDEntity{
+public class NDDoubleArray extends NDArraySkeleton{
     private double[] array;
-    
-    public static double[] arrayCopy(double[] original){
-        double[] copy = new double[original.length];
-        System.arraycopy(original, 0, copy, 0, original.length);
-        return copy;
-    }
     
     public NDDoubleArray(int[] shape) {
         super(shape);
@@ -33,55 +27,7 @@ public class NDDoubleArray extends NDEntity{
         array = arrayCopy(original.getArray());
     }
     
-    /*
-     * set up loops to apply operator element by element to the array
-     * //<editor-fold defaultstate="collapsed" desc=" private void operate(...) ">
-     * thisCounter - the counter that iterates over this array
-     * otherCounter - the counter that iterates over the other array in a  
-     *                  for a binary operation
-     * resultCounter - the counter that iterates over the result array
-     *                  into which the result of an operation that makes a new
-     *                  array will be placed
-     */
-    private void operate(elementOperator operator, 
-                            NDCounter thisCounter, 
-                            NDCounter otherCounter, 
-                            NDCounter resultCounter){
-        assert nElements()==thisCounter.nElements():"mismatched number of elements";
-        assert thisCounter.nElements()==resultCounter.nElements():"mismatched number of elements";
-        assert thisCounter.nElements()==otherCounter.nElements():"mismatched number of elements";
-        
-        int thisIndex, otherIndex, resultIndex;      
-        
-        if (otherCounter==null){
-            otherIndex = -1;
-            while (thisCounter.hasNext()){
-            thisIndex = thisCounter.nextFlat();
-            resultIndex = resultCounter.nextFlat();
-            operator.operate(thisIndex, otherIndex, resultIndex);
-            }
-        }
-        else if (resultCounter==null){
-            resultIndex=-1;
-            while (thisCounter.hasNext()){
-            thisIndex = thisCounter.nextFlat();
-            otherIndex = otherCounter.nextFlat();
-            
-            operator.operate(thisIndex, otherIndex, resultIndex);
-            }
-        }
-        else {
-            while (thisCounter.hasNext()){
-            thisIndex = thisCounter.nextFlat();
-            otherIndex = otherCounter.nextFlat();
-            resultIndex = thisCounter.nextFlat();
-            operator.operate(thisIndex, otherIndex, resultIndex);
-            }
-        }
-    }
-    //</editor-fold>
-    
-    private class AssignmentOperator extends elementOperator{
+    private class AssignmentOperator extends elementOperator<NDDoubleArray>{
         public AssignmentOperator(NDDoubleArray other) {
             this.other = other;
             this.result= null;
@@ -93,7 +39,7 @@ public class NDDoubleArray extends NDEntity{
         }
     }
     
-    private class AccessOperator extends elementOperator{
+    private class AccessOperator extends elementOperator<NDDoubleArray>{
         public AccessOperator(NDDoubleArray result) {
             this.result = result;
             this.other=null;
@@ -105,28 +51,10 @@ public class NDDoubleArray extends NDEntity{
         }
     }
     
-    
-
-    private void validateSlice(Slice slice, int dimension)  throws NoSuchElementException{
-        if (slice.start()<0||slice.start()>shape[dimension]){
-            throw new NoSuchElementException("slice start is "+ slice.start()
-                    +"  in dimension "+dimension+" where the array has size "+shape[dimension]);
-        }
-        if (slice.stop()<0||slice.stop()>shape[dimension]){
-            throw new NoSuchElementException("slice stop is "+ slice.stop()
-                    +"  in dimension "+dimension+" where the array has size "+shape[dimension]);
-        }
-        if (slice.nIndices()==0){
-            throw new NoSuchElementException("slice has no elements in dimension "
-                        +dimension+": zero size arrays unsupported...for now");
-        }
-    }
-    
     private void assign(NDCounter ownCounter, NDCounter otherCounter, NDDoubleArray other){
         AssignmentOperator operator = new AssignmentOperator(other);
         operate(operator, ownCounter, otherCounter, null);
     }
-    
     
     public void assign(Slice[] rawSlices, NDDoubleArray other){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
@@ -155,32 +83,6 @@ public class NDDoubleArray extends NDEntity{
         return slicedArray;
     }
     
-    public final SliceCounter getSliceCounter(Slice[] rawSlices) throws NoSuchElementException{
-        assert rawSlices.length==shape.length:"must provide a slice for each dimension";
-        Slice[] cookedSlices = new Slice[rawSlices.length];
-        Slice cookedSlice;
-        Slice slice;
-        int dimension = 0;
-        for (int i=0;i<rawSlices.length;i++){
-            slice = rawSlices[i];
-            if (slice.isRaw()){
-                cookedSlice = slice.getCookedSlice(shape[dimension]);
-            }
-            else{
-                cookedSlice = slice;
-            }
-            cookedSlices[i]=cookedSlice;
-        }
-        for (Slice cooked:cookedSlices){
-            validateSlice(cooked, dimension);
-        }
-        return new SliceCounter(cookedSlices);
-    }
-    public NDCounter getNewCounter(){
-        return new NDCounter(shape());
-    }
-    
-    
     public double getElement(int index){
         return array[index];
     }
@@ -201,6 +103,4 @@ public class NDDoubleArray extends NDEntity{
     public void setElement(int[] nDIndex, double value, IndexFlattener flattener){
         setElement(flattener.flatten(nDIndex), value);
     }
-    
-    
 }

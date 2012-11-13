@@ -8,15 +8,15 @@ package ndarray;
  *
  * @author Michael
  */
-abstract public class elementOperator{
-    NDDoubleArray own;
-    NDDoubleArray other;
-    NDDoubleArray result;
+abstract public class elementOperator<ARRAY_TYPE>{
+    ARRAY_TYPE own;
+    ARRAY_TYPE other;
+    ARRAY_TYPE result;
     
     public elementOperator(){
     }
 
-    public elementOperator(NDDoubleArray own, NDDoubleArray other, NDDoubleArray result) {
+    public elementOperator(ARRAY_TYPE own, ARRAY_TYPE other, ARRAY_TYPE result) {
         this.own = own;
         this.other = other;
         this.result = result;
