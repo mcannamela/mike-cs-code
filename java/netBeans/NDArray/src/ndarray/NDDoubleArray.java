@@ -56,22 +56,23 @@ public class NDDoubleArray extends NDArraySkeleton{
         operate(operator, ownCounter, otherCounter, null);
     }
     
+    private void setBroadcasting(NDCounter ownCounter, NDCounter otherCounter){
+        if (!Arrays.equals(ownCounter.shape(),otherCounter.shape())){
+            int[] broadcastMask = makeBroadcastMask(otherCounter.shape);
+            otherCounter.setBroadcasting(broadcastMask);
+        }
+    }
     public void assign(Slice[] rawSlices, NDDoubleArray other){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
         NDCounter otherCounter = other.getNewCounter();
-        if (!Arrays.equals(ownCounter.shape(),other.shape())){
-            int[] broadcastMask = makeBroadcastMask(other.shape);
-            otherCounter.setBroadcasting(broadcastMask);
-        }
+        setBroadcasting(ownCounter, otherCounter);
         
         assign(ownCounter, other.getNewCounter(), other);
     }
     public void assign(Slice[] rawSlices, NDDoubleArray other, Slice[] rawOtherSlices){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
         SliceCounter otherCounter = other.getSliceCounter(rawOtherSlices);
-        if (!Arrays.equals(ownCounter.shape(),otherCounter.shape())){
-            throw new DimensionMismatchException("shape of slices do not match");
-        }
+        setBroadcasting(ownCounter, otherCounter);
         assign(ownCounter, otherCounter, other);
     }
     
