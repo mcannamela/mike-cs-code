@@ -149,23 +149,23 @@ public class NDEntityTest {
         int[] shape = {1,2,3};
         instance = new NDEntity(shape);
         int[][] testIndices = {
-                                {0,0,0},
-                                {0,1,0},
-                                {0,0,1},
-                                {0,1,1},
-                                {0,0,2},
-                                {0,1,2} ,
-                                {2,0,0},
-                                {2,1,0},
-                                {2,0,1},
-                                {2,1,1},
-                                {2,0,2},
-                                {2,1,2}
+                                {0,0,0,0,0},
+                                {0,1,0,0,0},
+                                {0,0,0,1,0},
+                                {0,1,0,1,0},
+                                {0,0,0,2,0},
+                                {0,1,0,2,0} ,
+                                {2,0,4,0,10},
+                                {2,1,4,0,10},
+                                {2,0,4,1,10},
+                                {2,1,4,1,10},
+                                {2,0,4,2,10},
+                                {2,1,4,2,10}
         };
         System.out.println("flattener strides are:");
         System.out.println(Arrays.toString(instance.getFlattenerStrides()));
         
-        instance.setBroadcasting(new int[] {0,1,1});
+        instance.setBroadcasting(new int[] {0,1,0,1,0});
         System.out.println("flattener strides are now:");
         System.out.println(Arrays.toString(instance.getFlattenerStrides()));
         int[] expecteds = {0,1,2,3,4,5,0,1,2,3,4,5};

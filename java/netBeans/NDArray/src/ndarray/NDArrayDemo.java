@@ -4,11 +4,15 @@
  */
 package ndarray;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  *
  * @author mcannamela
  */
 public class NDArrayDemo {
+    
     /**
      * @param args the command line arguments
      */
@@ -31,5 +35,6 @@ public class NDArrayDemo {
         for (int i=1;i<1;i++){
             System.out.println("loop executed "+i+" times");
         }
+        
     }
 }

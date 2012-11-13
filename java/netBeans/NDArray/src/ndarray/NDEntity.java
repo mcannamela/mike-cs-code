@@ -37,7 +37,40 @@ public class NDEntity {
     }
 
     protected int[] makeBroadcastMask(int[] shape) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        int[] mask = new int[shape.length];
+               
+        if (this.shape.length>shape.length){
+            throw new UnsupportedOperationException(
+                "broadcasting to arrays of lesser dimension not yet supported");
+        }
+        else if (this.shape.length==shape.length){
+            for (int i=0;i<shape.length;i++){
+                if (this.shape[i]==1){
+                    assertBroadcastDimensionEqual(i, this.shape[i],shape[i]);
+                    mask[i] = 0;
+                }
+                else{
+                    mask[i]=1;
+                }
+            }
+        }
+        else{
+            int offset = (shape.length-this.shape.length);
+            for (int i=0;i<offset;i++){
+                mask[i] = 0;
+            }
+            for (int i=offset;i<shape.length;i++){
+                assertBroadcastDimensionEqual(i, this.shape[i-offset],shape[i]);
+                mask[i] = 1;
+            }
+        }
+        return mask;
+    }
+    private void assertBroadcastDimensionEqual(int idx, int thisShape, int thatShape){
+        assert thisShape==thatShape:
+            String.format("broadcast mismatch in dimension "+
+                          "%d: passed size was %d but this size is %d",
+                          idx, thatShape, thisShape);
     }
     
     private class DefaultIndexFlattener extends IndexFlattener{
@@ -70,29 +103,46 @@ public class NDEntity {
         }
         
         private void setBroadcastMask(int[] mask){
+            assert mask.length>shape.length:"broadcasting to array of lower"+
+                                            "dimension unsupported";
+            validateMask(mask);
+            
             int cnt = 0;
             flattenerStrides = new int[mask.length];
             for (int i = 0;i<mask.length;i++){
                 if (mask[i]==0){
                     flattenerStrides[i]=0;
-                    if (shape[i]==1){
-                        cnt++;
-                    }
                 }
                 else{
+                    while (cnt<shape.length && shape[cnt]==1){
+                        cnt++;
+                    }
                     flattenerStrides[i] = strides[cnt];
                     cnt++;
                 }
             }
-            assert (cnt)==(nDimensions()):
-                        String.format("expected %d nonzero entries in broadcastMask, got only %d", 
-                        (nDimensions()-nSingletonDimensions()), cnt);
-            
         }
-        
     }
     //</editor-fold>
-    
+    private void validateMask(int[] mask){
+        int nMask = 0;
+        int nShape=0;
+        for (int m:mask){
+            if (m>0){
+                nMask++;
+            }
+        }
+        for (int s:shape){
+            if (s>1){
+                nShape++;
+            }
+        }
+        assert nMask==nShape: 
+            String.format("broadcast dimension mismatch: "+
+                "broadcast mask expects %d non-singleton dimensions but "
+                +"shape has %d", nMask, nShape);            
+        
+    }
     protected final void initNElements() {
         nElements = 1;
         for (int n : shape) {
