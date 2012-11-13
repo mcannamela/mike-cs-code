@@ -4,6 +4,7 @@
  */
 package ndarray;
 
+import java.util.Arrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -96,7 +97,7 @@ public class NDCounterTest {
         int cnt=0;
         while (instance.hasNext()){
             idx = instance.next();
-            System.out.println(NDEntity.idxToString(idx));
+            System.out.println(Arrays.toString(idx));
             for(int i=0;i<shape.length;i++){
                 assertEquals(expResults[cnt][i], idx[i]);
             }
