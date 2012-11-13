@@ -32,8 +32,6 @@ public class NDEntity {
         return copy;
     }
 
-
-
     public final int[] shape() {
         return idxCopy(shape);
     } 
