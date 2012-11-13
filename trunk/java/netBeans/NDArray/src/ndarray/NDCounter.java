@@ -11,40 +11,46 @@ import java.util.NoSuchElementException;
  * @author mcannamela
  */
 public class NDCounter extends NDEntity {
-    protected int[] nDIndex;
-    protected int   index;
+    
+    protected int[] nDCounterPosition;
+    
+    protected int   counterPosition;
 
     public NDCounter() {
         super();
     }
 
-    
     public NDCounter(int[] shape) {
         super(shape);
-        initNDIndex();
+        initCounterPosition();
     }
     
-    protected final void initNDIndex(){
-        nDIndex = new int[nDimensions()];
-        for (int i=0;i<nDIndex.length;i++){
-            nDIndex[i]=0;
+    protected final void initCounterPosition(){
+        nDCounterPosition = new int[nDimensions()];
+        for (int i=0;i<nDCounterPosition.length;i++){
+            nDCounterPosition[i]=0;
         }
     }
     
+    
     public final boolean hasNext(){
-        return index<(nElements);
+        return counterPosition<(nElements);
     }
     private boolean dimensionHasNext(int dimension){
-        return nDIndex[dimension]<(shape[dimension]-1);
+        return nDCounterPosition[dimension]<(shape[dimension]-1);
     }
     
+    /*
+     * get the next index from the counter and increment it. 
+     * returns - idx, and array of integers representing an n-dimensional counter 
+     */
     public final int[] next() throws NoSuchElementException{
         int dimCounter = nDimensions();
         int[] idx = getCurrentIndex();
         
         if (hasNext()){
             recursiveIncrement(dimCounter-1);
-            index++;
+            counterPosition++;
         }
         else{
             throw new NoSuchElementException("this iterator is exhausted");
@@ -52,26 +58,41 @@ public class NDCounter extends NDEntity {
         return idx;
     }
     
+    public final int nextFlat() throws NoSuchElementException{
+        return this.flattenIndex(this.next());
+    }
+    
+    
+    /*
+     * gives the internal position of the counter, which may differ from the 
+     * index it returns with next
+     */
     public final int[] getCounterPosition(){
-        return NDEntity.idxCopy(nDIndex);
+        return idxCopy(nDCounterPosition);
+    }
+    
+    /*
+     * tells the current index into whatever the counter is counting for; 
+     * by default it's the same as the counter position
+     */
+    protected int[] getCurrentIndex(){
+        return idxCopy(nDCounterPosition);
     }
     
     
     private void recursiveIncrement(int activeDimension){
         if (dimensionHasNext(activeDimension)){
-            nDIndex[activeDimension]+=1;
+            nDCounterPosition[activeDimension]+=1;
         }
         else{
-            nDIndex[activeDimension] = 0;
+            nDCounterPosition[activeDimension] = 0;
             if (activeDimension>0){
                 recursiveIncrement(activeDimension-1);
             }
         }
     }
     
-    protected int[] getCurrentIndex(){
-        return idxCopy(nDIndex);
-    }
+    
     
     
     

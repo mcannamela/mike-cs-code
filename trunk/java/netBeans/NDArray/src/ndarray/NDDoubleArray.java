@@ -4,7 +4,6 @@
  */
 package ndarray;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
@@ -34,7 +33,16 @@ public class NDDoubleArray extends NDEntity{
         array = arrayCopy(original.getArray());
     }
     
-
+    /*
+     * set up loops to apply operator element by element to the array
+     * //<editor-fold defaultstate="collapsed" desc=" private void operate(...) ">
+     * thisCounter - the counter that iterates over this array
+     * otherCounter - the counter that iterates over the other array in a  
+     *                  for a binary operation
+     * resultCounter - the counter that iterates over the result array
+     *                  into which the result of an operation that makes a new
+     *                  array will be placed
+     */
     private void operate(elementOperator operator, 
                             NDCounter thisCounter, 
                             NDCounter otherCounter, 
@@ -43,36 +51,36 @@ public class NDDoubleArray extends NDEntity{
         assert thisCounter.nElements()==resultCounter.nElements():"mismatched number of elements";
         assert thisCounter.nElements()==otherCounter.nElements():"mismatched number of elements";
         
-        int[] thisIndex, otherIndex, resultIndex;      
+        int thisIndex, otherIndex, resultIndex;      
         
         if (otherCounter==null){
-            otherIndex = null;
+            otherIndex = -1;
             while (thisCounter.hasNext()){
-            thisIndex = thisCounter.next();
-            resultIndex = resultCounter.next();
+            thisIndex = thisCounter.nextFlat();
+            resultIndex = resultCounter.nextFlat();
             operator.operate(thisIndex, otherIndex, resultIndex);
             }
         }
         else if (resultCounter==null){
-            resultIndex=null;
+            resultIndex=-1;
             while (thisCounter.hasNext()){
-            thisIndex = thisCounter.next();
-            otherIndex = otherCounter.next();
+            thisIndex = thisCounter.nextFlat();
+            otherIndex = otherCounter.nextFlat();
             
             operator.operate(thisIndex, otherIndex, resultIndex);
             }
         }
         else {
             while (thisCounter.hasNext()){
-            thisIndex = thisCounter.next();
-            otherIndex = otherCounter.next();
-            resultIndex = thisCounter.next();
+            thisIndex = thisCounter.nextFlat();
+            otherIndex = otherCounter.nextFlat();
+            resultIndex = thisCounter.nextFlat();
             operator.operate(thisIndex, otherIndex, resultIndex);
             }
         }
-        
-        
     }
+    //</editor-fold>
+    
     private class AssignmentOperator extends elementOperator{
         public AssignmentOperator(NDDoubleArray other) {
             this.other = other;
@@ -80,10 +88,11 @@ public class NDDoubleArray extends NDEntity{
         }
         
         @Override
-        public void operate(int[] ownIndex, int[] otherIndex, int[] resultIndex) {
-            array[nDTo1D(ownIndex)]=other.getElement(otherIndex);
+        public void operate(int ownIndex, int otherIndex, int resultIndex) {
+            array[ownIndex]=other.getElement(otherIndex);
         }
     }
+    
     private class AccessOperator extends elementOperator{
         public AccessOperator(NDDoubleArray result) {
             this.result = result;
@@ -91,43 +100,12 @@ public class NDDoubleArray extends NDEntity{
         }
         
         @Override
-        public void operate(int[] thisIndex, int[] otherIndex, int[] resultIndex) {
-            result.setElement(thisIndex, array[nDTo1D(thisIndex)]);
+        public void operate(int thisIndex, int otherIndex, int resultIndex) {
+            result.setElement(thisIndex, array[thisIndex]);
         }
     }
     
-    class BroadcastingFlattener implements IndexFlattener{
-        private int[] broadcastStrides;
-        
-        public BroadcastingFlattener(){
-            broadcastStrides=strides;
-        }
     
-        public BroadcastingFlattener(int[] broadcastMask){
-            int cnt = 0;
-            broadcastStrides = new int[broadcastMask.length];
-            for (int i = 0;i<broadcastMask.length;i++){
-                if (broadcastMask[i]==0){
-                    broadcastStrides[i]=0;
-                }
-                else{
-                    broadcastStrides[i] = strides[cnt];
-                    cnt++;
-                }
-            }
-            assert cnt==nDimensions():String.format("expected %d nonzero entries in broadcastMask, got only %d", nDimensions(), cnt);
-        }
-        
-        @Override
-        public int nDTo1D(int[] nDIndex) {
-            int idx = nDIndex[0];
-            for (int i = 1; i < broadcastStrides.length; i++) {
-                idx += broadcastStrides[i] * nDIndex[i];
-            }
-            return idx;
-        }
-    
-    }
 
     private void validateSlice(Slice slice, int dimension)  throws NoSuchElementException{
         if (slice.start()<0||slice.start()>shape[dimension]){
@@ -152,9 +130,12 @@ public class NDDoubleArray extends NDEntity{
     
     public void assign(Slice[] rawSlices, NDDoubleArray other){
         SliceCounter ownCounter = getSliceCounter(rawSlices);
+        NDCounter otherCounter = other.getNewCounter();
         if (!Arrays.equals(ownCounter.shape(),other.shape())){
-            throw new DimensionMismatchException("shape of slices does not match shape of array");
+            int[] broadcastMask = makeBroadcastMask(other.shape);
+            otherCounter.setBroadcasting(broadcastMask);
         }
+        
         assign(ownCounter, other.getNewCounter(), other);
     }
     public void assign(Slice[] rawSlices, NDDoubleArray other, Slice[] rawOtherSlices){
@@ -198,15 +179,13 @@ public class NDDoubleArray extends NDEntity{
     public NDCounter getNewCounter(){
         return new NDCounter(shape());
     }
-    BroadcastingFlattener getBroadCastFlattener(int[] broadcastMask){
-        return new BroadcastingFlattener(broadcastMask);
-    }
+    
     
     public double getElement(int index){
         return array[index];
     }
     public double getElement(int[] nDIndex){
-        return getElement(nDTo1D(nDIndex));
+        return getElement(flattenIndex(nDIndex));
     }
 
     public double[] getArray() {
@@ -217,10 +196,10 @@ public class NDDoubleArray extends NDEntity{
         array[index]=value;
     }
     public void setElement(int[] nDIndex, double value){
-        setElement(nDTo1D(nDIndex), value);
+        setElement(flattenIndex(nDIndex), value);
     }
     public void setElement(int[] nDIndex, double value, IndexFlattener flattener){
-        setElement(flattener.nDTo1D(nDIndex), value);
+        setElement(flattener.flatten(nDIndex), value);
     }
     
     

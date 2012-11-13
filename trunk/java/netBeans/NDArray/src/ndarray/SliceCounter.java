@@ -4,8 +4,6 @@
  */
 package ndarray;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author mcannamela
@@ -34,14 +32,14 @@ public class SliceCounter extends NDCounter{
         }
         initNElements();
         initStrides();
-        initNDIndex();
+        initCounterPosition();
     }
 
     @Override
     protected int[] getCurrentIndex(){
         int[] sliceIndex = newIndex();
         for (int i=0;i<nDimensions();i++){
-            sliceIndex[i] = slices[i].get(nDIndex[i]);
+            sliceIndex[i] = slices[i].get(nDCounterPosition[i]);
         }
         return sliceIndex;
     }

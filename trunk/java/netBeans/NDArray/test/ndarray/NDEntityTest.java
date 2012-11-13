@@ -71,15 +71,15 @@ public class NDEntityTest {
     public void testIdxToString() {
         System.out.println("idxToString");
         int[] idx = {0,1,2};
-        String expResult = "(0, 1, 2)";
+        String expResult = "[0, 1, 2]";
         String result = Arrays.toString(idx);
         assertEquals(expResult, result);
         
         int[] idx1d = {1};
-        assertEquals("(1)", Arrays.toString(idx1d));
+        assertEquals("[1]", Arrays.toString(idx1d));
         
         int[] idx0d = {};
-        assertEquals("()", Arrays.toString(idx0d));
+        assertEquals("[]", Arrays.toString(idx0d));
     }
 
     @Test
@@ -124,8 +124,8 @@ public class NDEntityTest {
     }
     
     @Test
-    public void testNDTo1D(){
-        System.out.println("nDTo1D");
+    public void testFlattenIndex(){
+        System.out.println("flattenIndex");
         int[][] testIndices = {
                                 {0,0,0},
                                 {1,0,0},
@@ -138,8 +138,42 @@ public class NDEntityTest {
         int[] expecteds = {0,1,2,3,4,6,8};
         int[] results = new int[testIndices.length];
         for (int i=0;i<testIndices.length;i++){
-            results[i] = instance.nDTo1D(testIndices[i]);
+            results[i] = instance.flattenIndex(testIndices[i]);
         }
+        assertArrayEquals(expecteds, results);
+    }
+    
+    @Test
+    public void testBroadcastFlattenIndex(){
+        System.out.println("BroadcastFlattenIndex");
+        int[] shape = {1,2,3};
+        instance = new NDEntity(shape);
+        int[][] testIndices = {
+                                {0,0,0},
+                                {0,1,0},
+                                {0,0,1},
+                                {0,1,1},
+                                {0,0,2},
+                                {0,1,2} ,
+                                {2,0,0},
+                                {2,1,0},
+                                {2,0,1},
+                                {2,1,1},
+                                {2,0,2},
+                                {2,1,2}
+        };
+        System.out.println("flattener strides are:");
+        System.out.println(Arrays.toString(instance.getFlattenerStrides()));
+        
+        instance.setBroadcasting(new int[] {0,1,1});
+        System.out.println("flattener strides are now:");
+        System.out.println(Arrays.toString(instance.getFlattenerStrides()));
+        int[] expecteds = {0,1,2,3,4,5,0,1,2,3,4,5};
+        int[] results = new int[testIndices.length];
+        for (int i=0;i<testIndices.length;i++){
+            results[i] = instance.flattenIndex(testIndices[i]);
+        }
+        System.out.println(Arrays.toString(results));
         assertArrayEquals(expecteds, results);
     }
     
