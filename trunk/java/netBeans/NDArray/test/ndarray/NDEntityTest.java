@@ -4,6 +4,7 @@
  */
 package ndarray;
 
+import java.util.Arrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -71,14 +72,14 @@ public class NDEntityTest {
         System.out.println("idxToString");
         int[] idx = {0,1,2};
         String expResult = "(0, 1, 2)";
-        String result = NDEntity.idxToString(idx);
+        String result = Arrays.toString(idx);
         assertEquals(expResult, result);
         
         int[] idx1d = {1};
-        assertEquals("(1)", NDEntity.idxToString(idx1d));
+        assertEquals("(1)", Arrays.toString(idx1d));
         
         int[] idx0d = {};
-        assertEquals("()", NDEntity.idxToString(idx0d));
+        assertEquals("()", Arrays.toString(idx0d));
     }
 
     @Test

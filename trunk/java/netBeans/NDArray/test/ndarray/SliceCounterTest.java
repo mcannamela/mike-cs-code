@@ -4,6 +4,7 @@
  */
 package ndarray;
 
+import java.util.Arrays;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -98,9 +99,9 @@ public class SliceCounterTest {
             assertArrayEquals(expResults[cnt], idx);
             cnt++;
             
-//            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
-//                                ", position: "+NDEntity.idxToString(counterPosition)+
-//                                ", value:"+NDEntity.idxToString(idx));
+            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
+                                ", position: "+Arrays.toString(counterPosition)+
+                                ", value:"+Arrays.toString(idx));
         }
     }
     
@@ -137,8 +138,8 @@ public class SliceCounterTest {
             cnt++;
             
 //            System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
-//                                ", position: "+NDEntity.idxToString(counterPosition)+
-//                                ", value:"+NDEntity.idxToString(idx));
+//                                ", position: "+Arrays.toString(counterPosition)+
+//                                ", value:"+Arrays.toString(idx));
         }
     }
     
@@ -155,7 +156,7 @@ public class SliceCounterTest {
         instance = new SliceCounter(slices);
         instance.setStrideAt(1, 0);
         System.out.println(String.format("slice counter has %d dimensions", instance.nDimensions()));
-        System.out.println("Strides are "+NDEntity.idxToString(instance.getStrides()));
+        System.out.println("Strides are "+Arrays.toString(instance.getStrides()));
         
         int[][] expResults = {
                               {0,1,2},
@@ -178,8 +179,8 @@ public class SliceCounterTest {
             cnt++;
             
             System.out.println("1-D index: "+instance.nDTo1D(counterPosition)+
-                                ", position: "+NDEntity.idxToString(counterPosition)+
-                                ", value:"+NDEntity.idxToString(idx));
+                                ", position: "+Arrays.toString(counterPosition)+
+                                ", value:"+Arrays.toString(idx));
         }
     }
 }

@@ -32,20 +32,7 @@ public class NDEntity {
         return copy;
     }
 
-    public static String idxToString(int[] idx) {
-        if (idx.length == 0) {
-            return "()";
-        }
-        if (idx.length == 1) {
-            return "(" + idx[0] + ")";
-        }
 
-        String idxString = "(" + idx[0];
-        for (int i = 1; i < idx.length; i++) {
-            idxString += ", " + idx[i];
-        }
-        return idxString + ")";
-    }
 
     public final int[] shape() {
         return idxCopy(shape);
