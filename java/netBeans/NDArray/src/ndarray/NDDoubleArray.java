@@ -98,6 +98,10 @@ public class NDDoubleArray extends NDEntity{
     
     class BroadcastingFlattener implements IndexFlattener{
         private int[] broadcastStrides;
+        
+        public BroadcastingFlattener(){
+            broadcastStrides=strides;
+        }
     
         public BroadcastingFlattener(int[] broadcastMask){
             int cnt = 0;
