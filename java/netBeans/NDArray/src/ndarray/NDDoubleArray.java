@@ -26,6 +26,25 @@ public class NDDoubleArray extends NDArraySkeleton {
         super(original.shape);
         array = arrayCopy(original.getArray());
     }
+    
+    public static NDDoubleArray zeros(int[] shape){
+        NDDoubleArray zarr = new NDDoubleArray(shape);
+        Arrays.fill(zarr.array, 0.0);
+        return zarr;
+    }
+    public static NDDoubleArray ones(int[] shape){
+        NDDoubleArray arr = new NDDoubleArray(shape);
+        Arrays.fill(arr.array, 1.0);
+        return arr;
+    }
+    public static NDDoubleArray range(int[] shape){
+        NDDoubleArray arr = new NDDoubleArray(shape);
+        NDCounter counter = arr.getNewCounter();
+        for (int i = 0;i<arr.nElements();i++){
+            arr.setElement(i, (double) i);
+        }
+        return arr;
+    } 
 
     private class AssignmentOperator extends elementOperator<NDDoubleArray> {
 
@@ -203,7 +222,7 @@ public class NDDoubleArray extends NDArraySkeleton {
     }
 
     public double[] getArray() {
-        return array;
+        return arrayCopy(array);
     }
 
     public void setElement(int index, double value) {
@@ -216,5 +235,8 @@ public class NDDoubleArray extends NDArraySkeleton {
 
     public void setElement(int[] nDIndex, double value, IndexFlattener flattener) {
         setElement(flattener.flatten(nDIndex), value);
+    }
+    public boolean equals(NDDoubleArray other){
+        return Arrays.equals(array, other.array);
     }
 }

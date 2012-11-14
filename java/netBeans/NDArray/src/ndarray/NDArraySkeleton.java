@@ -53,8 +53,12 @@ public abstract class NDArraySkeleton extends NDEntity {
      */
     protected void operate(elementOperator operator, NDCounter thisCounter, NDCounter otherCounter, NDCounter resultCounter) {
         assert nElements() == thisCounter.nElements() : "mismatched number of elements";
-        assert thisCounter.nElements() == resultCounter.nElements() : "mismatched number of elements";
-        assert thisCounter.nElements() == otherCounter.nElements() : "mismatched number of elements";
+        if (resultCounter!=null){
+            assert thisCounter.nElements() == resultCounter.nElements() : "mismatched number of elements";
+        }
+        if (otherCounter!=null){
+            assert thisCounter.nElements() == otherCounter.nElements() : "mismatched number of elements";
+        }
         int thisIndex;
         int otherIndex;
         int resultIndex;
