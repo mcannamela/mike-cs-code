@@ -16,7 +16,7 @@ public class NDDoubleArray extends NDArraySkeleton{
     
     public NDDoubleArray(int[] shape) {
         super(shape);
-        this.shape = idxCopy(shape);
+        this.shape = arrayCopy(shape);
         initNElements();
         array = new double[nElements];
         initStrides();
@@ -58,7 +58,7 @@ public class NDDoubleArray extends NDArraySkeleton{
     
     private void setBroadcasting(NDCounter ownCounter, NDCounter otherCounter){
         if (!Arrays.equals(ownCounter.shape(),otherCounter.shape())){
-            int[] broadcastMask = makeBroadcastMask(otherCounter.shape);
+            int[] broadcastMask = makeBroadcastMask(ownCounter.shape(),otherCounter.shape);
             otherCounter.setBroadcasting(broadcastMask);
         }
     }

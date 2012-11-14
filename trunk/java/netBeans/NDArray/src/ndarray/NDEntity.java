@@ -4,6 +4,8 @@
  */
 package ndarray;
 
+import java.util.Arrays;
+
 /**
  *
  * @author mcannamela
@@ -30,43 +32,79 @@ public class NDEntity {
         flattener = getDefaultIndexFlattener();
     }
     
-    public static int[] idxCopy(int[] original) {
+    public static int[] arrayCopy(int[] original) {
         int[] copy = new int[original.length];
         System.arraycopy(original, 0, copy, 0, original.length);
         return copy;
     }
-
-    protected int[] makeBroadcastMask(int[] shape) {
-        int[] mask = new int[shape.length];
+    public static double[] arrayCopy(double[] original) {
+        double[] copy = new double[original.length];
+        System.arraycopy(original, 0, copy, 0, original.length);
+        return copy;
+    }
+    public static boolean[] arrayCopy(boolean[] original) {
+        boolean[] copy = new boolean[original.length];
+        System.arraycopy(original, 0, copy, 0, original.length);
+        return copy;
+    }
+    static int[] negotiateTargetShape(int[] firstShape, int[] secondShape){
+        int[] bigShape, smallShape;
+        if (firstShape.length>=secondShape.length){
+            bigShape = firstShape;
+            smallShape = secondShape;
+        }
+        else{
+            bigShape = secondShape;
+            smallShape = firstShape;
+        }
+        int[] targetShape = new int[bigShape.length];
+        
+        int offset = bigShape.length - smallShape.length;
+        
+        System.arraycopy(bigShape, 0, targetShape, 0, offset);
+        for (int i = offset; i<bigShape.length;i++){
+            if (bigShape[i]==1){
+                targetShape[i] = smallShape[i-offset];
+            }
+            else if (smallShape[i-offset]==1){
+                targetShape[i] = bigShape[i];
+            }
+            else{
+                assert bigShape[i]==smallShape[i-offset]:"target shape negotiation failed";
+                targetShape[i] = bigShape[i];
+            }
+        }
+        return targetShape;
+    }
+    static int[] makeBroadcastMask(int[] targetShape, int[] broadcastingShape) {
+        int[] mask = new int[targetShape.length];
                
-        if (this.shape.length>shape.length){
+        if (targetShape.length<broadcastingShape.length){
             throw new UnsupportedOperationException(
                 "broadcasting to arrays of lesser dimension not yet supported");
         }
-        else if (this.shape.length==shape.length){
-            for (int i=0;i<shape.length;i++){
-                if (this.shape[i]==1){
-                    assertBroadcastDimensionEqual(i, this.shape[i],shape[i]);
+        else if (targetShape.length==broadcastingShape.length){
+            int offset = (targetShape.length-broadcastingShape.length);
+            
+            //prepend with broadcasting dimensions
+            for (int i=0;i<offset;i++){
+                mask[i] = 0;
+            }
+            
+            //singleton dimensions must also be broadcast
+            for (int i=offset;i<targetShape.length;i++){
+                if (broadcastingShape[i-offset]==1){
                     mask[i] = 0;
                 }
                 else{
+                    assertBroadcastDimensionEqual(i, targetShape[i],broadcastingShape[i-offset]);
                     mask[i]=1;
                 }
             }
         }
-        else{
-            int offset = (shape.length-this.shape.length);
-            for (int i=0;i<offset;i++){
-                mask[i] = 0;
-            }
-            for (int i=offset;i<shape.length;i++){
-                assertBroadcastDimensionEqual(i, this.shape[i-offset],shape[i]);
-                mask[i] = 1;
-            }
-        }
         return mask;
     }
-    private void assertBroadcastDimensionEqual(int idx, int thisShape, int thatShape){
+    private static void assertBroadcastDimensionEqual(int idx, int thisShape, int thatShape){
         assert thisShape==thatShape:
             String.format("broadcast mismatch in dimension "+
                           "%d: passed size was %d but this size is %d",
@@ -167,7 +205,7 @@ public class NDEntity {
     }
 
     public final int[] shape() {
-        return idxCopy(shape);
+        return arrayCopy(shape);
     } 
     public final int nDimensions() {
         return shape.length;
@@ -181,12 +219,39 @@ public class NDEntity {
         }
         return cnt;
     }
+    public final int nNonSingletonDimensions(){
+        return nDimensions()-nSingletonDimensions();
+    }
     public final int nElements() {
         return nElements;
     }
     
     public int flattenIndex(int[] nDIndex) {
         return flattener.flatten(nDIndex);
+    }
+    public void reshape(int[] shape){
+        int p = 1;
+        for (int s: shape){
+            p*=s;
+        }
+        assert p==nElements():"new shape must have same product as old shape";
+        
+        this.shape = arrayCopy(shape);
+        initNElements();
+        initStrides();
+        flattener = getDefaultIndexFlattener();
+        
+    }
+    public void squeeze(){
+        int[] squeezedShape = new int[nNonSingletonDimensions()];
+        int cnt = 0;
+        for(int i = 0; i<nDimensions();i++){
+            if (shape[i]!=1){
+                squeezedShape[cnt] = shape[i];
+                cnt++;
+            }
+        }
+        reshape(squeezedShape);
     }
     
     public final IndexFlattener getDefaultIndexFlattener(){
@@ -214,7 +279,7 @@ public class NDEntity {
         return strides;
     }
     
-    public final  int[] getFlattenerStrides(){
+    public final int[] getFlattenerStrides(){
         return flattener.getFlattenerStrides();
     }
     

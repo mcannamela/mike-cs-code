@@ -12,34 +12,16 @@ import java.util.NoSuchElementException;
  */
 public abstract class NDArraySkeleton extends NDEntity {
 
-
-
     public NDArraySkeleton(int[] shape) {
         super(shape);
     }
     
-    public static double[] arrayCopy(double[] original) {
-        double[] copy = new double[original.length];
-        System.arraycopy(original, 0, copy, 0, original.length);
-        return copy;
-    }
-    public static int[] arrayCopy(int[] original) {
-        int[] copy = new int[original.length];
-        System.arraycopy(original, 0, copy, 0, original.length);
-        return copy;
-    }
-    public static boolean[] arrayCopy(boolean[] original) {
-        boolean[] copy = new boolean[original.length];
-        System.arraycopy(original, 0, copy, 0, original.length);
-        return copy;
-    }
-
     public NDCounter getNewCounter() {
         return new NDCounter(shape());
     }
 
     public final SliceCounter getSliceCounter(Slice[] rawSlices) throws NoSuchElementException {
-        assert rawSlices.length == shape.length : "must provide a slice for each dimension";
+        assert rawSlices.length == shape.length : "must provide a slice for each dimension for now";
         Slice[] cookedSlices = new Slice[rawSlices.length];
         Slice cookedSlice;
         Slice slice;
