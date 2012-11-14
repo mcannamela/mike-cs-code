@@ -62,7 +62,7 @@ public class NDEntityTest {
         System.out.println("idxCopy");
         int[] original = {0,1,2};
         int[] expResult = {0,1,2};
-        int[] result = NDEntity.idxCopy(original);
+        int[] result = NDEntity.arrayCopy(original);
         assertArrayEquals(expResult, result);
         
     }

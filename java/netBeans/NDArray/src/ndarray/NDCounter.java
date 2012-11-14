@@ -68,7 +68,7 @@ public class NDCounter extends NDEntity {
      * index it returns with next
      */
     public final int[] getCounterPosition(){
-        return idxCopy(nDCounterPosition);
+        return arrayCopy(nDCounterPosition);
     }
     
     /*
@@ -76,7 +76,7 @@ public class NDCounter extends NDEntity {
      * by default it's the same as the counter position
      */
     protected int[] getCurrentIndex(){
-        return idxCopy(nDCounterPosition);
+        return arrayCopy(nDCounterPosition);
     }
     
     

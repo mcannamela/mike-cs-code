@@ -20,6 +20,6 @@ abstract public class IndexFlattener {
     }
     
     int[] getFlattenerStrides(){
-        return NDEntity.idxCopy(flattenerStrides);
+        return NDEntity.arrayCopy(flattenerStrides);
     }
 }
