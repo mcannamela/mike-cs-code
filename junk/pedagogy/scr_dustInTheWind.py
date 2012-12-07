@@ -1,4 +1,4 @@
-from numpy import *
+from numpy  import *
 from pylab import *
 import mlabMacros as mlm
 import cPickle as pkl
